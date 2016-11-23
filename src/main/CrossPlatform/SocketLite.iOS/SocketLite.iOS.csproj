@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E487F13D-FCE2-4E8E-A183-A89CA61AA78F}</ProjectGuid>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SocketLite</RootNamespace>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <AssemblyName>SocketLite</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Reactive.Core, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Reactive.Core.3.1.1\lib\netstandard1.3\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Reactive.Interfaces.3.1.1\lib\netstandard1.0\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Reactive.Linq.3.1.1\lib\netstandard1.3\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Reactive.PlatformServices.3.1.1\lib\netstandard1.3\System.Reactive.PlatformServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.iOS" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SocketLite.net451\Extensions\NetworkExtensions.cs">
+      <Link>Extensions\NetworkExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\SocketLite.net451\Model\CommunicationInterface.cs">
+      <Link>Model\CommunicationInterface.cs</Link>
+    </Compile>
+    <Compile Include="..\SocketLite.Netcore\Extensions\NativeExceptionExtensions.cs">
+      <Link>Extensions\NativeExceptionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\SocketLite.Netcore\Model\UdpMessage.cs">
+      <Link>Model\UdpMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\SocketLite.Netcore\Services\Base\CommonSocketBase.cs">
+      <Link>Services\Base\CommonSocketBase.cs</Link>
+    </Compile>
+    <Compile Include="..\SocketLite.Netcore\Services\Base\TcpSocketBase.cs">
+      <Link>Services\Base\TcpSocketBase.cs</Link>
+    </Compile>
+    <Compile Include="..\SocketLite.Netcore\Services\Base\UdpSendBase.cs">
+      <Link>Services\Base\UdpSendBase.cs</Link>
+    </Compile>
+    <Compile Include="..\SocketLite.Netcore\Services\Base\UdpSocketBase.cs">
+      <Link>Services\Base\UdpSocketBase.cs</Link>
+    </Compile>
+    <Compile Include="..\SocketLite.Netcore\Services\TcpSocketClient.cs">
+      <Link>Services\TcpSocketClient.cs</Link>
+    </Compile>
+    <Compile Include="..\SocketLite.Netcore\Services\TcpSocketListener.cs">
+      <Link>Services\TcpSocketListener.cs</Link>
+    </Compile>
+    <Compile Include="..\SocketLite.Netcore\Services\UdpSocketClient.cs">
+      <Link>Services\UdpSocketClient.cs</Link>
+    </Compile>
+    <Compile Include="..\SocketLite.Netcore\Services\UdpSocketMulticastClient.cs">
+      <Link>Services\UdpSocketMulticastClient.cs</Link>
+    </Compile>
+    <Compile Include="..\SocketLite.Netcore\Services\UdpSocketReceiver.cs">
+      <Link>Services\UdpSocketReceiver.cs</Link>
+    </Compile>
+    <Compile Include="Model\iOS\NetInfo.cs" />
+    <Compile Include="Model\iOS\NetInterfaceInfo.cs" />
+    <Compile Include="Model\iOS\StructAndEnums.cs" />
+    <Compile Include="Model\Partial\CommunicationInterface.Native.Partial.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\interface\ISocketLite.PCL\ISocketLite.PCL.csproj">
+      <Project>{2da20de1-bb65-4156-9fa0-0718fc1be2ee}</Project>
+      <Name>ISocketLite.PCL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+</Project>
