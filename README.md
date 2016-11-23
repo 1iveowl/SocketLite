@@ -1,5 +1,5 @@
 #SocketLite.PCL
-[![NuGet Badge](https://www.nuget.org/packages/SocketLite.PCL/)](https://www.nuget.org/packages/SocketLite.PCL/)
+[![NuGet Badge](https://www.nuget.org/packages/SocketLite.PCL)](https://www.nuget.org/packages/SocketLite.PCL)
 [![NuGet](https://img.shields.io/badge/nuget-2.0.30_(Profile_111)-yellow.svg)](https://www.nuget.org/packages/SocketLite.PCL/2.0.20)
 ### Supports Xamarin Forms on Windows 10/UWP, iOS and Andriod
 
