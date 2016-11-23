@@ -13,7 +13,7 @@
     <description>Socket PCL Xamarin Cross platform for iOS, Windows 10 (UWP) and Android </description>
     <releaseNotes>
 Updated to Rx 3.1.1
-Moved from to .NET Standard 1.4 for better compatibility. 
+Click and bait library with support for Android 6.0, iOS, .Net 4.5.1, UWP and .NET Core (.NET Standard 1.5).
 Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClient ConnectAsync</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>Socket, tcp, udp, xamarin, PCL, ios, android, uwp, windows 10 netstandard</tags>
@@ -51,33 +51,6 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
           <dependency id="System.Net.Security" version="4.3.0" />
         </group>
 
-
-      <!--<group targetFramework="MonoAndroid10">
-        <dependency id="System.Reactive" version="3.1.1" />
-        <dependency id="System.Net.Security" version="4.3.0" />
-      </group>
-
-      <group targetFramework="Xamarin.iOS10">
-        <dependency id="System.Reactive" version="3.1.1" />
-        <dependency id="System.Net.Security" version="4.3.0" />
-      </group>
-
-      <group targetFramework="net45">
-        <dependency id="System.Reactive" version="3.1.1" />
-        <dependency id="System.Net.Security" version="4.3.0" />
-
-      </group>-->
-
-      <!--<group targetFramework="uap10.0">
-        <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.2.2" />
-      </group>
-
-      <group targetFramework="netstandard1.4">
-        <dependency id="System.Reactive" version="3.1.1" />
-        <dependency id="NETStandard.Library" version="1.6.1" />
-        <dependency id="System.Net.Security" version="4.3.0" />
-      </group>-->
-
     </dependencies>
   </metadata>
   <files>
@@ -108,13 +81,5 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
     <file src="..\main\CrossPlatform\SocketLite.Netcore\bin\Release\SocketLite.*" target="lib\netstandard1.6"/>
     <file src="..\main\CrossPlatform\SocketLite.Netcore\bin\Release\ISocketLite.*" target="lib\netstandard1.6"/>
 
-    <!--.NET --><!--
-    <file src="..\main\Foundation\SocketLite.NET\bin\Release\SocketLite.*" target="lib\net45"/>
-    <file src="..\main\Foundation\SocketLite.NET\bin\Release\ISocketLite.*" target="lib\net45"/>-->
-
-
-
-    <!--<file src="..\main\SocketLite\bin\Release\netstandard1.4\ISocketLite.PCL.*" target="lib\netstandard1.4\" />
-    <file src="..\main\SocketLite\bin\Release\netstandard1.4\SocketLite.*" target="lib\netstandard1.4\" />-->
   </files>
 </package>
