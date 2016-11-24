@@ -5,9 +5,6 @@
 
 This project is a fork that build upon the fantastic work done with [Socket for PCL](https://github.com/rdavisau/sockets-for-pcl). 
 
-##
-Note: Ran into some issues with the original solution so I build it up again from ground up. The solution is now even simpler. Also I decided to use Visual Studio 2017 RC. 
-
 Note: From version 3.5.0 this library support .NET Core. 
 
 ##Why this fork? 
