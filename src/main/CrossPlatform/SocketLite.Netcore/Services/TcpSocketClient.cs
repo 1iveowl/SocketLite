@@ -94,7 +94,7 @@ namespace SocketLite.Services
 
             canceller.Dispose();
 
-            if (secure)
+            if (secure && tlsProtocolVersion != TlsProtocolVersion.None)
             {
                 SslProtocols tlsProtocol;
 

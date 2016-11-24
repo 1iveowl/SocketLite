@@ -52,7 +52,7 @@ namespace SocketLite.Services
 
             var tlsProtocol = SocketProtectionLevel.PlainSocket;
 
-            if (secure)
+            if (secure && tlsProtocolVersion != TlsProtocolVersion.None)
             {
                 switch (tlsProtocolVersion)
                 {
