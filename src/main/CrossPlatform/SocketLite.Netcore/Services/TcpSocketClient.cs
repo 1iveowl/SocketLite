@@ -94,7 +94,7 @@ namespace SocketLite.Services
 
             canceller.Dispose();
 
-            if (secure && tlsProtocolVersion != TlsProtocolVersion.None)
+            if (secure)
             {
                 SslProtocols tlsProtocol;
 
@@ -110,8 +110,7 @@ namespace SocketLite.Services
                         tlsProtocol = SslProtocols.Tls12;
                         break;
                     case TlsProtocolVersion.None:
-                        tlsProtocol = SslProtocols.None;
-                        break;
+                        throw new InvalidOperationException("Tls Protocol Version cannot be 'None' when establishing a secure connection. Use unencrypted WebSocket with 'None' or set TLS Protocolversion to Tls10, Tls11 or Tls12. Default when using encrypted WebSocket is Tls12");
                     default:
                         throw new ArgumentOutOfRangeException(nameof(tlsProtocolVersion), tlsProtocolVersion, null);
                 }

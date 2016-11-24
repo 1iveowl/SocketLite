@@ -52,7 +52,7 @@ namespace SocketLite.Services
 
             var tlsProtocol = SocketProtectionLevel.PlainSocket;
 
-            if (secure && tlsProtocolVersion != TlsProtocolVersion.None)
+            if (secure)
             {
                 switch (tlsProtocolVersion)
                 {
@@ -66,8 +66,7 @@ namespace SocketLite.Services
                         tlsProtocol = SocketProtectionLevel.Tls12;
                         break;
                     case TlsProtocolVersion.None:
-                        tlsProtocol = SocketProtectionLevel.PlainSocket;
-                        break;
+                        throw new InvalidOperationException("Tls Protocol Version cannot be 'None' when establishing a secure connection. Use unencrypted WebSocket with 'None' or set TLS Protocolversion to Tls10, Tls11 or Tls12. Default when using encrypted WebSocket is Tls12");
                     default:
                         throw new ArgumentOutOfRangeException(nameof(tlsProtocolVersion), tlsProtocolVersion, null);
                 }
