@@ -15,6 +15,9 @@ namespace SocketLite.Services
     {
         public int TTL { get; set; }
 
+        public int Port { get; }
+        public string IpAddress { get; }
+
         public IObservable<IUdpMessage> ObservableMessages { get; } = null;
 
         public Task JoinMulticastGroupAsync(
@@ -44,5 +47,7 @@ namespace SocketLite.Services
         {
             throw new NotImplementedException(BaitNoSwitch);
         }
+
+
     }
 }

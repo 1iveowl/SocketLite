@@ -105,7 +105,7 @@ namespace SocketLite.Services
             _listenCanceller.Cancel();
             try
             {
-                _tcpListener.Stop();
+                _tcpListener?.Stop();
             }
             catch (PlatformSocketException ex)
             {
