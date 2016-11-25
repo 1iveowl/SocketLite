@@ -24,12 +24,11 @@ namespace SocketLite.Services
 
         private string _multicastAddress;
         private int _multicastPort;
-        private IPEndPoint _ipEndPoint;
 
         public int TTL { get; set; } = 1;
 
-        public int Port => _ipEndPoint.Port;
-        public string IpAddress => _ipEndPoint.Address.ToString();
+        public int Port { get; private set; }
+        public string IpAddress { get; private set; }
 
         public async Task JoinMulticastGroupAsync(
             string multicastAddress, 
@@ -37,15 +36,18 @@ namespace SocketLite.Services
             ICommunicationInterface communicationInterface = null, 
             bool allowMultipleBindToSamePort = false)
         {
+            Port = port;
+            IpAddress = multicastAddress;
+            
             CheckCommunicationInterface(communicationInterface);
 #if (NETSTANDARD)
             var ipAddress = IPAddress.Any;
 #else
             var ipAddress = (communicationInterface as CommunicationInterface)?.NativeIpAddress ?? IPAddress.Any;
 #endif
-            _ipEndPoint = new IPEndPoint(ipAddress, port);
+             var ipEndPoint = new IPEndPoint(ipAddress, port);
 
-            InitializeUdpClient(_ipEndPoint, allowMultipleBindToSamePort);
+            InitializeUdpClient(ipEndPoint, allowMultipleBindToSamePort);
 
             MessageConcellationTokenSource = new CancellationTokenSource();
 
