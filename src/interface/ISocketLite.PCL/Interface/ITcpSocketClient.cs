@@ -8,6 +8,7 @@ namespace ISocketLite.PCL.Interface
 {
     public interface ITcpSocketClient : IDisposable
     {
+        bool IsConnected { get; }
 
         Task ConnectAsync(
             string address, 

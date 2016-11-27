@@ -12,6 +12,7 @@ namespace SocketLite.Services
 {
     public class TcpSocketClient : TcpSocketBase, ITcpSocketClient
     {
+        public bool IsConnected { get; private set; } = false;
         public string LocalPort => Socket.Information.LocalPort;
         public string LocalAddress => Socket.Information.LocalAddress.CanonicalName;
 
@@ -103,17 +104,19 @@ namespace SocketLite.Services
                     throw ex;
                 }
             }
+            IsConnected = true;
         }
 
         public void Disconnect()
         {
+            IsConnected = false;
             Socket?.Dispose();
             Socket = new StreamSocket();
         }
 
         public void Dispose()
         {
-            
+            IsConnected = false;
         }
         
     }

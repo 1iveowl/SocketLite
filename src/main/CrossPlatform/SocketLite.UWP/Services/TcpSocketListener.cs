@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
@@ -25,7 +26,9 @@ namespace SocketLite.Services
                 StreamSocketListenerConnectionReceivedEventArgs>(
                     ev => _streamSocketListener.ConnectionReceived += ev,
                     ev => _streamSocketListener.ConnectionReceived -= ev)
-                .Select(handler => new TcpSocketClient(handler.EventArgs.Socket, BufferSize)).Publish().RefCount();
+                .Select(handler => new TcpSocketClient(handler.EventArgs.Socket, BufferSize))
+            .ObserveOn(Scheduler.Default)
+            .Publish().RefCount();
 
         public int LocalPort { get; internal set; }
 

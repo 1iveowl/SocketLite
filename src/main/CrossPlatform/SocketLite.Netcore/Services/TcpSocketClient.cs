@@ -36,6 +36,8 @@ namespace SocketLite.Services
             }
         }
 
+        public bool IsConnected { get; private set; }
+
         public Stream ReadStream => _secureStream != null ? _secureStream as Stream : _tcpClient.GetStream();
         public Stream WriteStream => _secureStream != null ? _secureStream as Stream : _tcpClient.GetStream();
 
@@ -129,17 +131,19 @@ namespace SocketLite.Services
                     throw ex;
                 }
             }
+            IsConnected = true;
         }
 
         public void Disconnect()
         {
+            IsConnected = false;
             Dispose();
             _tcpClient = new TcpClient();
         }
 
         public void Dispose()
         {
-
+            IsConnected = false;
 #if (NETSTANDARD)
             _tcpClient?.Dispose();
 #else

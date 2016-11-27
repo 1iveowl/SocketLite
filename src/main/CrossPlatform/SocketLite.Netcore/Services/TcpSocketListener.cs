@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
@@ -32,7 +33,9 @@ namespace SocketLite.Services
 
         private IObservable<TcpClient> ObserveTcpClientFromAsync => Observable.While(
             () => !_listenCanceller.IsCancellationRequested,
-            Observable.FromAsync(GetTcpClientAsync));
+            Observable.FromAsync(GetTcpClientAsync))
+            .ObserveOn(Scheduler.Default)
+            .Publish().RefCount();
 
         private TcpListener _tcpListener;
         private readonly CancellationTokenSource _listenCanceller = new CancellationTokenSource();
