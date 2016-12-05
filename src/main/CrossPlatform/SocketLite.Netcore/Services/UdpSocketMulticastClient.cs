@@ -27,19 +27,25 @@ namespace SocketLite.Services
 
         public int TTL { get; set; } = 1;
 
+        public int Port { get; private set; }
+        public string IpAddress { get; private set; }
+
         public async Task JoinMulticastGroupAsync(
             string multicastAddress, 
             int port, 
             ICommunicationInterface communicationInterface = null, 
             bool allowMultipleBindToSamePort = false)
         {
+            Port = port;
+            IpAddress = multicastAddress;
+            
             CheckCommunicationInterface(communicationInterface);
 #if (NETSTANDARD)
             var ipAddress = IPAddress.Any;
 #else
             var ipAddress = (communicationInterface as CommunicationInterface)?.NativeIpAddress ?? IPAddress.Any;
 #endif
-            var ipEndPoint = new IPEndPoint(ipAddress, port);
+             var ipEndPoint = new IPEndPoint(ipAddress, port);
 
             InitializeUdpClient(ipEndPoint, allowMultipleBindToSamePort);
 
@@ -69,9 +75,9 @@ namespace SocketLite.Services
             MessageConcellationTokenSource.Cancel();
 
 #if (NETSTANDARD)
-            BackingUdpClient.Dispose();
+            BackingUdpClient?.Dispose();
 #else
-            BackingUdpClient.Close();
+            BackingUdpClient?.Close();
 #endif
 
             _multicastAddress = null;

@@ -10,6 +10,9 @@ namespace ISocketLite.PCL.Interface
 {
     public interface IUdpSocketMulticastClient : IDisposable
     {
+        int Port { get; }
+        string IpAddress { get; }
+
         IObservable<IUdpMessage> ObservableMessages { get; }
 
         Task JoinMulticastGroupAsync(

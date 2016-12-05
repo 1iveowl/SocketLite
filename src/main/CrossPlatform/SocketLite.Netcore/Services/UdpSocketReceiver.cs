@@ -12,7 +12,8 @@ namespace SocketLite.Services
 {
     public class UdpSocketReceiver : UdpSocketBase, IUdpSocketReceiver
     {
-        
+        private IPEndPoint _ipEndPoint;
+        public int Port => _ipEndPoint.Port;
 
         public async Task StartListeningAsync(
             int port = 0, 
@@ -23,9 +24,9 @@ namespace SocketLite.Services
 
             var ipAddress = IPAddress.Any;
 
-            var ipEndPoint = new IPEndPoint(ipAddress, port);
+            _ipEndPoint = new IPEndPoint(ipAddress, port);
 
-            InitializeUdpClient(ipEndPoint, allowMultipleBindToSamePort);
+            InitializeUdpClient(_ipEndPoint, allowMultipleBindToSamePort);
 
             MessageConcellationTokenSource = new CancellationTokenSource();
 

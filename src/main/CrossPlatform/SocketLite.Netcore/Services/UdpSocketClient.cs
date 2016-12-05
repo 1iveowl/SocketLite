@@ -41,9 +41,9 @@ namespace SocketLite.Services
         public void Dispose()
         {
 #if (NETSTANDARD)
-            BackingUdpClient.Dispose();
+            BackingUdpClient?.Dispose();
 #else
-            BackingUdpClient.Close();
+            BackingUdpClient?.Close();
 #endif
         }
     }

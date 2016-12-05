@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using Windows.Networking;
 using ISocketLite.PCL.Interface;
@@ -8,10 +9,11 @@ namespace SocketLite.Services
 {
     public class UdpSocketMulticastClient : UdpSocketBase, IUdpSocketMulticastClient
     {
-        private string _multicastAddress;
-        private int _multicastPort;
-
         public int TTL { get; set; } = 1;
+
+        public int Port { get; private set; }
+
+        public string IpAddress { get; private set; }
 
         public UdpSocketMulticastClient()
         {
@@ -36,8 +38,8 @@ namespace SocketLite.Services
             DatagramSocket.Control.OutboundUnicastHopLimit = (byte)TTL;
             DatagramSocket.JoinMulticastGroup(hostName);
 
-            _multicastAddress = multicastAddress;
-            _multicastPort = port;
+            IpAddress = multicastAddress;
+            Port = port;
         }
 
         public async Task SendMulticastAsync(byte[] data)
@@ -47,10 +49,10 @@ namespace SocketLite.Services
 
         public async Task SendMulticastAsync(byte[] data, int length)
         {
-            if (_multicastAddress == null)
+            if (IpAddress == null)
                 throw new InvalidOperationException("Must join a multicast group before sending.");
 
-            await base.SendToAsync(data, _multicastAddress, _multicastPort)
+            await base.SendToAsync(data, IpAddress, Port)
                 .ConfigureAwait(false);
         }
 

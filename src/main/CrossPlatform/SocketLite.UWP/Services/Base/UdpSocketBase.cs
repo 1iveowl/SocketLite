@@ -82,8 +82,8 @@ namespace SocketLite.Services.Base
 
         protected void CloseSocket()
         {
-            DatagramSocket.Dispose();
-            _messageSubscribe.Dispose();
+            DatagramSocket?.Dispose();
+            _messageSubscribe?.Dispose();
             InitializeUdpSocket();
             SubsribeToMessages();
         }

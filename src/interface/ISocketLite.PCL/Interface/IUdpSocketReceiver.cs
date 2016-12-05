@@ -7,6 +7,8 @@ namespace ISocketLite.PCL.Interface
 {
     public interface IUdpSocketReceiver : IDisposable
     {
+        int Port { get; }
+
         IObservable<IUdpMessage> ObservableMessages { get; }
 
         Task StartListeningAsync(

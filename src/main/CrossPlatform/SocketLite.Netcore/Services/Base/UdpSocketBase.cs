@@ -14,9 +14,9 @@ namespace SocketLite.Services.Base
     public abstract class UdpSocketBase : UdpSendBase
     {
 
-        private ISubject<IUdpMessage> MessageSubject { get; } = new Subject<IUdpMessage>();
+        private readonly ISubject<IUdpMessage> _messageSubject = new Subject<IUdpMessage>();
 
-        public IObservable<IUdpMessage> ObservableMessages => MessageSubject.AsObservable();
+        public IObservable<IUdpMessage> ObservableMessages => _messageSubject.AsObservable();
 
         protected UdpSocketBase()
         { }
@@ -43,7 +43,7 @@ namespace SocketLite.Services.Base
                 // Message Received Args (OnNext)
                 args =>
                 {
-                    MessageSubject.OnNext(args);
+                    _messageSubject.OnNext(args);
                 },
                 // Exception (OnError)
                 ex =>
@@ -85,7 +85,7 @@ namespace SocketLite.Services.Base
 #else
             BackingUdpClient?.Close();
 #endif
-            MessageSubject?.OnCompleted();
+            _messageSubject?.OnCompleted();
         }
     }
 }

@@ -13,6 +13,8 @@ namespace SocketLite.Services
 {
     public class UdpSocketReceiver : UdpSocketBase, IUdpSocketReceiver
     {
+        public int Port { get; }
+
         public IObservable<IUdpMessage> ObservableMessages { get; } = null;
 
         public Task StartListeningAsync(
@@ -32,5 +34,7 @@ namespace SocketLite.Services
         {
             throw new NotImplementedException(BaitNoSwitch);
         }
+
+        
     }
 }

@@ -11,6 +11,7 @@ namespace SocketLite.Services
 {
     public class TcpSocketClient : TcpSocketBase, ITcpSocketClient
     {
+        public bool IsConnected { get; } = false;
         public Stream ReadStream => null;
         public Stream WriteStream => null;
         public string RemoteAddress => null;
@@ -41,5 +42,7 @@ namespace SocketLite.Services
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }
