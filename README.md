@@ -37,7 +37,7 @@ Class|Description|.NET|Windows 10 / UWP
 ### Examples Usage
 
 ##### A TCP Listener
-```cs
+```csharp
 var tcpListener = new SocketLite.Services.TcpSocketListener();
 await tcpListener.StartListeningAsync(80, allowMultipleBindToSamePort: true);
 
@@ -57,7 +57,7 @@ tcpSubscriber.Dispose();
 
 
 ##### A TCP Client
-```cs
+```csharp
 var tcpClient = new TcpSocketClient();
 await tcpClient.ConnectAsync("192.168.1.100", 1234);
 
@@ -70,7 +70,7 @@ tcpClient.Disconnect();
 
     
 ##### A UDP Receiver
-```cs
+```csharp
 var udpReceived = new UdpSocketReceiver();
 await udpReceived.StartListeningAsync(1234, allowMultipleBindToSamePort: true);
 
@@ -93,7 +93,7 @@ var udpMessageSubscriber = udpReceived.ObservableMessages.Subscribe(
 ```
 
 ##### A UDP Client
-```cs
+```csharp
 var udpClient = new UdpSocketClient();
 
 var helloWorld = "Voyager 1";
@@ -105,7 +105,7 @@ await udpClient.SendToAsync(bytes, bytes.Length, address:"192.168.1.5", port:123
 ```
 
 ##### A Multicast UDP Client
-```cs
+```csharp
 var udpMulticast = new SocketLite.Services.UdpSocketMulticastClient();
 await udpMulticast.JoinMulticastGroupAsync("239.255.255.250", 1900, allowMultipleBindToSamePort:true); //Listen for UPnP activity on local network.
 
@@ -133,7 +133,7 @@ var tcpSubscriber = udpMulticast.ObservableMessages.Subscribe(
 ##### Using a Specific Network Interface
 If no interface is specified the receivers/listeners bind to all available interfaces. If needed a specific interface can be specified. (This feature is not avaibale for .NET Standard/.NET Core)
 
-```cs
+```csharp
 var communicationInterface = new CommunicationInterface();
 var allInterfaces = communicationInterface.GetAllInterfaces();
 
