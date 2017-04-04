@@ -1,4 +1,4 @@
-#SocketLite.PCL
+# SocketLite.PCL
 
 [![NuGet Badge](https://buildstats.info/nuget/SocketLite.PCL)](https://www.nuget.org/packages/SocketLite.PCL)
 
@@ -9,7 +9,7 @@ This project is a fork that build upon the fantastic work done with [Socket for 
 
 Note: From version 3.5.0 this library support .NET Core. 
 
-##Why this fork? 
+## Why this fork? 
 Two reasons:
 
  1. The original Socket for PCL delivers great broad cross-platform
