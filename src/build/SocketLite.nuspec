@@ -35,7 +35,7 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
 
         <group targetFramework="uap10.0">
           <dependency id="System.Reactive" version="3.1.1" />
-          <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.3.1" />
+          <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.3.2" />
         </group>
 
         <group targetFramework="net451">
@@ -81,8 +81,8 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
     
     
     <!--.NET Standard 1.5 - .NET Core -->
-    <file src="..\main\CrossPlatform\SocketLite.NetStandard15\bin\Release\SocketLite.*" target="lib\netstandard1.5"/>
-    <file src="..\main\CrossPlatform\SocketLite.NetStandard15\bin\Release\ISocketLite.*" target="lib\netstandard1.5"/>
+    <file src="..\main\CrossPlatform\SocketLite.NetStandard15\bin\Release\netstandard1.5\SocketLite.*" target="lib\netstandard1.5"/>
+    <file src="..\main\CrossPlatform\SocketLite.NetStandard15\bin\Release\netstandard1.5\ISocketLite.*" target="lib\netstandard1.5"/>
 
   </files>
 </package>
