@@ -80,7 +80,7 @@ namespace SocketLite.Services.Base
         public void Dispose()
         {
             MessageConcellationTokenSource?.Cancel();
-#if (NETSTANDARD)
+#if (NETSTANDARD1_5)
             BackingUdpClient?.Dispose();
 #else
             BackingUdpClient?.Close();

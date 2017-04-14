@@ -38,7 +38,7 @@ namespace SocketLite.Services
         {
             MessageConcellationTokenSource.Cancel();
 
-#if (NETSTANDARD)
+#if (NETSTANDARD1_5)
             BackingUdpClient.Dispose();
 #else
             BackingUdpClient.Close();

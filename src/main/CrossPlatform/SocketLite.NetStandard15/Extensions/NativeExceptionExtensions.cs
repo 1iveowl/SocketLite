@@ -8,7 +8,7 @@ namespace SocketLite.Extensions
 {
     public static class NativeExceptionExtensions
     {
-        internal static readonly HashSet<Type> NativeSocketExceptions = new HashSet<Type> { typeof(PlatformSocketException) };
+        private static readonly HashSet<Type> NativeSocketExceptions = new HashSet<Type> { typeof(PlatformSocketException) };
 
         public static Task WrapNativeSocketExceptions(this Task task)
         {

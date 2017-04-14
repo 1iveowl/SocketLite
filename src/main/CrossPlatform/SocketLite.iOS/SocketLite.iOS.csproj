@@ -64,37 +64,37 @@
     <Compile Include="..\SocketLite.net451\Model\CommunicationInterface.cs">
       <Link>Model\CommunicationInterface.cs</Link>
     </Compile>
-    <Compile Include="..\SocketLite.Netcore\Extensions\NativeExceptionExtensions.cs">
+    <Compile Include="..\SocketLite.NetStandard15\Extensions\NativeExceptionExtensions.cs">
       <Link>Extensions\NativeExceptionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\SocketLite.Netcore\Model\UdpMessage.cs">
+    <Compile Include="..\SocketLite.NetStandard15\Model\UdpMessage.cs">
       <Link>Model\UdpMessage.cs</Link>
     </Compile>
-    <Compile Include="..\SocketLite.Netcore\Services\Base\CommonSocketBase.cs">
+    <Compile Include="..\SocketLite.NetStandard15\Services\Base\CommonSocketBase.cs">
       <Link>Services\Base\CommonSocketBase.cs</Link>
     </Compile>
-    <Compile Include="..\SocketLite.Netcore\Services\Base\TcpSocketBase.cs">
+    <Compile Include="..\SocketLite.NetStandard15\Services\Base\TcpSocketBase.cs">
       <Link>Services\Base\TcpSocketBase.cs</Link>
     </Compile>
-    <Compile Include="..\SocketLite.Netcore\Services\Base\UdpSendBase.cs">
+    <Compile Include="..\SocketLite.NetStandard15\Services\Base\UdpSendBase.cs">
       <Link>Services\Base\UdpSendBase.cs</Link>
     </Compile>
-    <Compile Include="..\SocketLite.Netcore\Services\Base\UdpSocketBase.cs">
+    <Compile Include="..\SocketLite.NetStandard15\Services\Base\UdpSocketBase.cs">
       <Link>Services\Base\UdpSocketBase.cs</Link>
     </Compile>
-    <Compile Include="..\SocketLite.Netcore\Services\TcpSocketClient.cs">
+    <Compile Include="..\SocketLite.NetStandard15\Services\TcpSocketClient.cs">
       <Link>Services\TcpSocketClient.cs</Link>
     </Compile>
-    <Compile Include="..\SocketLite.Netcore\Services\TcpSocketListener.cs">
+    <Compile Include="..\SocketLite.NetStandard15\Services\TcpSocketListener.cs">
       <Link>Services\TcpSocketListener.cs</Link>
     </Compile>
-    <Compile Include="..\SocketLite.Netcore\Services\UdpSocketClient.cs">
+    <Compile Include="..\SocketLite.NetStandard15\Services\UdpSocketClient.cs">
       <Link>Services\UdpSocketClient.cs</Link>
     </Compile>
-    <Compile Include="..\SocketLite.Netcore\Services\UdpSocketMulticastClient.cs">
+    <Compile Include="..\SocketLite.NetStandard15\Services\UdpSocketMulticastClient.cs">
       <Link>Services\UdpSocketMulticastClient.cs</Link>
     </Compile>
-    <Compile Include="..\SocketLite.Netcore\Services\UdpSocketReceiver.cs">
+    <Compile Include="..\SocketLite.NetStandard15\Services\UdpSocketReceiver.cs">
       <Link>Services\UdpSocketReceiver.cs</Link>
     </Compile>
     <Compile Include="Model\iOS\NetInfo.cs" />

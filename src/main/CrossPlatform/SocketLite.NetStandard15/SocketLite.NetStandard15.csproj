@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.5</TargetFramework>
+    <AssemblyName>SocketLite</AssemblyName>
+    <RootNamespace>SocketLite</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Model\CommunicationInterface.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\SocketLite.net451\Model\CommunicationInterface.cs" Link="Model\CommunicationInterface.cs" />
+    <Compile Include="..\SocketLite.net451\Model\Partial\CommunicationInterface.Native.Partial.cs" Link="Model\Partial\CommunicationInterface.Native.Partial.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Net.NetworkInformation" Version="4.3.0" />
+    <PackageReference Include="System.Net.Security" Version="4.3.0" />
+    <PackageReference Include="System.Reactive" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\interface\ISocketLite.PCL\ISocketLite.PCL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Model\Partial\" />
+  </ItemGroup>
+
+</Project>

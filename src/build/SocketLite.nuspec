@@ -3,7 +3,7 @@
   <metadata>
     <id>SocketLite.PCL</id>
     <version>0</version>
-    <title>Socket Lite - .NET Standard Library</title>
+    <title>SocketLite - .NET Standard Library</title>
     <authors>Jasper H. Bojsen (inspired by socket-for.pcl by Ryan Davis)</authors>
     <owners>Jasper H. Bojsen</owners>
     <licenseUrl>https://github.com/1iveowl/SocketLite.Netstandard/blob/master/LICENSE.md</licenseUrl>
@@ -16,7 +16,7 @@ Updated to Rx 3.1.1
 Click and bait library with support for Android 6.0, iOS, .Net 4.5.1, UWP and .NET Core (.NET Standard 1.5).
 Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClient ConnectAsync</releaseNotes>
     <copyright>Copyright 2016</copyright>
-    <tags>Socket, tcp, udp, xamarin, PCL, ios, android, uwp, windows 10 netstandard</tags>
+    <tags>Socket, tcp, udp, xamarin, PCL, ios, android, uwp, windows10, netstandard</tags>
     <dependencies>
 
         <group targetFramework="MonoAndroid10">
@@ -35,7 +35,7 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
 
         <group targetFramework="uap10.0">
           <dependency id="System.Reactive" version="3.1.1" />
-          <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.3.1" />
+          <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.3.2" />
         </group>
 
         <group targetFramework="net451">
@@ -47,10 +47,11 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
         <dependency id="NETStandard.Library" version="1.6.1" />
       </group>
 
-        <group targetFramework="netstandard1.6">
+        <group targetFramework="netstandard1.5">
           <dependency id="System.Reactive" version="3.1.1" />
           <dependency id="NETStandard.Library" version="1.6.1" />
           <dependency id="System.Net.Security" version="4.3.0" />
+          <dependency id="System.Net.NetworkInformation" version="4.3.0" />
         </group>
 
     </dependencies>
@@ -79,9 +80,9 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
     <file src="..\main\CrossPlatform\SocketLite.net451\bin\Release\ISocketLite.*" target="lib\net45"/>
     
     
-    <!--.NET Standard 1.6 - .NET Core -->
-    <file src="..\main\CrossPlatform\SocketLite.Netcore\bin\Release\SocketLite.*" target="lib\netstandard1.6"/>
-    <file src="..\main\CrossPlatform\SocketLite.Netcore\bin\Release\ISocketLite.*" target="lib\netstandard1.6"/>
+    <!--.NET Standard 1.5 - .NET Core -->
+    <file src="..\main\CrossPlatform\SocketLite.NetStandard15\bin\Release\netstandard1.5\SocketLite.*" target="lib\netstandard1.5"/>
+    <file src="..\main\CrossPlatform\SocketLite.NetStandard15\bin\Release\netstandard1.5\ISocketLite.*" target="lib\netstandard1.5"/>
 
   </files>
 </package>

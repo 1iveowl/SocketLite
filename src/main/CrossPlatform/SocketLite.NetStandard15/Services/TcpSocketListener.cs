@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using ISocketLite.PCL.Interface;
 using SocketLite.Services.Base;
 
-#if !(NETSTANDARD) //Not NetStandard
+#if !(NETSTANDARD1_5) //Not NetStandard
 using CommunicationInterface = SocketLite.Model.CommunicationsInterface;
 #endif
 
@@ -72,7 +72,7 @@ namespace SocketLite.Services
         {
             CheckCommunicationInterface(listenOn);
 
-#if (NETSTANDARD)
+#if (NETSTANDARD1_5)
             var ipAddress = IPAddress.Any;
 #else
             var ipAddress = (listenOn as CommunicationInterface)?.NativeIpAddress ?? IPAddress.Any;
