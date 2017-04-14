@@ -3,7 +3,7 @@
   <metadata>
     <id>SocketLite.PCL</id>
     <version>0</version>
-    <title>Socket Lite - .NET Standard Library</title>
+    <title>SocketLite - .NET Standard Library</title>
     <authors>Jasper H. Bojsen (inspired by socket-for.pcl by Ryan Davis)</authors>
     <owners>Jasper H. Bojsen</owners>
     <licenseUrl>https://github.com/1iveowl/SocketLite.Netstandard/blob/master/LICENSE.md</licenseUrl>
