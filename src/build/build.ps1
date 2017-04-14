@@ -11,7 +11,7 @@ $msbuild = join-path -path "C:\Program Files (x86)\Microsoft Visual Studio\2017\
 &$msbuild ..\main\CrossPlatform\SocketLite.iOS\SocketLite.iOS.csproj /t:Build /p:Configuration="Release"
 &$msbuild ..\main\CrossPlatform\SocketLite.UWP\SocketLite.UWP.csproj /t:Build /p:Configuration="Release"
 &$msbuild ..\main\CrossPlatform\SocketLite.net451\SocketLite.net451.csproj /t:Build /p:Configuration="Release"
-&$msbuild ..\main\CrossPlatform\SocketLite.Netcore\SocketLite.NetStandard15.csproj /t:Build /p:Configuration="Release"
+&$msbuild ..\main\CrossPlatform\SocketLite.NetStandard15\SocketLite.NetStandard15.csproj /t:Build /p:Configuration="Release"
 
 
 #$version = [Reflection.AssemblyName]::GetAssemblyName((resolve-path '..\interface\ISocketLite.PCL\bin\Release\ISocketLite.PCL.dll')).Version.ToString(3) + $betaver

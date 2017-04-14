@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using ISocketLite.PCL.Interface;
 using SocketLite.Services.Base;
 
-//#if !(NETSTANDARD) //Not NetStandard
-//using CommunicationInterface = SocketLite.Model.CommunicationsInterface;
-//#endif
+#if !(NETSTANDARD1_5) //Not NetStandard
+using CommunicationInterface = SocketLite.Model.CommunicationsInterface;
+#endif
 
 using PlatformSocketException = System.Net.Sockets.SocketException;
 using PclSocketException = ISocketLite.PCL.Exceptions.SocketException;
@@ -72,11 +72,11 @@ namespace SocketLite.Services
         {
             CheckCommunicationInterface(listenOn);
 
-//#if (NETSTANDARD)
+#if (NETSTANDARD1_5)
             var ipAddress = IPAddress.Any;
-//#else
-//            var ipAddress = (listenOn as CommunicationInterface)?.NativeIpAddress ?? IPAddress.Any;
-//#endif
+#else
+            var ipAddress = (listenOn as CommunicationInterface)?.NativeIpAddress ?? IPAddress.Any;
+#endif
 
             _tcpListener = new TcpListener(ipAddress, port)
             {

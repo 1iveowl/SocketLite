@@ -10,7 +10,7 @@ namespace SocketLite.Model
 {
     public partial class CommunicationsInterface
     {
-        protected static IPAddress GetSubnetMask(UnicastIPAddressInformation ip)
+        private static IPAddress GetSubnetMask(IPAddressInformation ip)
         {
             var nativeInterfaceInfo = NetInfo.GetInterfaceInfo();
             var match = nativeInterfaceInfo.FirstOrDefault(ni => ni?.Address != null 

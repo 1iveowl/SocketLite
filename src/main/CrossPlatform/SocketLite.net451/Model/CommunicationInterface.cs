@@ -15,15 +15,15 @@ namespace SocketLite.Model
 {
     public partial class CommunicationsInterface : ICommunicationInterface
     {
-        public string NativeInterfaceId { get; internal set; }
+        public string NativeInterfaceId { get; private set; }
 
-        public string Name { get; internal set; }
+        public string Name { get; private set; }
 
-        public string IpAddress { get; internal set; }
+        public string IpAddress { get; private set; }
 
-        public string GatewayAddress { get; internal set; }
+        public string GatewayAddress { get; private set; }
 
-        public string BroadcastAddress { get; internal set; }
+        public string BroadcastAddress { get; private set; }
 
         public bool IsUsable => !string.IsNullOrWhiteSpace(IpAddress);
 
@@ -32,11 +32,11 @@ namespace SocketLite.Model
         public bool IsLoopback => _loopbackAddresses.Contains(IpAddress);
         //public bool IsInternetConnected { get; internal set; }
 
-        public CommunicationConnectionStatus ConnectionStatus { get; internal set; }
+        public CommunicationConnectionStatus ConnectionStatus { get; private set; }
 
-        internal NetworkInterface NativeInterface;
+        private NetworkInterface NativeInterface;
 
-        internal IPAddress NativeIpAddress;
+        internal IPAddress NativeIpAddress { get; set; }
 
         internal IPEndPoint EndPoint(int port)
         {
@@ -68,8 +68,12 @@ namespace SocketLite.Model
 
             var netmask = ip != null ? CommunicationsInterface.GetSubnetMask(ip) : null; // implemented natively for each .NET platform
 
+#if (NETSTANDARD1_5)
+            string broadcast = null;
+#else
             var broadcast = (ip != null && netmask != null) ? ip.Address.GetBroadcastAddress(netmask).ToString() : null;
-
+#endif
+            
             return new CommunicationsInterface
             {
                 NativeInterfaceId = nativeInterface.Id,
@@ -78,7 +82,11 @@ namespace SocketLite.Model
                 IpAddress = ip?.Address.ToString(),
                 GatewayAddress = gateway,
                 BroadcastAddress = broadcast,
+#if (NETSTANDARD1_5)
+                ConnectionStatus = new CommunicationConnectionStatus(),
+#else
                 ConnectionStatus = nativeInterface.OperationalStatus.ToCommsInterfaceStatus(),
+#endif
                 NativeInterface = nativeInterface
             };
         }

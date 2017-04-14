@@ -8,9 +8,9 @@ using ISocketLite.PCL.EventArgs;
 using ISocketLite.PCL.Interface;
 using SocketLite.Model;
 using SocketLite.Services.Base;
-//#if !(NETSTANDARD) //Not NetStandard
-//using CommunicationInterface = SocketLite.Model.CommunicationsInterface;
-//#endif
+#if (NETSTANDARD1_5) //Not NetStandard
+using CommunicationInterface = SocketLite.Model.CommunicationsInterface;
+#endif
 using PlatformSocketException = System.Net.Sockets.SocketException;
 using PclSocketException = ISocketLite.PCL.Exceptions.SocketException;
 
@@ -33,18 +33,18 @@ namespace SocketLite.Services
         public async Task JoinMulticastGroupAsync(
             string multicastAddress, 
             int port, 
-            ICommunicationInterface communicationInterface = null, 
+            ICommunicationInterface communicationsInterface = null, 
             bool allowMultipleBindToSamePort = false)
         {
             Port = port;
             IpAddress = multicastAddress;
             
-            CheckCommunicationInterface(communicationInterface);
-//#if (NETSTANDARD)
+            CheckCommunicationInterface(communicationsInterface);
+#if (NETSTANDARD1_5)
             var ipAddress = IPAddress.Any;
-//#else
-//            var ipAddress = (communicationInterface as CommunicationInterface)?.NativeIpAddress ?? IPAddress.Any;
-//#endif
+#else
+            var ipAddress = (communicationsInterface as CommunicationsInterface)?.NativeIpAddress ?? IPAddress.Any;
+#endif
              var ipEndPoint = new IPEndPoint(ipAddress, port);
 
             InitializeUdpClient(ipEndPoint, allowMultipleBindToSamePort);
@@ -74,11 +74,11 @@ namespace SocketLite.Services
         {
             MessageConcellationTokenSource.Cancel();
 
-//#if (NETSTANDARD)
+#if (NETSTANDARD1_5)
             BackingUdpClient?.Dispose();
-//#else
-//            BackingUdpClient?.Close();
-//#endif
+#else
+            BackingUdpClient?.Close();
+#endif
 
             _multicastAddress = null;
             _multicastPort = 0;

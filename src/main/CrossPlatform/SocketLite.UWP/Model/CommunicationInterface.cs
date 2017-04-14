@@ -18,15 +18,15 @@ namespace SocketLite.Model
 
         private readonly string[] _loopbackAddresses = { "127.0.0.1", "localhost" };
 
-        public string NativeInterfaceId { get; internal set; }
+        public string NativeInterfaceId { get; private set; }
 
-        public string Name { get; internal set; }
+        public string Name { get; private set; }
 
-        public string IpAddress { get; internal set; }
+        public string IpAddress { get; private set; }
 
-        public string GatewayAddress { get; internal set; }
+        public string GatewayAddress { get; private set; }
 
-        public string BroadcastAddress { get; internal set; }
+        public string BroadcastAddress { get; private set; }
 
         public bool IsUsable => !string.IsNullOrWhiteSpace(IpAddress);
 
@@ -36,9 +36,9 @@ namespace SocketLite.Model
 
         //public bool IsInternetConnected { get; internal set; }
 
-        public CommunicationConnectionStatus ConnectionStatus { get; internal set; }
+        public CommunicationConnectionStatus ConnectionStatus { get; private set; }
 
-        //protected internal HostName NativeHostName;
+        private HostName NativeHostName;
 
         protected internal NetworkAdapter NativeNetworkAdapter;
 
