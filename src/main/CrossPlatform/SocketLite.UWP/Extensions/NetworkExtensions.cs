@@ -27,7 +27,7 @@ namespace SocketLite.Extensions
                 .ToDottedQuadNotation();
         }
 
-        public static byte[] ToBytes(this bool[] bits)
+        private static byte[] ToBytes(this bool[] bits)
         {
             var theseBits = bits.Reverse().ToArray();
             var ba = new BitArray(theseBits);
@@ -40,7 +40,7 @@ namespace SocketLite.Extensions
             return bytes;
         }
 
-        public static byte[] GetAddressBytes(string ipAddress)
+        private static byte[] GetAddressBytes(string ipAddress)
         {
             if (ipAddress == null) return new byte[4] {0, 0, 0, 0};
 
@@ -59,7 +59,7 @@ namespace SocketLite.Extensions
                 throw new InvalidOperationException("The string provided did not appear to be a valid IP Address");
         }
 
-        public static string ToDottedQuadNotation(this byte[] bytes)
+        private static string ToDottedQuadNotation(this byte[] bytes)
         {
             if (bytes.Length % 4 != 0)
                 throw new InvalidOperationException("Byte array has an invalid byte count for dotted quad conversion");

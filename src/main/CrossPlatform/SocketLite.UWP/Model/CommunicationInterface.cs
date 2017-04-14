@@ -8,11 +8,16 @@ using ISocketLite.PCL.Interface;
 using ISocketLite.PCL.Model;
 using SocketLite.Extensions;
 
+
+// UWP
 namespace SocketLite.Model
 {
 
     public class CommunicationsInterface : ICommunicationInterface
     {
+
+        private readonly string[] _loopbackAddresses = { "127.0.0.1", "localhost" };
+
         public string NativeInterfaceId { get; internal set; }
 
         public string Name { get; internal set; }
@@ -25,7 +30,7 @@ namespace SocketLite.Model
 
         public bool IsUsable => !string.IsNullOrWhiteSpace(IpAddress);
 
-        private readonly string[] _loopbackAddresses = { "127.0.0.1", "localhost" };
+        
 
         public bool IsLoopback => _loopbackAddresses.Contains(IpAddress);
 
@@ -33,7 +38,7 @@ namespace SocketLite.Model
 
         public CommunicationConnectionStatus ConnectionStatus { get; internal set; }
 
-        protected internal HostName NativeHostName;
+        //protected internal HostName NativeHostName;
 
         protected internal NetworkAdapter NativeNetworkAdapter;
 

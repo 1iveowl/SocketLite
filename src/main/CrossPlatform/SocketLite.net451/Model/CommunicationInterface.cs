@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -8,6 +9,8 @@ using ISocketLite.PCL.Interface;
 using ISocketLite.PCL.Model;
 using SocketLite.Extensions;
 
+
+// .NET 4.51
 namespace SocketLite.Model
 {
     public partial class CommunicationsInterface : ICommunicationInterface
@@ -39,9 +42,7 @@ namespace SocketLite.Model
         {
             return new IPEndPoint(NativeIpAddress, port);
         }
-
         
-
         public IEnumerable<ICommunicationInterface> GetAllInterfaces()
         {
             return NetworkInterface

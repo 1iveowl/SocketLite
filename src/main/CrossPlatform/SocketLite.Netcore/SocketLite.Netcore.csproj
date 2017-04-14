@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\NativeExceptionExtensions.cs" />
+    <Compile Include="Model\CommunicationInterface.cs" />
     <Compile Include="Model\UdpMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Base\CommonSocketBase.cs" />
