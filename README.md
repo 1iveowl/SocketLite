@@ -136,7 +136,7 @@ var tcpSubscriber = udpMulticast.ObservableMessages.Subscribe(
 //udpMulticast.Disconnect();
 ```
 ##### Using a Specific Network Interface
-If no interface is specified the receivers/listeners bind to all available interfaces. If needed a specific interface can be specified. This feature is now available too for .NET Standard/.NET Core from version 3.7.2.
+If no interface is specified the receivers/listeners bind to all available interfaces. If needed a specific interface can be specified. From version 3.7.2 and onwards, this feature is now also available for .NET Standard/.NET Core from version 3.7.2.
 
 ```csharp
 var communicationInterface = new CommunicationInterface();
