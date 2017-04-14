@@ -1,13 +1,18 @@
-#SocketLite.PCL
+# SocketLite.PCL
+
 [![NuGet Badge](https://buildstats.info/nuget/SocketLite.PCL)](https://www.nuget.org/packages/SocketLite.PCL)
+
 [![NuGet](https://img.shields.io/badge/nuget-2.0.30_(Profile_111)-yellow.svg)](https://www.nuget.org/packages/SocketLite.PCL/2.0.20)
+
+*Please star this project if you find it useful. Thank you.*
+
 ### Supports Xamarin Forms on Windows 10/UWP, iOS and Andriod
 
 This project is a fork that build upon the fantastic work done with [Socket for PCL](https://github.com/rdavisau/sockets-for-pcl). 
 
 Note: From version 3.5.0 this library support .NET Core. 
 
-##Why this fork? 
+## Why this fork? 
 Two reasons:
 
  1. The original Socket for PCL delivers great broad cross-platform
