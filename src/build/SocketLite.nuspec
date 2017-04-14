@@ -16,7 +16,7 @@ Updated to Rx 3.1.1
 Click and bait library with support for Android 6.0, iOS, .Net 4.5.1, UWP and .NET Core (.NET Standard 1.5).
 Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClient ConnectAsync</releaseNotes>
     <copyright>Copyright 2016</copyright>
-    <tags>Socket, tcp, udp, xamarin, PCL, ios, android, uwp, windows 10 netstandard</tags>
+    <tags>Socket, tcp, udp, xamarin, PCL, ios, android, uwp, windows10, netstandard</tags>
     <dependencies>
 
         <group targetFramework="MonoAndroid10">
