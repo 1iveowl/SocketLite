@@ -72,7 +72,76 @@ var bytes = Encoding.UTF8.GetBytes(helloWorld);
 await tcpClient.WriteStream.WriteAsync(bytes, 0, bytes.Length);
 tcpClient.Disconnect();
 ```
+###### Tip: What About Multi Threading?
+The TcpSocketClient WriteStream property is of type ```System.IO.Stream```, which does not automatically manage multi-treading. 
 
+To work around this limitation you can do something like the following example, which have been inspired by this Stack Overflow post: [SslStream.WriteAsync “The BeginWrite method cannot be called when another write operation is pending”](http://stackoverflow.com/a/12649107/4140832)
+
+```csharp
+
+private readonly ConcurrentQueue<byte[]> _writePendingData = new ConcurrentQueue<byte[]>();
+private bool _sendingData;
+
+private async Task SendAsync(ITcpSocketClient tcpSocketClient, byte[] frame)
+{
+    if (!tcpSocketClient.IsConnected)
+    {
+        throw new Exception("Websocket connection have been closed");
+    }
+
+    await WriteQueuedStreamAsync(tcpSocketClient, frame);
+}       
+
+private async Task WriteQueuedStreamAsync(ITcpSocketClient tcpSocketClient, byte[] frame)
+{
+    if (frame == null)
+    {
+        return;
+    }
+
+    _writePendingData.Enqueue(frame);
+
+    lock (_writePendingData)
+    {
+        if (_sendingData)
+        {
+            return;
+        }
+        _sendingData = true;
+    }
+
+    try
+    {
+        if (_writePendingData.Count > 0 && _writePendingData.TryDequeue(out byte[] buffer))
+        {
+            await tcpSocketClient.WriteStream.WriteAsync(buffer, 0, buffer.Length);
+            await tcpSocketClient.WriteStream.FlushAsync();
+        }
+        else
+        {
+            lock (_writePendingData)
+            {
+                _sendingData = false;
+            }
+        }
+    }
+    catch (Exception)
+    {
+        // handle exception then
+        lock (_writePendingData)
+        {
+            _sendingData = false;
+        }
+    }
+    finally
+    {
+        lock (_writePendingData)
+        {
+            _sendingData = false;
+        }
+    }
+}
+```
     
 ##### A UDP Receiver
 ```csharp
