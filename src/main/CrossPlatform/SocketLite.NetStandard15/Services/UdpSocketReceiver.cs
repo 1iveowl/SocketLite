@@ -23,10 +23,6 @@ namespace SocketLite.Services
         {
             CheckCommunicationInterface(communicationInterface);
 
-            //var ipAddress = (communicationInterface as CommunicationsInterface)?.NativeIpAddress ?? IPAddress.Any;
-
-            //_ipEndPoint = new IPEndPoint(ipAddress, port);
-
             _ipEndPoint = InitializeUdpClient(communicationInterface, port, allowMultipleBindToSamePort);
 
             MessageConcellationTokenSource = new CancellationTokenSource();

@@ -41,10 +41,6 @@ namespace SocketLite.Services
             
             CheckCommunicationInterface(communicationsInterface);
 
-            //var ipAddress = (communicationsInterface as CommunicationsInterface)?.NativeIpAddress ?? IPAddress.Any;
-
-            //var ipEndPoint = new IPEndPoint(ipAddress, port);
-
             InitializeUdpClient(communicationsInterface, port, allowMultipleBindToSamePort);
 
             MessageConcellationTokenSource = new CancellationTokenSource();
