@@ -59,8 +59,8 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
   <files>
 
     <!--.NET Standard 1.0 - Ref (Bait) -->
-    <file src="..\main\SocketLite.Bait\bin\Release\SocketLite.*" target="ref\netstandard1.0"/>
-    <file src="..\main\SocketLite.Bait\bin\Release\ISocketLite.*" target="ref\netstandard1.0"/>
+    <file src="..\main\SocketLite.Bait.Netstandard\bin\Release\netstandard1.0\SocketLite.*" target="ref\netstandard1.0"/>
+    <file src="..\main\SocketLite.Bait.Netstandard\bin\Release\netstandard1.0\ISocketLite.*" target="ref\netstandard1.0"/>
 
     <!--Xamarin.Android-->
     <file src="..\main\CrossPlatform\SocketLite.Android\bin\Release\SocketLite.*" target="lib\MonoAndroid10"/>

@@ -1,10 +1,10 @@
 param([string]$betaver)
 
 if ([string]::IsNullOrEmpty($betaver)) {
-	$version = [Reflection.AssemblyName]::GetAssemblyName((resolve-path '..\interface\ISocketLite.PCL\bin\Release\ISocketLite.PCL.dll')).Version.ToString(3)
+	$version = [Reflection.AssemblyName]::GetAssemblyName((resolve-path '..\interface\ISocketLite.Netstandard\bin\Release\netstandard1.0\ISocketLite.PCL.dll')).Version.ToString(3)
 	}
 else {
-	$version = [Reflection.AssemblyName]::GetAssemblyName((resolve-path '..\interface\ISocketLite.PCL\bin\Release\ISocketLite.PCL.dll')).Version.ToString(3) + "-" + $betaver
+	$version = [Reflection.AssemblyName]::GetAssemblyName((resolve-path '..\interface\ISocketLite.Netstandard\bin\Release\netstandard1.0\ISocketLite.PCL.dll')).Version.ToString(3) + "-" + $betaver
 }
 
 .\build.ps1 $version
