@@ -14,7 +14,7 @@ namespace ISocketLite.PCL.Interface
         Task StartListeningAsync(
             int port, 
             ICommunicationInterface communicationInterface, 
-            bool allowMultipleBindToSamePort = false);
+            bool allowMultipleBindToSamePort);
 
         void StopListening();
 

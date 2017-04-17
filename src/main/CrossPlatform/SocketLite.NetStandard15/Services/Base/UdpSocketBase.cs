@@ -61,10 +61,14 @@ namespace SocketLite.Services.Base
                 EnableBroadcast = true,
             };
 
+            var ipLan = IPAddress.Parse(ipEndPoint.Address.ToString());
+            var bIp = ipLan.GetAddressBytes();
+
+
             if (allowMultipleBindToSamePort)
             {
                 BackingUdpClient.ExclusiveAddressUse = false;
-                BackingUdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+                BackingUdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, bIp);
             }
 
             try
