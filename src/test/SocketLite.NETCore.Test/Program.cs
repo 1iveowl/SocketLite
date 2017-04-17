@@ -35,7 +35,7 @@ namespace SocketLite.NETCore.Test
 
             var udpListener = new UdpSocketReceiver();
 
-            await udpListener.StartListeningAsync(8000, allowMultipleBindToSamePort: true;
+            await udpListener.StartListeningAsync(8000, allowMultipleBindToSamePort: true);
 
             Console.WriteLine("Listening...");
         }
