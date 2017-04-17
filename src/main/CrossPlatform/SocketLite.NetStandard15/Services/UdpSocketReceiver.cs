@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ISocketLite.PCL.Interface;
 using SocketLite.Extensions;
+using SocketLite.Model;
 using SocketLite.Services.Base;
 using PlatformSocketException = System.Net.Sockets.SocketException;
 using PclSocketException = ISocketLite.PCL.Exceptions.SocketException;
@@ -22,11 +23,11 @@ namespace SocketLite.Services
         {
             CheckCommunicationInterface(communicationInterface);
 
-            var ipAddress = IPAddress.Any;
+            //var ipAddress = (communicationInterface as CommunicationsInterface)?.NativeIpAddress ?? IPAddress.Any;
 
-            _ipEndPoint = new IPEndPoint(ipAddress, port);
+            //_ipEndPoint = new IPEndPoint(ipAddress, port);
 
-            InitializeUdpClient(_ipEndPoint, allowMultipleBindToSamePort);
+            _ipEndPoint = InitializeUdpClient(communicationInterface, port, allowMultipleBindToSamePort);
 
             MessageConcellationTokenSource = new CancellationTokenSource();
 

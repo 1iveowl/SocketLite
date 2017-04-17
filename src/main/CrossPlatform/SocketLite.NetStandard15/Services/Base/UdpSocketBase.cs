@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
 using ISocketLite.PCL.EventArgs;
+using ISocketLite.PCL.Interface;
 using SocketLite.Model;
 using SocketException = ISocketLite.PCL.Exceptions.SocketException;
 
@@ -54,8 +55,12 @@ namespace SocketLite.Services.Base
                 }, cancelToken);
         }
 
-        protected void InitializeUdpClient(IPEndPoint ipEndPoint, bool allowMultipleBindToSamePort)
+        protected IPEndPoint InitializeUdpClient(ICommunicationInterface communicationInterface, int port, bool allowMultipleBindToSamePort)
         {
+            var ipAddress = (communicationInterface as CommunicationsInterface)?.NativeIpAddress ?? IPAddress.Any;
+
+            var ipEndPoint = new IPEndPoint(ipAddress, port);
+
             BackingUdpClient = new UdpClient
             {
                 EnableBroadcast = true,
@@ -88,6 +93,8 @@ namespace SocketLite.Services.Base
             {
                 throw new SocketException(ex);
             }
+
+            return ipEndPoint;
         }
 
         public void Dispose()

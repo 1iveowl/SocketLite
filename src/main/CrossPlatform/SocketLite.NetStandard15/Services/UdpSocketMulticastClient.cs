@@ -41,11 +41,11 @@ namespace SocketLite.Services
             
             CheckCommunicationInterface(communicationsInterface);
 
-            var ipAddress = (communicationsInterface as CommunicationsInterface)?.NativeIpAddress ?? IPAddress.Any;
+            //var ipAddress = (communicationsInterface as CommunicationsInterface)?.NativeIpAddress ?? IPAddress.Any;
 
-            var ipEndPoint = new IPEndPoint(ipAddress, port);
+            //var ipEndPoint = new IPEndPoint(ipAddress, port);
 
-            InitializeUdpClient(ipEndPoint, allowMultipleBindToSamePort);
+            InitializeUdpClient(communicationsInterface, port, allowMultipleBindToSamePort);
 
             MessageConcellationTokenSource = new CancellationTokenSource();
 
