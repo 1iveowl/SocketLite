@@ -125,9 +125,9 @@
     <EmbeddedResource Include="Properties\SocketLite.UWP.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\interface\ISocketLite.PCL\ISocketLite.PCL.csproj">
-      <Project>{2da20de1-bb65-4156-9fa0-0718fc1be2ee}</Project>
-      <Name>ISocketLite.PCL</Name>
+    <ProjectReference Include="..\..\..\interface\ISocketLite.Netstandard\ISocketLite.Netstandard.csproj">
+      <Project>{2eb1c36a-fa63-4eab-accb-7e13bf65c378}</Project>
+      <Name>ISocketLite.Netstandard</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0' ">
