@@ -75,14 +75,19 @@ namespace SocketLite.Services
 
             var ipAddress = (listenOn as CommunicationsInterface)?.NativeIpAddress ?? IPAddress.Any;
 
-            _tcpListener = new TcpListener(ipAddress, port);
+            //_tcpListener = new TcpListener(ipAddress, port);
 
             try
             {
-                _tcpListener.ExclusiveAddressUse = !allowMultipleBindToSamePort;
+                _tcpListener = new TcpListener(ipAddress, port)
+                {
+                    ExclusiveAddressUse = !allowMultipleBindToSamePort
+                };
+
             }
             catch (SocketException)
             {
+                _tcpListener = new TcpListener(ipAddress, port);
                 // Not all platforms need or accept the ExclusiveAddressUse option. Here we catch the exception if the platform does not need it.
             }
 

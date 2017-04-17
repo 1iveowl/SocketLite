@@ -40,14 +40,8 @@ namespace SocketLite.Services
             IpAddress = multicastAddress;
             
             CheckCommunicationInterface(communicationsInterface);
-#if (NETSTANDARD1_5)
-            var ipAddress = IPAddress.Any;
-#else
-            var ipAddress = (communicationsInterface as CommunicationsInterface)?.NativeIpAddress ?? IPAddress.Any;
-#endif
-             var ipEndPoint = new IPEndPoint(ipAddress, port);
 
-            InitializeUdpClient(ipEndPoint, allowMultipleBindToSamePort);
+            InitializeUdpClient(communicationsInterface, port, allowMultipleBindToSamePort);
 
             MessageConcellationTokenSource = new CancellationTokenSource();
 
