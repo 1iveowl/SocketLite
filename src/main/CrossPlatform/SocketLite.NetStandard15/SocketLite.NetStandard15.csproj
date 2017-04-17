@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\interface\ISocketLite.PCL\ISocketLite.PCL.csproj" />
+    <ProjectReference Include="..\..\..\interface\ISocketLite.Netstandard\ISocketLite.Netstandard.csproj" />
   </ItemGroup>
 
   <ItemGroup>

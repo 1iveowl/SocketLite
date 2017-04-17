@@ -114,12 +114,11 @@
     <AndroidResource Include="Resources\Values\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\interface\ISocketLite.PCL\ISocketLite.PCL.csproj">
-      <Project>{2da20de1-bb65-4156-9fa0-0718fc1be2ee}</Project>
-      <Name>ISocketLite.PCL</Name>
+    <ProjectReference Include="..\..\..\interface\ISocketLite.Netstandard\ISocketLite.Netstandard.csproj">
+      <Project>{2eb1c36a-fa63-4eab-accb-7e13bf65c378}</Project>
+      <Name>ISocketLite.Netstandard</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
