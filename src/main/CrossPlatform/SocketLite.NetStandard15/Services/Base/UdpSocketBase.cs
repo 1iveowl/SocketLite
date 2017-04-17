@@ -69,12 +69,21 @@ namespace SocketLite.Services.Base
                 try
                 {
                     BackingUdpClient.ExclusiveAddressUse = false;
-                    BackingUdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, bIp);
                 }
                 catch (SocketException)
                 {
                     
                 }
+
+                try
+                {
+                    BackingUdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, bIp);
+                }
+                catch (SocketException)
+                {
+
+                }
+
             }
 
             try
