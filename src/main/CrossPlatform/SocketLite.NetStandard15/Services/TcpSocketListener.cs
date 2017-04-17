@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ISocketLite.PCL.Interface;
 using SocketLite.Services.Base;
+using SocketLite.Model;
 
 #if !(NETSTANDARD1_5) //Not NetStandard
 using CommunicationInterface = SocketLite.Model.CommunicationsInterface;
@@ -72,20 +73,19 @@ namespace SocketLite.Services
         {
             CheckCommunicationInterface(listenOn);
 
-#if (NETSTANDARD1_5)
-            var ipAddress = IPAddress.Any;
-#else
-            var ipAddress = (listenOn as CommunicationInterface)?.NativeIpAddress ?? IPAddress.Any;
-#endif
+            var ipAddress = (listenOn as CommunicationsInterface)?.NativeIpAddress ?? IPAddress.Any;
 
-#if (NETSTANDARD1_5)
             _tcpListener = new TcpListener(ipAddress, port);
-#else
-            _tcpListener = new TcpListener(ipAddress, port)
+
+            try
             {
-                ExclusiveAddressUse = !allowMultipleBindToSamePort
-            };
-#endif
+                _tcpListener.ExclusiveAddressUse = !allowMultipleBindToSamePort;
+            }
+            catch (SocketException)
+            {
+                // Not all platforms need or accept the ExclusiveAddressUse option. Here we catch the exception if the platform does not need it.
+            }
+
             try
             {
                 _tcpListener.Start();
