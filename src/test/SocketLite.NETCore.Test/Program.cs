@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using SocketLite.Services;
 
 namespace SocketLite.NETCore.Test
 {
@@ -6,7 +8,20 @@ namespace SocketLite.NETCore.Test
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Start();
+
+            Console.WriteLine("Press any key to exit.");
+            Console.ReadLine();
+
+        }
+
+        static async void Start()
+        {
+            var tcpListener = new TcpSocketListener();
+
+            await tcpListener.StartListeningAsync(8000);
+
+            Console.WriteLine("Listening...");
         }
     }
 }

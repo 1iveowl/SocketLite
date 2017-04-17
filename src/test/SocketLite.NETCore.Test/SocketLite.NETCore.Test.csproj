@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Reactive" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\interface\ISocketLite.Netstandard\ISocketLite.Netstandard.csproj" />
     <ProjectReference Include="..\..\main\CrossPlatform\SocketLite.NetStandard15\SocketLite.NetStandard15.csproj" />
   </ItemGroup>
