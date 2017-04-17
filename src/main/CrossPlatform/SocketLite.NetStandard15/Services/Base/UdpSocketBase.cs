@@ -66,24 +66,18 @@ namespace SocketLite.Services.Base
 
             if (allowMultipleBindToSamePort)
             {
-                //try
-                //{
-                //    BackingUdpClient.ExclusiveAddressUse = false;
-                //}
-                //catch (SocketException)
-                //{
-                    
-                //}
-
                 try
+                {
+                    BackingUdpClient.ExclusiveAddressUse = false;
+                }
+                catch (Exception)
+                {
+
+                }
+                finally
                 {
                     BackingUdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, bIp);
                 }
-                catch (SocketException)
-                {
-
-                }
-
             }
 
             try
