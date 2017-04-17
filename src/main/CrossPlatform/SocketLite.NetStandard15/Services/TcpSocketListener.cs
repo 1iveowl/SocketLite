@@ -78,11 +78,14 @@ namespace SocketLite.Services
             var ipAddress = (listenOn as CommunicationInterface)?.NativeIpAddress ?? IPAddress.Any;
 #endif
 
+#if (NETSTANDARD1_5)
+            _tcpListener = new TcpListener(ipAddress, port);
+#else
             _tcpListener = new TcpListener(ipAddress, port)
             {
                 ExclusiveAddressUse = !allowMultipleBindToSamePort
             };
-
+#endif
             try
             {
                 _tcpListener.Start();
