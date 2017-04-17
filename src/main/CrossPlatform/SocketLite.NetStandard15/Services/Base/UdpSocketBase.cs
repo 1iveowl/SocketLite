@@ -65,10 +65,22 @@ namespace SocketLite.Services.Base
             var bIp = ipLan.GetAddressBytes();
 
 
+
+
             if (allowMultipleBindToSamePort)
             {
-                BackingUdpClient.ExclusiveAddressUse = false;
-                BackingUdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, bIp);
+                try
+                {
+                    BackingUdpClient.ExclusiveAddressUse = false;
+                }
+                catch (SocketException)
+                {
+                    
+                }
+                finally
+                {
+                    BackingUdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, bIp);
+                }
             }
 
             try
