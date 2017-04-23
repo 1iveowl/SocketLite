@@ -23,7 +23,8 @@ namespace SocketLite.Services
         public Task JoinMulticastGroupAsync(
             string multicastAddress, 
             int port, ICommunicationInterface communicationInterface,
-            bool allowMultipleBindToSamePort = false)
+            bool allowMultipleBindToSamePort = false,
+            IEnumerable<string> mcastIpv6AddressList = null)
         {
             throw new NotImplementedException(BaitNoSwitch);
         }

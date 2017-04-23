@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Windows.Networking;
@@ -24,7 +25,8 @@ namespace SocketLite.Services
             string multicastAddress, 
             int port, 
             ICommunicationInterface communicationInterface = null,
-            bool allowMultipleBindToSamePort = false)
+            bool allowMultipleBindToSamePort = false,
+            IEnumerable<string> mcastIpv6AddressList = null)
         {
             //Throws and exception if the communication interface is not ready og valid.
             CheckCommunicationInterface(communicationInterface);

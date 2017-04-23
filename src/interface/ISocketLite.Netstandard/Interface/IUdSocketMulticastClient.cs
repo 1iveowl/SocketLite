@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Subjects;
 using System.Text;
+using System.Net;
 using System.Threading.Tasks;
 using ISocketLite.PCL.EventArgs;
 
@@ -18,7 +19,9 @@ namespace ISocketLite.PCL.Interface
         Task JoinMulticastGroupAsync(
             string multicastAddress, 
             int port, ICommunicationInterface communicationInterface, 
-            bool allowMultipleBindToSamePort = false);
+            bool allowMultipleBindToSamePort = false,
+            IEnumerable<string> mcastIpv6AddressList = null
+            );
 
         void Disconnect();
 

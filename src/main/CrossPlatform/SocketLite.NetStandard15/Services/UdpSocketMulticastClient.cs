@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Reactive.Subjects;
@@ -34,7 +35,8 @@ namespace SocketLite.Services
             string multicastAddress, 
             int port, 
             ICommunicationInterface communicationsInterface = null, 
-            bool allowMultipleBindToSamePort = false)
+            bool allowMultipleBindToSamePort = false,
+            IEnumerable<string> mcastIpv6AddressList = null)
         {
             Port = port;
             IpAddress = multicastAddress;
@@ -50,18 +52,18 @@ namespace SocketLite.Services
 
             MessageConcellationTokenSource = new CancellationTokenSource();
 
-            var multicastIp = IPAddress.Parse(multicastAddress);
-            try
-            {
+            //var multicastIp = IPAddress.Parse(multicastAddress);
+            //try
+            //{
                 
-                BackingUdpClient.JoinMulticastGroup(multicastIp, TTL);
-            }
-            catch (Exception ex)
-            {
-                throw (NativeSocketExceptions.Contains(ex.GetType()))
-                        ? new PclSocketException(ex)
-                        : ex;
-            }
+            //    BackingUdpClient.JoinMulticastGroup(multicastIp, TTL);
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw (NativeSocketExceptions.Contains(ex.GetType()))
+            //            ? new PclSocketException(ex)
+            //            : ex;
+            //}
 
             _multicastAddress = multicastAddress;
             _multicastPort = port;

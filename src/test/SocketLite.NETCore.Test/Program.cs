@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using SocketLite.Model;
 using SocketLite.Services;
@@ -23,7 +25,7 @@ namespace SocketLite.NETCore.Test
             var communicationInterface = new CommunicationsInterface();
             var allInterfaces = communicationInterface.GetAllInterfaces();
 
-            var firstUsableInterface = allInterfaces.FirstOrDefault(x => x.IpAddress == "192.168.0.36");
+            var firstUsableInterface = allInterfaces.FirstOrDefault(x => x.IpAddress == "10.211.55.8");
 
             //var tcpListener = new TcpSocketListener();
 
@@ -31,7 +33,17 @@ namespace SocketLite.NETCore.Test
 
             var udpMulti = new UdpSocketMulticastClient();
 
-            await udpMulti.JoinMulticastGroupAsync("239.255.255.250", 1900, firstUsableInterface, allowMultipleBindToSamePort: true);
+            var ipv6MultiCastAddressList = new List<string>
+            {
+                "ff02::c",
+            };
+
+            await udpMulti.JoinMulticastGroupAsync(
+                "239.255.255.250", 
+                1900, 
+                firstUsableInterface, 
+                allowMultipleBindToSamePort: true,
+                mcastIpv6AddressList:ipv6MultiCastAddressList);
 
             var udpListener = new UdpSocketReceiver();
 

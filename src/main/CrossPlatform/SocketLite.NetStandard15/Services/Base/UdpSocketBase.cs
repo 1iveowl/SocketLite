@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Reactive.Concurrency;
@@ -57,7 +58,8 @@ namespace SocketLite.Services.Base
             int port, 
             bool allowMultipleBindToSamePort,
             bool isUdpMultiCast = false,
-            IPAddress mcastAddress = null)
+            IPAddress mcastAddress = null,
+            IEnumerable<string> mcastIpv6AddressList = null)
         {
             var ipAddress = (communicationInterface as CommunicationsInterface)?.NativeIpAddress ?? IPAddress.Any;
 
@@ -76,12 +78,35 @@ namespace SocketLite.Services.Base
             }
 
             var ipLan = IPAddress.Parse(ipEndPoint.Address.ToString());
+            //var ipLanv6 = ipLan.MapToIPv6();
+            //var mcastAddressIpv6 = mcastAddress?.MapToIPv6();
+            //var test = mcastAddressIpv6.IsIPv6Multicast;
+
             var bIp = ipLan.GetAddressBytes();
 
             if (isUdpMultiCast)
             {
-                var mcastOption = new MulticastOption(mcastAddress, ipLan);
-                BackingUdpClient.Client.SetSocketOption(SocketOptionLevel.Udp, SocketOptionName.AddMembership, mcastOption);
+                var mcastOptionIpv4 = new MulticastOption(mcastAddress, ipLan);
+
+                BackingUdpClient.Client.SetSocketOption(
+                    SocketOptionLevel.IP,
+                    SocketOptionName.AddMembership,
+                    mcastOptionIpv4);
+
+                if (mcastIpv6AddressList != null)
+                {
+                    foreach (var ipv6Addr in mcastIpv6AddressList)
+                    {
+                        var mcastOptionIpv6 = new IPv6MulticastOption(IPAddress.Parse(ipv6Addr));
+
+                        BackingUdpClient.Client.SetSocketOption(
+                            SocketOptionLevel.IPv6,
+                            SocketOptionName.AddMembership,
+                            mcastOptionIpv6);
+                    }
+                }
+
+
             }
 
             if (allowMultipleBindToSamePort)
@@ -96,7 +121,7 @@ namespace SocketLite.Services.Base
                 }
                 finally
                 {
-                    BackingUdpClient.Client.SetSocketOption(SocketOptionLevel.Udp, SocketOptionName.ReuseAddress, bIp);
+                    BackingUdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, bIp);
                 }
             }
 
