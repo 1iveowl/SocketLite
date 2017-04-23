@@ -4,8 +4,8 @@
     <TargetFramework>netstandard1.0</TargetFramework>
     <AssemblyName>ISocketLite.PCL</AssemblyName>
     <RootNamespace>ISocketLite.PCL</RootNamespace>
-    <AssemblyVersion>3.7.8.0</AssemblyVersion>
-    <FileVersion>3.7.8.0</FileVersion>
+    <AssemblyVersion>3.8.0.0</AssemblyVersion>
+    <FileVersion>3.8.0.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

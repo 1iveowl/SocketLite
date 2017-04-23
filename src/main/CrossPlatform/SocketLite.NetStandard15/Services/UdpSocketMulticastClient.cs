@@ -41,7 +41,12 @@ namespace SocketLite.Services
             
             CheckCommunicationInterface(communicationsInterface);
 
-            InitializeUdpClient(communicationsInterface, port, allowMultipleBindToSamePort);
+            InitializeUdpClient(
+                communicationsInterface, 
+                port, 
+                allowMultipleBindToSamePort, 
+                isUdpMultiCast:true,
+                mcastAddress:IPAddress.Parse(multicastAddress));
 
             MessageConcellationTokenSource = new CancellationTokenSource();
 

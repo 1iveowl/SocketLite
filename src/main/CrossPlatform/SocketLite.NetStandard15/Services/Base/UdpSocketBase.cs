@@ -47,27 +47,42 @@ namespace SocketLite.Services.Base
                     _messageSubject.OnNext(args);
                 },
                 // Exception (OnError)
-                ex =>
-                {
-                    throw (NativeSocketExceptions.Contains(ex.GetType()))
-                        ? new SocketException(ex)
-                        : ex;
-                }, cancelToken);
+                ex => throw ((NativeSocketExceptions.Contains(ex.GetType()))
+                    ? new SocketException(ex)
+                    : ex), cancelToken);
         }
 
-        protected IPEndPoint InitializeUdpClient(ICommunicationInterface communicationInterface, int port, bool allowMultipleBindToSamePort)
+        protected IPEndPoint InitializeUdpClient(
+            ICommunicationInterface communicationInterface, 
+            int port, 
+            bool allowMultipleBindToSamePort,
+            bool isUdpMultiCast = false,
+            IPAddress mcastAddress = null)
         {
             var ipAddress = (communicationInterface as CommunicationsInterface)?.NativeIpAddress ?? IPAddress.Any;
 
             var ipEndPoint = new IPEndPoint(ipAddress, port);
 
-            BackingUdpClient = new UdpClient
+            if (isUdpMultiCast)
             {
-                EnableBroadcast = true,
-            };
+                BackingUdpClient = new UdpClient
+                {
+                    EnableBroadcast = true,
+                };
+            }
+            else
+            {
+                BackingUdpClient = new UdpClient();
+            }
 
             var ipLan = IPAddress.Parse(ipEndPoint.Address.ToString());
             var bIp = ipLan.GetAddressBytes();
+
+            if (isUdpMultiCast)
+            {
+                var mcastOption = new MulticastOption(mcastAddress, ipLan);
+                BackingUdpClient.Client.SetSocketOption(SocketOptionLevel.Udp, SocketOptionName.AddMembership, mcastOption);
+            }
 
             if (allowMultipleBindToSamePort)
             {
@@ -81,7 +96,7 @@ namespace SocketLite.Services.Base
                 }
                 finally
                 {
-                    BackingUdpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, bIp);
+                    BackingUdpClient.Client.SetSocketOption(SocketOptionLevel.Udp, SocketOptionName.ReuseAddress, bIp);
                 }
             }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ISocketLite.PCL.Interface;
+using SocketLite.Model;
 
 namespace SocketLite.Services.Base
 {
@@ -13,11 +14,25 @@ namespace SocketLite.Services.Base
         {
             
         }
-        protected void CheckCommunicationInterface(ICommunicationInterface communicationInterface)
+        protected void CheckCommunicationInterface(ICommunicationInterface communicationsInterface)
         {
-            if (communicationInterface != null && !communicationInterface.IsUsable)
+            if (communicationsInterface != null && !communicationsInterface.IsUsable)
             {
                 throw new InvalidOperationException("Cannot listen on an unusable communication interface.");
+            }
+
+            if (communicationsInterface == null) //Try and find best possible Network interface.
+            {
+                var newCommunicationsInterface = new CommunicationsInterface();
+                var allInterfaces = newCommunicationsInterface.GetAllInterfaces();
+                if (allInterfaces != null && allInterfaces.Any())
+                {
+                    var firstUsableCommunicationInterface = allInterfaces.FirstOrDefault(x => x.IsUsable && !x.IsLoopback && x.GatewayAddress != null);
+                    if (firstUsableCommunicationInterface == null)
+                    {
+                        communicationsInterface = allInterfaces.FirstOrDefault(x => x.IsUsable);
+                    }
+                }
             }
         }
     }
