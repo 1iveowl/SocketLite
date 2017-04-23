@@ -20,11 +20,24 @@ namespace SocketLite.Services
 
         public IObservable<IUdpMessage> ObservableMessages { get; } = null;
 
+        public async Task JoinMulticastGroupAsync(
+            string multicastAddress,
+            int port, ICommunicationInterface communicationInterface,
+            bool allowMultipleBindToSamePort = false)
+        {
+            await JoinMulticastGroupAsync(
+                multicastAddress,
+                port,
+                communicationInterface,
+                null,
+                allowMultipleBindToSamePort);
+        }
+
         public Task JoinMulticastGroupAsync(
             string multicastAddress, 
             int port, ICommunicationInterface communicationInterface,
-            bool allowMultipleBindToSamePort = false,
-            IEnumerable<string> mcastIpv6AddressList = null)
+            IEnumerable<string> mcastIpv6AddressList = null,
+            bool allowMultipleBindToSamePort = false)
         {
             throw new NotImplementedException(BaitNoSwitch);
         }

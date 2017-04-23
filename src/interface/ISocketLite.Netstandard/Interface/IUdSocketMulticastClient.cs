@@ -17,11 +17,16 @@ namespace ISocketLite.PCL.Interface
         IObservable<IUdpMessage> ObservableMessages { get; }
 
         Task JoinMulticastGroupAsync(
+            string multicastAddress,
+            int port, ICommunicationInterface communicationInterface,
+            bool allowMultipleBindToSamePort = false
+        );
+
+        Task JoinMulticastGroupAsync(
             string multicastAddress, 
-            int port, ICommunicationInterface communicationInterface, 
-            bool allowMultipleBindToSamePort = false,
-            IEnumerable<string> mcastIpv6AddressList = null
-            );
+            int port, ICommunicationInterface communicationInterface,
+            IEnumerable<string> mcastIpv6AddressList,
+            bool allowMultipleBindToSamePort = false);
 
         void Disconnect();
 

@@ -32,11 +32,25 @@ namespace SocketLite.Services
         public string IpAddress { get; private set; }
 
         public async Task JoinMulticastGroupAsync(
+            string multicastAddress,
+            int port,
+            ICommunicationInterface communicationsInterface = null,
+            bool allowMultipleBindToSamePort = false)
+        {
+            await JoinMulticastGroupAsync(
+                multicastAddress,
+                port,
+                communicationsInterface,
+                null,
+                allowMultipleBindToSamePort);
+        }
+
+        public async Task JoinMulticastGroupAsync(
             string multicastAddress, 
             int port, 
-            ICommunicationInterface communicationsInterface = null, 
-            bool allowMultipleBindToSamePort = false,
-            IEnumerable<string> mcastIpv6AddressList = null)
+            ICommunicationInterface communicationsInterface = null,
+            IEnumerable<string> mcastIpv6AddressList = null,
+            bool allowMultipleBindToSamePort = false)
         {
             Port = port;
             IpAddress = multicastAddress;

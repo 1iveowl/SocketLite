@@ -22,11 +22,26 @@ namespace SocketLite.Services
         }
 
         public async Task JoinMulticastGroupAsync(
+            string multicastAddress,
+            int port,
+            ICommunicationInterface communicationInterface = null,
+            bool allowMultipleBindToSamePort = false)
+        {
+            await JoinMulticastGroupAsync(
+                multicastAddress, 
+                port, 
+                communicationInterface, 
+                null,
+                allowMultipleBindToSamePort);
+        }
+
+        public async Task JoinMulticastGroupAsync(
             string multicastAddress, 
             int port, 
             ICommunicationInterface communicationInterface = null,
-            bool allowMultipleBindToSamePort = false,
-            IEnumerable<string> mcastIpv6AddressList = null)
+            IEnumerable<string> mcastIpv6AddressList = null,
+            bool allowMultipleBindToSamePort = false)
+            
         {
             //Throws and exception if the communication interface is not ready og valid.
             CheckCommunicationInterface(communicationInterface);
