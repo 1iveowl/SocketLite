@@ -66,19 +66,6 @@ namespace SocketLite.Services
 
             MessageConcellationTokenSource = new CancellationTokenSource();
 
-            //var multicastIp = IPAddress.Parse(multicastAddress);
-            //try
-            //{
-                
-            //    BackingUdpClient.JoinMulticastGroup(multicastIp, TTL);
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw (NativeSocketExceptions.Contains(ex.GetType()))
-            //            ? new PclSocketException(ex)
-            //            : ex;
-            //}
-
             _multicastAddress = multicastAddress;
             _multicastPort = port;
 

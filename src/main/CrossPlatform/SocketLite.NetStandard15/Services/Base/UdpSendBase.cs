@@ -54,7 +54,5 @@ namespace SocketLite.Services.Base
                 .WrapNativeSocketExceptions()
                 .ConfigureAwait(false);
         }
-
-
     }
 }

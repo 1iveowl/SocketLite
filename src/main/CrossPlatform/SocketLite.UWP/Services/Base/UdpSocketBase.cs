@@ -63,7 +63,6 @@ namespace SocketLite.Services.Base
             bool allowMultipleBindToSamePort)
         {
            
-
             ConfigureDatagramSocket(allowMultipleBindToSamePort);
 
             var adapter = (communicationInterface as CommunicationsInterface)?.NativeNetworkAdapter;
@@ -78,8 +77,6 @@ namespace SocketLite.Services.Base
             }
         }
 
-
-
         protected void CloseSocket()
         {
             DatagramSocket?.Dispose();
@@ -87,12 +84,6 @@ namespace SocketLite.Services.Base
             InitializeUdpSocket();
             SubsribeToMessages();
         }
-
-        //protected void InitializeUdpSocket()
-        //{
-        //    DatagramSocket = new DatagramSocket();
-        //    //SubsribeToMessages();
-        //}
 
         private void SubsribeToMessages()
         {

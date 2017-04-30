@@ -22,13 +22,13 @@ namespace SocketLite.Services
 
         private IObservable<ITcpSocketClient> ObservableTcpSocketConnectionsFromEvents =>
             Observable.FromEventPattern<
-                TypedEventHandler<StreamSocketListener, StreamSocketListenerConnectionReceivedEventArgs>,
-                StreamSocketListenerConnectionReceivedEventArgs>(
+                    TypedEventHandler<StreamSocketListener, StreamSocketListenerConnectionReceivedEventArgs>,
+                    StreamSocketListenerConnectionReceivedEventArgs>(
                     ev => _streamSocketListener.ConnectionReceived += ev,
                     ev => _streamSocketListener.ConnectionReceived -= ev)
-                .Select(handler => new TcpSocketClient(handler.EventArgs.Socket, BufferSize))
-            .ObserveOn(Scheduler.Default)
-            .Publish().RefCount();
+                .Select(handler => new TcpSocketClient(handler.EventArgs.Socket, BufferSize));
+                //.ObserveOn(Scheduler.Default);
+            //.Publish().RefCount();
 
         public int LocalPort { get; internal set; }
 

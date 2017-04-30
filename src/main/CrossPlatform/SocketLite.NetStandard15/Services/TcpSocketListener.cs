@@ -33,10 +33,10 @@ namespace SocketLite.Services
             .Where(tcpClient => tcpClient != null);
 
         private IObservable<TcpClient> ObserveTcpClientFromAsync => Observable.While(
-            () => !_listenCanceller.IsCancellationRequested,
-            Observable.FromAsync(GetTcpClientAsync))
-            .ObserveOn(Scheduler.Default)
-            .Publish().RefCount();
+                () => !_listenCanceller.IsCancellationRequested,
+                Observable.FromAsync(GetTcpClientAsync));
+            //.ObserveOn(Scheduler.Default);
+            //f;
 
         private TcpListener _tcpListener;
         private readonly CancellationTokenSource _listenCanceller = new CancellationTokenSource();

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
@@ -39,7 +41,7 @@ namespace SocketLite.Services.Base
                     };
 
                     return message;
-                }).SubscribeOn(Scheduler.Default);
+                });
 
             observeUdpReceive.Subscribe(
                 // Message Received Args (OnNext)
@@ -78,9 +80,6 @@ namespace SocketLite.Services.Base
             }
 
             var ipLan = IPAddress.Parse(ipEndPoint.Address.ToString());
-            //var ipLanv6 = ipLan.MapToIPv6();
-            //var mcastAddressIpv6 = mcastAddress?.MapToIPv6();
-            //var test = mcastAddressIpv6.IsIPv6Multicast;
 
             var bIp = ipLan.GetAddressBytes();
 
@@ -92,6 +91,27 @@ namespace SocketLite.Services.Base
                     SocketOptionLevel.IP,
                     SocketOptionName.AddMembership,
                     mcastOptionIpv4);
+
+                var nics = NetworkInterface.GetAllNetworkInterfaces();
+
+                var nicIndex = nics
+                    .FirstOrDefault(n => n.GetIPProperties().UnicastAddresses.FirstOrDefault(a => Equals(a.Address, ipLan)) != null)
+                    .GetIPProperties()
+                    .GetIPv4Properties()
+                    .Index;
+
+                var optionValue = IPAddress.HostToNetworkOrder(nicIndex);
+
+                try
+                {
+                    BackingUdpClient.Client.SetSocketOption(
+                        SocketOptionLevel.IP, SocketOptionName.MulticastInterface, optionValue);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
 
                 if (mcastIpv6AddressList != null)
                 {
@@ -105,8 +125,6 @@ namespace SocketLite.Services.Base
                             mcastOptionIpv6);
                     }
                 }
-
-
             }
 
             if (allowMultipleBindToSamePort)
