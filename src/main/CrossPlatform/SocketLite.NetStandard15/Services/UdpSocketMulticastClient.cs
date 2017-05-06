@@ -36,21 +36,6 @@ namespace SocketLite.Services
             ICommunicationInterface communicationsInterface = null,
             bool allowMultipleBindToSamePort = false)
         {
-            return await CreateObservableMultiCastListener(
-                multicastAddress,
-                port,
-                communicationsInterface,
-                null,
-                allowMultipleBindToSamePort);
-        }
-
-        public async Task<IObservable<IUdpMessage>> CreateObservableMultiCastListener(
-            string multicastAddress,
-            int port,
-            ICommunicationInterface communicationsInterface = null,
-            IEnumerable<string> mcastIpv6AddressList = null,
-            bool allowMultipleBindToSamePort = false)
-        {
             Port = port;
             IpAddress = multicastAddress;
 
@@ -72,27 +57,26 @@ namespace SocketLite.Services
         }
 
 
-        [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
-        public async Task JoinMulticastGroupAsync(
-            string multicastAddress,
-            int port,
-            ICommunicationInterface communicationsInterface = null,
-            bool allowMultipleBindToSamePort = false)
-        {
-            await JoinMulticastGroupAsync(
-                multicastAddress,
-                port,
-                communicationsInterface,
-                null,
-                allowMultipleBindToSamePort);
-        }
+        //[Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
+        //public async Task JoinMulticastGroupAsync(
+        //    string multicastAddress,
+        //    int port,
+        //    ICommunicationInterface communicationsInterface = null,
+        //    bool allowMultipleBindToSamePort = false)
+        //{
+        //    await JoinMulticastGroupAsync(
+        //        multicastAddress,
+        //        port,
+        //        communicationsInterface,
+        //        null,
+        //        allowMultipleBindToSamePort);
+        //}
 
         [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
         public async Task JoinMulticastGroupAsync(
             string multicastAddress, 
             int port, 
             ICommunicationInterface communicationsInterface = null,
-            IEnumerable<string> mcastIpv6AddressList = null,
             bool allowMultipleBindToSamePort = false)
         {
             Port = port;

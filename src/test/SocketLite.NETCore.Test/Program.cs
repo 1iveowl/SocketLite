@@ -33,17 +33,11 @@ namespace SocketLite.NETCore.Test
 
             var udpMulti = new UdpSocketMulticastClient();
 
-            var ipv6MultiCastAddressList = new List<string>
-            {
-                "ff02::c",
-            };
-
             var obs = await udpMulti.CreateObservableMultiCastListener(
                 "239.255.255.250",
                 1900,
                 firstUsableInterface,
-                allowMultipleBindToSamePort: true,
-                mcastIpv6AddressList: ipv6MultiCastAddressList);
+                allowMultipleBindToSamePort: true);
 
             var subscription = obs.Subscribe(
                 msg =>

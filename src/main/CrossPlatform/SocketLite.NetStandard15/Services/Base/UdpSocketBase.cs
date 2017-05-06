@@ -114,8 +114,7 @@ namespace SocketLite.Services.Base
             int port, 
             bool allowMultipleBindToSamePort,
             bool isUdpMultiCast = false,
-            IPAddress mcastAddress = null,
-            IEnumerable<string> mcastIpv6AddressList = null)
+            IPAddress mcastAddress = null)
         {
             var ipAddress = (communicationInterface as CommunicationsInterface)?.NativeIpAddress ?? IPAddress.Any;
 
@@ -123,9 +122,10 @@ namespace SocketLite.Services.Base
 
             if (isUdpMultiCast)
             {
-                BackingUdpClient = new UdpClient
+                BackingUdpClient = new UdpClient()
                 {
                     EnableBroadcast = true,
+                    
                 };
             }
             else
@@ -139,6 +139,7 @@ namespace SocketLite.Services.Base
 
             if (isUdpMultiCast)
             {
+                
                 var mcastOptionIpv4 = new MulticastOption(mcastAddress, ipLan);
 
                 BackingUdpClient.Client.SetSocketOption(
@@ -148,36 +149,33 @@ namespace SocketLite.Services.Base
 
                 var nics = NetworkInterface.GetAllNetworkInterfaces();
 
-                var nicIndex = nics
-                    .FirstOrDefault(n => n.GetIPProperties().UnicastAddresses.FirstOrDefault(a => Equals(a.Address, ipLan)) != null)
-                    .GetIPProperties()
-                    .GetIPv4Properties()
-                    .Index;
+                var firstOrDefault = nics.FirstOrDefault(n => n.GetIPProperties().UnicastAddresses.FirstOrDefault(a => Equals(a.Address, ipLan)) != null);
 
-                var optionValue = IPAddress.HostToNetworkOrder(nicIndex);
+                if (firstOrDefault != null)
+                {
+                    var nicIndex = firstOrDefault
+                        .GetIPProperties()
+                        .GetIPv4Properties()
+                        .Index;
 
-                try
-                {
-                    BackingUdpClient.Client.SetSocketOption(
-                        SocketOptionLevel.IP, SocketOptionName.MulticastInterface, optionValue);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
+                    var optionValue = IPAddress.HostToNetworkOrder(nicIndex);
 
-                if (mcastIpv6AddressList != null)
-                {
-                    foreach (var ipv6Addr in mcastIpv6AddressList)
+                    try
                     {
-                        var mcastOptionIpv6 = new IPv6MulticastOption(IPAddress.Parse(ipv6Addr));
 
                         BackingUdpClient.Client.SetSocketOption(
-                            SocketOptionLevel.IPv6,
-                            SocketOptionName.AddMembership,
-                            mcastOptionIpv6);
+                            SocketOptionLevel.IP, SocketOptionName.MulticastInterface, optionValue);
+
+                    
                     }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException($"Unable to find network interface with the address: {ipLan}");
                 }
             }
 

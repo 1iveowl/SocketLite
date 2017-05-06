@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Networking;
@@ -30,21 +27,6 @@ namespace SocketLite.Services
             ICommunicationInterface communicationInterface, 
             bool allowMultipleBindToSamePort = false)
         {
-            return await CreateObservableMultiCastListener(
-                multicastAddress,
-                port,
-                communicationInterface,
-                null,
-                allowMultipleBindToSamePort);
-        }
-
-        public async Task<IObservable<IUdpMessage>> CreateObservableMultiCastListener(
-            string multicastAddress, 
-            int port,
-            ICommunicationInterface communicationInterface, 
-            IEnumerable<string> mcastIpv6AddressList,
-            bool allowMultipleBindToSamePort = false)
-        {
             //Throws and exception if the communication interface is not ready og valid.
             CheckCommunicationInterface(communicationInterface);
 
@@ -68,25 +50,9 @@ namespace SocketLite.Services
 
         [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
         public async Task JoinMulticastGroupAsync(
-            string multicastAddress,
-            int port,
-            ICommunicationInterface communicationInterface = null,
-            bool allowMultipleBindToSamePort = false)
-        {
-            await JoinMulticastGroupAsync(
-                multicastAddress, 
-                port, 
-                communicationInterface, 
-                null,
-                allowMultipleBindToSamePort);
-        }
-
-        [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
-        public async Task JoinMulticastGroupAsync(
             string multicastAddress, 
             int port, 
             ICommunicationInterface communicationInterface = null,
-            IEnumerable<string> mcastIpv6AddressList = null,
             bool allowMultipleBindToSamePort = false)
             
         {

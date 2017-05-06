@@ -79,10 +79,5 @@ namespace SocketLite.Services
         {
             throw new NotImplementedException();
         }
-
-        Task<IObservable<IUdpMessage>> IUdpSocketMulticastClient.CreateObservableMultiCastListener(string multicastAddress, int port, ICommunicationInterface communicationInterface, IEnumerable<string> mcastIpv6AddressList, bool allowMultipleBindToSamePort)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
