@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Networking;
+using ISocketLite.PCL.EventArgs;
 using ISocketLite.PCL.Interface;
 using SocketLite.Services.Base;
 
@@ -21,6 +24,49 @@ namespace SocketLite.Services
             
         }
 
+        public async Task<IObservable<IUdpMessage>> CreateObservableMultiCastListener(
+            string multicastAddress, 
+            int port,
+            ICommunicationInterface communicationInterface, 
+            bool allowMultipleBindToSamePort = false)
+        {
+            return await CreateObservableMultiCastListener(
+                multicastAddress,
+                port,
+                communicationInterface,
+                null,
+                allowMultipleBindToSamePort);
+        }
+
+        public async Task<IObservable<IUdpMessage>> CreateObservableMultiCastListener(
+            string multicastAddress, 
+            int port,
+            ICommunicationInterface communicationInterface, 
+            IEnumerable<string> mcastIpv6AddressList,
+            bool allowMultipleBindToSamePort = false)
+        {
+            //Throws and exception if the communication interface is not ready og valid.
+            CheckCommunicationInterface(communicationInterface);
+
+            var hostName = new HostName(multicastAddress);
+            var serviceName = port.ToString();
+
+            await BindeUdpServiceNameAsync(communicationInterface, serviceName, allowMultipleBindToSamePort)
+                .ConfigureAwait(false);
+
+            DatagramSocket.Control.OutboundUnicastHopLimit = (byte)TTL;
+            DatagramSocket.JoinMulticastGroup(hostName);
+
+            IpAddress = multicastAddress;
+            Port = port;
+
+            var messageCancellationTokenSource = new CancellationTokenSource();
+
+            return CreateObservableMessageStream(messageCancellationTokenSource);
+
+        }
+
+        [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
         public async Task JoinMulticastGroupAsync(
             string multicastAddress,
             int port,
@@ -35,6 +81,7 @@ namespace SocketLite.Services
                 allowMultipleBindToSamePort);
         }
 
+        [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
         public async Task JoinMulticastGroupAsync(
             string multicastAddress, 
             int port, 
@@ -73,7 +120,13 @@ namespace SocketLite.Services
                 .ConfigureAwait(false);
         }
 
+        [Obsolete("ObservableMessages is dreprecated, please use CreateObservableMulticastListener instead")]
         public void Disconnect()
+        {
+            Cleanup();
+        }
+
+        protected override void Cleanup()
         {
             CloseSocket();
         }

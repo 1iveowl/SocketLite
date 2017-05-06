@@ -17,6 +17,12 @@ namespace SocketLite.Services
 
         public IObservable<IUdpMessage> ObservableMessages { get; } = null;
 
+        public IObservable<IUdpMessage> CreateObservableListener(int port = 0, ICommunicationInterface communicationInterface = null,
+            bool allowMultipleBindToSamePort = false)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task StartListeningAsync(
             int port, 
             ICommunicationInterface communicationInterface,
@@ -35,6 +41,9 @@ namespace SocketLite.Services
             throw new NotImplementedException(BaitNoSwitch);
         }
 
-        
+        Task<IObservable<IUdpMessage>> IUdpSocketReceiver.CreateObservableListener(int port, ICommunicationInterface communicationInterface, bool allowMultipleBindToSamePort)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

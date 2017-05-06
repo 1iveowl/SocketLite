@@ -20,6 +20,19 @@ namespace SocketLite.Services
 
         public IObservable<IUdpMessage> ObservableMessages { get; } = null;
 
+        public IObservable<IUdpMessage> CreateObservableMultiCastListener(string multicastAddress, int port,
+            ICommunicationInterface communicationInterface, bool allowMultipleBindToSamePort = false)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IObservable<IUdpMessage> CreateObservableMultiCastListener(string multicastAddress, int port,
+            ICommunicationInterface communicationInterface, IEnumerable<string> mcastIpv6AddressList,
+            bool allowMultipleBindToSamePort = false)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task JoinMulticastGroupAsync(
             string multicastAddress,
             int port, ICommunicationInterface communicationInterface,
@@ -62,6 +75,14 @@ namespace SocketLite.Services
             throw new NotImplementedException(BaitNoSwitch);
         }
 
+        Task<IObservable<IUdpMessage>> IUdpSocketMulticastClient.CreateObservableMultiCastListener(string multicastAddress, int port, ICommunicationInterface communicationInterface, bool allowMultipleBindToSamePort)
+        {
+            throw new NotImplementedException();
+        }
 
+        Task<IObservable<IUdpMessage>> IUdpSocketMulticastClient.CreateObservableMultiCastListener(string multicastAddress, int port, ICommunicationInterface communicationInterface, IEnumerable<string> mcastIpv6AddressList, bool allowMultipleBindToSamePort)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

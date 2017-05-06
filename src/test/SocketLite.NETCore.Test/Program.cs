@@ -25,7 +25,7 @@ namespace SocketLite.NETCore.Test
             var communicationInterface = new CommunicationsInterface();
             var allInterfaces = communicationInterface.GetAllInterfaces();
 
-            var firstUsableInterface = allInterfaces.FirstOrDefault(x => x.IpAddress == "10.10.13.204");
+            var firstUsableInterface = allInterfaces.FirstOrDefault(x => x.IpAddress == "192.168.0.36");
 
             //var tcpListener = new TcpSocketListener();
 
@@ -38,16 +38,29 @@ namespace SocketLite.NETCore.Test
                 "ff02::c",
             };
 
-            await udpMulti.JoinMulticastGroupAsync(
-                "239.255.255.250", 
-                1900, 
-                firstUsableInterface, 
+            var obs = await udpMulti.CreateObservableMultiCastListener(
+                "239.255.255.250",
+                1900,
+                firstUsableInterface,
                 allowMultipleBindToSamePort: true,
-                mcastIpv6AddressList:ipv6MultiCastAddressList);
+                mcastIpv6AddressList: ipv6MultiCastAddressList);
+
+            var subscription = obs.Subscribe(
+                msg =>
+                {
+                    Console.WriteLine(msg.ToString());
+                });
+
+            //await udpMulti.JoinMulticastGroupAsync(
+            //    "239.255.255.250", 
+            //    1900, 
+            //    firstUsableInterface, 
+            //    allowMultipleBindToSamePort: true,
+            //    mcastIpv6AddressList:ipv6MultiCastAddressList);
 
             var udpListener = new UdpSocketReceiver();
 
-            await udpListener.StartListeningAsync(1900, communicationInterface: firstUsableInterface, allowMultipleBindToSamePort: true);
+            //await udpListener.StartListeningAsync(1900, communicationInterface: firstUsableInterface, allowMultipleBindToSamePort: true);
 
             Console.WriteLine("Listening...");
         }

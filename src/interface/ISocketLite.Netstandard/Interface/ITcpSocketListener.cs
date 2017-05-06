@@ -1,23 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Subjects;
-using System.Text;
 using System.Threading.Tasks;
-using ISocketLite.PCL.EventArgs;
 
 namespace ISocketLite.PCL.Interface
 {
     public interface ITcpSocketListener : IDisposable
     {
+        [Obsolete("Deprecated, please use CreateObservableListener instead")]
         IObservable<ITcpSocketClient> ObservableTcpSocket { get; }
 
+        [Obsolete("Deprecated, please use CreateObservableListener instead")]
         Task StartListeningAsync(
             int port, 
             ICommunicationInterface communicationEntity,
             bool allowMultipleBindToSamePort);
 
+        [Obsolete("Deprecated, please use CreateObservableListener instead")]
         void StopListening();
+
+        Task<IObservable<ITcpSocketClient>> CreateObservableListener(
+            int port,
+            ICommunicationInterface listenOn = null,
+            bool allowMultipleBindToSamePort = false);
 
         int LocalPort { get; }
         

@@ -9,8 +9,15 @@ namespace ISocketLite.PCL.Interface
     {
         int Port { get; }
 
+        [Obsolete("Deprecated, please use CreateObservableListener instead")]
         IObservable<IUdpMessage> ObservableMessages { get; }
 
+        Task<IObservable<IUdpMessage>> CreateObservableListener(
+            int port = 0,
+            ICommunicationInterface communicationInterface = null,
+            bool allowMultipleBindToSamePort = false);
+
+        [Obsolete("Deprecated, please use CreateObservableListener instead")]
         Task StartListeningAsync(
             int port, 
             ICommunicationInterface communicationInterface, 

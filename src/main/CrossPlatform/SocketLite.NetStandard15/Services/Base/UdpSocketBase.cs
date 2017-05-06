@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
@@ -17,10 +16,57 @@ namespace SocketLite.Services.Base
 {
     public abstract class UdpSocketBase : UdpSendBase
     {
-
+        private CancellationTokenSource _cancellationTokenSource;
         private readonly ISubject<IUdpMessage> _messageSubject = new Subject<IUdpMessage>();
 
+        [Obsolete("Deprecated, please use CreateObservableListener instead")]
         public IObservable<IUdpMessage> ObservableMessages => _messageSubject.AsObservable();
+
+        protected IObservable<IUdpMessage> CreateObservableMessageStream(CancellationTokenSource cancelToken)
+        {
+            _cancellationTokenSource = cancelToken;
+            var observable = Observable.Create<IUdpMessage>(
+                obs =>
+                {
+                    var disp = Observable.While(
+                            () => !cancelToken.Token.IsCancellationRequested,
+                            Observable.FromAsync(BackingUdpClient.ReceiveAsync))
+                        .Select(msg =>
+                        {
+                            var message = new UdpMessage
+                            {
+                                ByteData = msg.Buffer,
+                                RemotePort = msg.RemoteEndPoint.Port.ToString(),
+                                RemoteAddress = msg.RemoteEndPoint.Address.ToString()
+                            };
+
+                            return message;
+                        }).Subscribe(
+                            msg => obs.OnNext(msg),
+                            ex =>
+                            {
+                                Cleanup();
+                                var getEx = NativeSocketExceptions.Contains(ex.GetType())
+                                    ? new SocketException(ex)
+                                    : ex; ;
+                                obs.OnError(getEx);
+                            },
+                            () =>
+                            {
+                                Cleanup();
+                                cancelToken.Cancel();
+                            });
+
+                    return disp;
+                });
+
+            return observable;
+        }
+
+        protected virtual void Cleanup()
+        {
+            
+        }
 
         protected UdpSocketBase()
         { }
@@ -52,7 +98,15 @@ namespace SocketLite.Services.Base
                 // Exception (OnError)
                 ex => throw ((NativeSocketExceptions.Contains(ex.GetType()))
                     ? new SocketException(ex)
-                    : ex), cancelToken);
+                    : ex), 
+                cancelToken);
+        }
+
+        private Exception NativeException(Exception ex)
+        {
+            throw NativeSocketExceptions.Contains(ex.GetType())
+                ? new SocketException(ex)
+                : ex;
         }
 
         protected IPEndPoint InitializeUdpClient(
@@ -157,7 +211,7 @@ namespace SocketLite.Services.Base
 
         public void Dispose()
         {
-            MessageConcellationTokenSource?.Cancel();
+            _cancellationTokenSource?.Cancel();
 #if (NETSTANDARD1_5)
             BackingUdpClient?.Dispose();
 #else

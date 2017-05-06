@@ -14,6 +14,13 @@ namespace SocketLite.Services
     public class TcpSocketListener : TcpSocketBase, ITcpSocketListener
     {
         public IObservable<ITcpSocketClient> ObservableTcpSocket { get; } = null;
+
+        public Task<IObservable<ITcpSocketClient>> CreateObservableListener(int port, ICommunicationInterface listenOn = null,
+            bool allowMultipleBindToSamePort = false)
+        {
+            throw new NotImplementedException();
+        }
+
         public int LocalPort => 0;
 
         public Task StartListeningAsync(

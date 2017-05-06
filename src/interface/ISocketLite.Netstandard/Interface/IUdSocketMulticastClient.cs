@@ -14,14 +14,28 @@ namespace ISocketLite.PCL.Interface
         int Port { get; }
         string IpAddress { get; }
 
+        [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
         IObservable<IUdpMessage> ObservableMessages { get; }
 
+        Task<IObservable<IUdpMessage>> CreateObservableMultiCastListener(
+            string multicastAddress,
+            int port, ICommunicationInterface communicationInterface,
+            bool allowMultipleBindToSamePort = false);
+
+        Task<IObservable<IUdpMessage>> CreateObservableMultiCastListener(
+            string multicastAddress,
+            int port, ICommunicationInterface communicationInterface,
+            IEnumerable<string> mcastIpv6AddressList,
+            bool allowMultipleBindToSamePort = false);
+
+        [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
         Task JoinMulticastGroupAsync(
             string multicastAddress,
             int port, ICommunicationInterface communicationInterface,
             bool allowMultipleBindToSamePort = false
         );
 
+        [Obsolete("Deprecated, please use CreateObservableListener instead")]
         Task JoinMulticastGroupAsync(
             string multicastAddress, 
             int port, ICommunicationInterface communicationInterface,
