@@ -17,6 +17,7 @@ namespace ISocketLite.PCL.Interface
         IEnumerable<string> MulticastMemberShips { get; }
 
         bool IsMulticastInterfaceActive { get; }
+        
 
         [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
         IObservable<IUdpMessage> ObservableMessages { get; }

@@ -9,6 +9,8 @@ namespace ISocketLite.PCL.Interface
     {
         int Port { get; }
 
+        bool IsUnicastInterfaceActive { get; }
+
         [Obsolete("Deprecated, please use CreateObservableListener instead")]
         IObservable<IUdpMessage> ObservableMessages { get; }
 

@@ -14,6 +14,8 @@ namespace SocketLite.Services.Base
 {
     public abstract class UdpSocketBase : UdpSendBase
     {
+        protected bool _isUnicastInitialized = false;
+
         // Using a subject to keep ensure that a connection can be closed and reopened while keeping subscribing part intact
         private readonly ISubject<IUdpMessage> _messageSubjekt = new Subject<IUdpMessage>();
 
@@ -104,14 +106,13 @@ namespace SocketLite.Services.Base
 
         protected virtual void Cleanup()
         {
-            
+            _isUnicastInitialized = false;
         }
 
         protected UdpSocketBase()
         {
             InitializeUdpSocket();
             SubsribeToMessages();
-
         }
 
         protected async Task BindeUdpServiceNameAsync(

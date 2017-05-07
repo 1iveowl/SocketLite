@@ -14,6 +14,7 @@ namespace SocketLite.Services
     public class UdpSocketReceiver : UdpSocketBase, IUdpSocketReceiver
     {
         public int Port { get; }
+        public bool IsUnicastInterfaceActive { get; } = false;
 
         public IObservable<IUdpMessage> ObservableMessages { get; } = null;
 

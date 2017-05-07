@@ -20,12 +20,15 @@ namespace SocketLite.Services.Base
         private CancellationTokenSource _cancellationTokenSource;
         private readonly ISubject<IUdpMessage> _messageSubject = new Subject<IUdpMessage>();
         private bool _isMulticastInitialized = false;
+        private bool _isUnicastInitialized = false;
 
         private readonly IDictionary<string, bool> _multicastMemberships = new Dictionary<string, bool>();
 
         public IEnumerable<string> MulticastMemberShips => _multicastMemberships.Where(m => m.Value.Equals(true)).Select(m => m.Key);
 
         public bool IsMulticastInterfaceActive => _isMulticastInitialized;
+        public bool IsUnicastInterfaceActive => _isUnicastInitialized;
+
 
         [Obsolete("Deprecated, please use CreateObservableListener instead")]
         public IObservable<IUdpMessage> ObservableMessages => _messageSubject.AsObservable();
@@ -73,8 +76,9 @@ namespace SocketLite.Services.Base
 
         protected virtual void Cleanup()
         {
-            _multicastMemberships.Clear();
             _isMulticastInitialized = false;
+            _isUnicastInitialized = false;
+            _multicastMemberships.Clear();
         }
 
         protected UdpSocketBase()
@@ -164,11 +168,11 @@ namespace SocketLite.Services.Base
                 BackingUdpClient = new UdpClient()
                 {
                     EnableBroadcast = true,
-                    
                 };
             }
             else
             {
+                _isUnicastInitialized = true;
                 BackingUdpClient = new UdpClient();
             }
 

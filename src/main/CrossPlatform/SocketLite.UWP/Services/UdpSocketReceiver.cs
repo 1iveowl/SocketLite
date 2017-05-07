@@ -9,7 +9,9 @@ namespace SocketLite.Services
 {
     public class UdpSocketReceiver : UdpSocketBase, IUdpSocketReceiver
     {
+        
         public int Port { get; private set; }
+        public bool IsUnicastInterfaceActive => _isUnicastInitialized;
 
         public async Task<IObservable<IUdpMessage>> CreateObservableListener(
             int port = 0, 
@@ -26,6 +28,8 @@ namespace SocketLite.Services
                 .ConfigureAwait(false);
 
             var cancellationSourceToken = new CancellationTokenSource();
+
+            _isUnicastInitialized = true;
 
             return CreateObservableMessageStream(cancellationSourceToken);
 
@@ -51,6 +55,7 @@ namespace SocketLite.Services
         public void StopListening()
         {
             Cleanup();
+            base.Cleanup();
         }
 
         protected override void Cleanup()
