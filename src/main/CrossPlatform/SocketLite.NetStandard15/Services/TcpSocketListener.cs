@@ -65,12 +65,12 @@ namespace SocketLite.Services
 
         public async Task<IObservable<ITcpSocketClient>> CreateObservableListener(
             int port,
-            ICommunicationInterface listenOn = null,
+            ICommunicationInterface communicationInterface = null,
             bool allowMultipleBindToSamePort = false)
         {
-            CheckCommunicationInterface(listenOn);
+            CheckCommunicationInterface(communicationInterface);
 
-            var ipAddress = (listenOn as CommunicationsInterface)?.NativeIpAddress ?? IPAddress.Any;
+            var ipAddress = (communicationInterface as CommunicationsInterface)?.NativeIpAddress ?? IPAddress.Any;
 
             //_tcpListener = new TcpListener(ipAddress, port);
 

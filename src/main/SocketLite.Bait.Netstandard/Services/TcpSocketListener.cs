@@ -15,7 +15,7 @@ namespace SocketLite.Services
     {
         public IObservable<ITcpSocketClient> ObservableTcpSocket { get; } = null;
 
-        public Task<IObservable<ITcpSocketClient>> CreateObservableListener(int port, ICommunicationInterface listenOn = null,
+        public Task<IObservable<ITcpSocketClient>> CreateObservableListener(int port, ICommunicationInterface communicationInterface = null,
             bool allowMultipleBindToSamePort = false)
         {
             throw new NotImplementedException();

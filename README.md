@@ -18,14 +18,18 @@ Two reasons:
  1. The original Socket for PCL delivers great broad cross-platform
     support. SocketLite PCL only covers .NET 4.5+, UWP, iOS and Android.
     
- 2. SocketLite has been refactored to use Reactive Extensions (Rx)
-    internally as well as externally.
+ 2. SocketLite has been refactored to use Reactive Extensions (Rx).
 
 The purpose of this PCLis to make it easy to write cross platform socket code. For example [Simple Http Listener](https://github.com/1iveowl/Simple-Http-Listener-PCL) is written using SocketLite.PCL
 
 This library is based on "Bait and Switch" pattern. It is strongly recommend to read this short and great blog post to get an good understanding of this pattern before contributing to the SocketLite PCL code-base: [The Bait and Switch PCL Trick](http://log.paulbetts.org/the-bait-and-switch-pcl-trick/)
 
 Get SocketLite.PCL in NuGet: ````Install-Package SocketLite.PCL````
+
+### Version 4.0
+Version 4.0 represents a major overhaul of this library. Version 4.0 is still backwards compatible, but many of the methods have been marked as deprecated to inspire developers to use the newer versions of this library. In previous versions you had to subscribe to an observable and then start the action. In version 4.0 you just subscribe, that's it. Much more clean and better aligned with the Rx patterns.
+
+There us still UWP support in version 4.0, but the emphasis has been on .NET Core and it will be going forward.
 
 ### Classes
 The plugin currently provides the following socket abstractions:
@@ -41,30 +45,51 @@ Class|Description|.NET|Windows 10 / UWP
 
 ### Examples Usage
 
+#### Using
+
+```csharp
+using SocketLite.Model;
+using SocketLite.Services;
+```
+
+#### Specify Which Network Interface To Use
+Defining what Network Interface to use is typically the version first step. This can be done on multiple ways. Here it is done using the IP adress of the interface:
+
+```csharp
+var communicationInterface = new CommunicationsInterface();
+var allInterfaces = communicationInterface.GetAllInterfaces();
+var networkInterface = allInterfaces.FirstOrDefault(x => x.IpAddress == "192.168.0.2");
+```
+
 ##### A TCP Listener
 ```csharp
-var tcpListener = new SocketLite.Services.TcpSocketListener();
-await tcpListener.StartListeningAsync(80, allowMultipleBindToSamePort: true);
+var tcpListener = new TcpSocketListener();
 
-var tcpSubscriber = tcpListener.ObservableTcpSocket.Subscribe(
-	x =>
-	{
-	    System.Console.WriteLine($"Remote Address: {x.RemoteAddress}");
-        System.Console.WriteLine($"Remote Port: {x.RemotePort}");
-        System.Console.WriteLine("---***---");
-	ex =>
+var observerTcpListner = await tcpListener.CreateObservableListener(
+    port:8000, 
+    listenOn: networkInterface, 
+    allowMultipleBindToSamePort:true);
+
+var subscriberTcpListener = observerTcpListner.Subscribe(
+    tcpClient =>
     {
-	    // Exceptions received here;
-    }););
-	
-tcpSubscriber.Dispose();
+        //Insert your code here
+    },
+    ex =>
+    {
+        // Insert your exception code here
+    },
+    () =>
+    {
+        // Insert your completed code here
+    });
 ```
 
 
 ##### A TCP Client
 ```csharp
 var tcpClient = new TcpSocketClient();
-await tcpClient.ConnectAsync("192.168.1.100", 1234);
+await tcpClient.ConnectAsync("192.168.1.100", "1234");
 
 var helloWorld = "Hello World!";
 
@@ -168,11 +193,26 @@ var udpMessageSubscriber = udpReceived.ObservableMessages.Subscribe(
 
 ##### A UDP Client
 ```csharp
-var udpClient = new UdpSocketClient();
+var udpReceiver = new UdpSocketReceiver();
 
-var helloWorld = "Voyager 1";
+var observerUdpReceiver = await udpReceiver.CreateObservableListener(
+    port: 8000,
+    communicationInterface: networkInterface,
+    allowMultipleBindToSamePort: true);
 
-var bytes = Encoding.UTF8.GetBytes(helloWorld);
+var subscriberUpdReceiver = observerUdpReceiver.Subscribe(
+    udpMsg =>
+    {
+        //Inset your code here
+    },
+    ex =>
+    {
+        //Inset your exception code here
+    },
+    () =>
+    {
+        //Insert your completion code here
+    });
 
 // Fire datagram into the great void
 await udpClient.SendToAsync(bytes, bytes.Length, address:"192.168.1.5", port:1234);
@@ -184,39 +224,27 @@ var udpMulticast = new SocketLite.Services.UdpSocketMulticastClient();
 await udpMulticast.JoinMulticastGroupAsync("239.255.255.250", 1900, allowMultipleBindToSamePort:true); //Listen for UPnP activity on local network.
 
 // Listen part
-var tcpSubscriber = udpMulticast.ObservableMessages.Subscribe(
-    x =>
-    {
-        System.Console.WriteLine($"Remote Address: {x.RemoteAddress}");
-        System.Console.WriteLine($"Remote Port: {x.RemotePort}");
-        System.Console.WriteLine($"Data/string: {Encoding.UTF8.GetString(x.ByteData)}");
-        System.Console.WriteLine("***");
-    });
+var udpMulticast = new UdpSocketMulticastClient();
 
-// When Done Dispose
-//tcpSubscriber.Dispose();
-
-// Send part
-//var msg = "Hello everyone";
-//var bytes = Encoding.UTF8.GetBytes(msg);
-
-//await udpMulticast.SendMulticastAsync(bytes);
-
-//udpMulticast.Disconnect();
-```
-##### Using a Specific Network Interface
-If no interface is specified the receivers/listeners bind to all available interfaces. If needed a specific interface can be specified. From version 3.7.2 and onwards, this feature is now also available for .NET Standard/.NET Core from version 3.7.2.
-
-```csharp
-var communicationInterface = new CommunicationInterface();
-var allInterfaces = communicationInterface.GetAllInterfaces();
-
-var firstUsableInterface = allInterfaces.FirstOrDefault(x => x.IsUsable);
-
-var udpReceived = new UdpSocketReceiver();
-await udpReceived.StartListeningAsync(
-    port:1234, 
-    communicationInterface:firstUsableInterface, 
+var observerUdpMulticast = await udpMulticast.CreateObservableMultiCastListener(
+    "239.255.255.250",
+    1900,
+    networkInterface,
     allowMultipleBindToSamePort: true);
 
+var subscriberUdpMilticast = observerUdpMulticast.Subscribe(
+    udpMsg =>
+    {
+        //Inset your code here
+    },
+    ex =>
+    {
+        //Inset your exception code here
+    },
+    () =>
+    {
+        //Insert your completion code here
+    });
 ```
+You can also add or drop multicast addresses on the Multicast listeren using: `MulticastAddMembership(string ipLan, string mcastAddress)` and `MulticastDropMembership(string ipLan, string mcastAddress)`
+

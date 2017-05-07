@@ -19,7 +19,7 @@ namespace ISocketLite.PCL.Interface
 
         Task<IObservable<ITcpSocketClient>> CreateObservableListener(
             int port,
-            ICommunicationInterface listenOn = null,
+            ICommunicationInterface communicationInterface = null,
             bool allowMultipleBindToSamePort = false);
 
         int LocalPort { get; }

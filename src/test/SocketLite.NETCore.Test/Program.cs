@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading;
 using SocketLite.Model;
 using SocketLite.Services;
@@ -25,24 +26,71 @@ namespace SocketLite.NETCore.Test
             var communicationInterface = new CommunicationsInterface();
             var allInterfaces = communicationInterface.GetAllInterfaces();
 
-            var firstUsableInterface = allInterfaces.FirstOrDefault(x => x.IpAddress == "192.168.0.36");
+            var networkInterface = allInterfaces.FirstOrDefault(x => x.IpAddress == "192.168.0.36");
 
-            //var tcpListener = new TcpSocketListener();
+            var tcpListener = new TcpSocketListener();
 
-            //await tcpListener.StartListeningAsync(8000, allowMultipleBindToSamePort:true);
+            var observerTcpListner = await tcpListener.CreateObservableListener(
+                port:8000, 
+                communicationInterface: networkInterface, 
+                allowMultipleBindToSamePort:true);
 
-            var udpMulti = new UdpSocketMulticastClient();
+            var subscriberTcpListener = observerTcpListner.Subscribe(
+                tcpClient =>
+                {
+                    //Insert your code here
+                },
+                ex =>
+                {
+                    // Insert your exception code here
+                },
+                () =>
+                {
+                    // Insert your completed code here
+                });
 
-            var obs = await udpMulti.CreateObservableMultiCastListener(
-                "239.255.255.250",
-                1900,
-                firstUsableInterface,
+            var udpReceiver = new UdpSocketReceiver();
+
+            var observerUdpReceiver = await udpReceiver.CreateObservableListener(
+                port: 8000,
+                communicationInterface: networkInterface,
                 allowMultipleBindToSamePort: true);
 
-            var subscription = obs.Subscribe(
-                msg =>
+            var subscriberUpdReceiver = observerUdpReceiver.Subscribe(
+                udpMsg =>
                 {
-                    Console.WriteLine(msg.ToString());
+                    //Inset your code here
+                },
+                ex =>
+                {
+                    //Inset your exception code here
+                },
+                () =>
+                {
+                    //Insert your completion code here
+                });
+
+
+            var udpMulticast = new UdpSocketMulticastClient();
+
+            var observerUdpMulticast = await udpMulticast.CreateObservableMultiCastListener(
+                "239.255.255.250",
+                1900,
+                networkInterface,
+                allowMultipleBindToSamePort: true);
+
+            var subscriberUdpMilticast = observerUdpMulticast.Subscribe(
+                udpMsg =>
+                {
+                    //Inset your code here
+                },
+                ex =>
+                {
+                    //Inset your exception code here
+                },
+                () =>
+                {
+                    //Insert your completion code here
                 });
 
             //await udpMulti.JoinMulticastGroupAsync(
