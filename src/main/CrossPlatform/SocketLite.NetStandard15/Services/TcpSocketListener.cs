@@ -22,6 +22,8 @@ namespace SocketLite.Services
     public class TcpSocketListener : TcpSocketBase, ITcpSocketListener
     {
         private readonly ISubject<ITcpSocketClient> _subjectTcpSocket = new Subject<ITcpSocketClient>();
+
+        [Obsolete("Deprecated, please use CreateObservableListener instead")]
         public IObservable<ITcpSocketClient> ObservableTcpSocket => _subjectTcpSocket.AsObservable();
 
         private IObservable<ITcpSocketClient> ObservableTcpSocketFromAsync => ObserveTcpClientFromAsync.Select(
@@ -33,10 +35,8 @@ namespace SocketLite.Services
             .Where(tcpClient => tcpClient != null);
 
         private IObservable<TcpClient> ObserveTcpClientFromAsync => Observable.While(
-            () => !_listenCanceller.IsCancellationRequested,
-            Observable.FromAsync(GetTcpClientAsync))
-            .ObserveOn(Scheduler.Default)
-            .Publish().RefCount();
+                () => !_listenCanceller.IsCancellationRequested,
+                Observable.FromAsync(GetTcpClientAsync));
 
         private TcpListener _tcpListener;
         private readonly CancellationTokenSource _listenCanceller = new CancellationTokenSource();
@@ -63,7 +63,73 @@ namespace SocketLite.Services
             return tcpClient;
         }
 
-        #pragma warning disable 1998
+        public async Task<IObservable<ITcpSocketClient>> CreateObservableListener(
+            int port,
+            ICommunicationInterface communicationInterface = null,
+            bool allowMultipleBindToSamePort = false)
+        {
+            CheckCommunicationInterface(communicationInterface);
+
+            var ipAddress = (communicationInterface as CommunicationsInterface)?.NativeIpAddress ?? IPAddress.Any;
+
+            //_tcpListener = new TcpListener(ipAddress, port);
+
+            try
+            {
+                _tcpListener = new TcpListener(ipAddress, port)
+                {
+                    ExclusiveAddressUse = !allowMultipleBindToSamePort
+                };
+
+            }
+            catch (SocketException)
+            {
+                _tcpListener = new TcpListener(ipAddress, port);
+                // Not all platforms need or accept the ExclusiveAddressUse option. Here we catch the exception if the platform does not need it.
+            }
+
+            try
+            {
+                _tcpListener.Start();
+            }
+            catch (PlatformSocketException ex)
+            {
+                throw new PclSocketException(ex);
+            }
+
+            var observable = Observable.Create<ITcpSocketClient>(
+                obs =>
+                {
+                    var disp = Observable.While(
+                        () => !_listenCanceller.IsCancellationRequested,
+                        Observable.FromAsync(GetTcpClientAsync))
+                        .Where(tcpClient => tcpClient != null)
+                        .Subscribe(
+                            tcpClient =>
+                            {
+                                var client = new TcpSocketClient(tcpClient, BufferSize);
+                                obs.OnNext(client);
+                            },
+                            ex =>
+                            {
+                                Cleanup();
+                                _listenCanceller.Cancel();
+                                obs.OnError(ex);
+                            },
+                            () =>
+                            {
+                                _listenCanceller.Cancel();
+                                Cleanup();
+                            });
+
+                    return disp;
+                });
+
+            return observable;
+        }
+
+        [Obsolete("Deprecated, please use CreateObservableListener instead")]
+#pragma warning disable 1998
         public async Task StartListeningAsync(
         #pragma warning restore 1998 
 
@@ -107,11 +173,29 @@ namespace SocketLite.Services
                 },
                 ex =>
                 {
+                    Cleanup();
                     _subjectTcpSocket.OnError(ex);
+                },
+                () =>
+                {
+                    Cleanup();
                 });
         }
 
+        [Obsolete("Deprecated, please use CreateObservableListener instead")]
         public void StopListening()
+        {
+            Cleanup();
+        }
+
+        public void Dispose()
+        {
+            _tcpClientSubscribe?.Dispose();
+            _tcpListener?.Stop();
+            _listenCanceller?.Cancel();
+        }
+
+        private void Cleanup()
         {
             _listenCanceller.Cancel();
             try
@@ -126,11 +210,6 @@ namespace SocketLite.Services
             _tcpListener = null;
         }
 
-        public void Dispose()
-        {
-            _tcpClientSubscribe?.Dispose();
-            _tcpListener?.Stop();
-            _listenCanceller?.Cancel();
-        }
+
     }
 }

@@ -1,16 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
-using System.Net.Sockets;
-using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
 using ISocketLite.PCL.EventArgs;
 using ISocketLite.PCL.Interface;
-using SocketLite.Model;
 using SocketLite.Services.Base;
-#if (NETSTANDARD1_5) //Not NetStandard
-using CommunicationInterface = SocketLite.Model.CommunicationsInterface;
-#endif
+//#if (NETSTANDARD1_5) //Not NetStandard
+//using CommunicationInterface = SocketLite.Model.CommunicationsInterface;
+//#endif
 using PlatformSocketException = System.Net.Sockets.SocketException;
 using PclSocketException = ISocketLite.PCL.Exceptions.SocketException;
 
@@ -24,16 +22,45 @@ namespace SocketLite.Services
 
         private string _multicastAddress;
         private int _multicastPort;
+        private CancellationTokenSource _cancellationTokenSource;
 
         public int TTL { get; set; } = 1;
 
         public int Port { get; private set; }
         public string IpAddress { get; private set; }
 
+
+        public async Task<IObservable<IUdpMessage>> CreateObservableMultiCastListener(
+            string multicastAddress,
+            int port,
+            ICommunicationInterface communicationsInterface = null,
+            bool allowMultipleBindToSamePort = false)
+        {
+            Port = port;
+            IpAddress = multicastAddress;
+
+            CheckCommunicationInterface(communicationsInterface);
+
+            InitializeUdpClient(
+                communicationsInterface,
+                port,
+                allowMultipleBindToSamePort,
+                isUdpMultiCast: true,
+                mcastAddress: multicastAddress);
+
+            _cancellationTokenSource = new CancellationTokenSource();
+
+            _multicastAddress = multicastAddress;
+            _multicastPort = port;
+
+            return CreateObservableMessageStream(_cancellationTokenSource);
+        }
+
+        [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
         public async Task JoinMulticastGroupAsync(
             string multicastAddress, 
             int port, 
-            ICommunicationInterface communicationsInterface = null, 
+            ICommunicationInterface communicationsInterface = null,
             bool allowMultipleBindToSamePort = false)
         {
             Port = port;
@@ -41,32 +68,30 @@ namespace SocketLite.Services
             
             CheckCommunicationInterface(communicationsInterface);
 
-            InitializeUdpClient(communicationsInterface, port, allowMultipleBindToSamePort);
+            InitializeUdpClient(
+                communicationsInterface, 
+                port, 
+                allowMultipleBindToSamePort, 
+                isUdpMultiCast:true,
+                mcastAddress:multicastAddress);
 
-            MessageConcellationTokenSource = new CancellationTokenSource();
-
-            var multicastIp = IPAddress.Parse(multicastAddress);
-            try
-            {
-                
-                BackingUdpClient.JoinMulticastGroup(multicastIp, TTL);
-            }
-            catch (Exception ex)
-            {
-                throw (NativeSocketExceptions.Contains(ex.GetType()))
-                        ? new PclSocketException(ex)
-                        : ex;
-            }
+            _cancellationTokenSource = new CancellationTokenSource();
 
             _multicastAddress = multicastAddress;
             _multicastPort = port;
 
-            await Task.Run(() => RunMessageReceiver(MessageConcellationTokenSource.Token)).ConfigureAwait(false);
+            await Task.Run(() => RunMessageReceiver(_cancellationTokenSource.Token)).ConfigureAwait(false);
         }
 
+        [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
         public void Disconnect()
         {
-            MessageConcellationTokenSource.Cancel();
+            Cleanup();
+        }
+
+        protected override void Cleanup()
+        {
+            _cancellationTokenSource.Cancel();
 
 #if (NETSTANDARD1_5)
             BackingUdpClient?.Dispose();
@@ -76,6 +101,7 @@ namespace SocketLite.Services
 
             _multicastAddress = null;
             _multicastPort = 0;
+            base.Cleanup();
         }
 
         public async Task SendMulticastAsync(byte[] data)

@@ -15,5 +15,10 @@ namespace SocketLite.Model
         {
             return ip.IPv4Mask;
         }
+
+        protected static IPAddress GetSubnetMaskIpV6(UnicastIPAddressInformation ip)
+        {
+            return ip.IPv4Mask;
+        }
     }
 }

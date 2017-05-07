@@ -34,7 +34,7 @@ namespace SocketLite.Services
 
         public void Disconnect()
         {
-            MessageConcellationTokenSource?.Cancel();
+            //MessageConcellationTokenSource?.Cancel();
             Dispose();
         }
 

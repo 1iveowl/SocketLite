@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using SocketLite.Extensions;
 
@@ -12,7 +7,7 @@ namespace SocketLite.Services.Base
 {
     public abstract class UdpSendBase : CommonSocketBase
     {
-        protected CancellationTokenSource MessageConcellationTokenSource;
+        //protected CancellationTokenSource messageCancellationTokenSource;
 
         protected UdpClient BackingUdpClient;
 
@@ -54,7 +49,5 @@ namespace SocketLite.Services.Base
                 .WrapNativeSocketExceptions()
                 .ConfigureAwait(false);
         }
-
-
     }
 }
