@@ -28,47 +28,47 @@ namespace SocketLite.NETCore.Test
 
             var networkInterface = allInterfaces.FirstOrDefault(x => x.IpAddress == "192.168.0.36");
 
-            var tcpListener = new TcpSocketListener();
+            //var tcpListener = new TcpSocketListener();
 
-            var observerTcpListner = await tcpListener.CreateObservableListener(
-                port:8000, 
-                communicationInterface: networkInterface, 
-                allowMultipleBindToSamePort:true);
+            //var observerTcpListner = await tcpListener.CreateObservableListener(
+            //    port:8000, 
+            //    communicationInterface: networkInterface, 
+            //    allowMultipleBindToSamePort:true);
 
-            var subscriberTcpListener = observerTcpListner.Subscribe(
-                tcpClient =>
-                {
-                    //Insert your code here
-                },
-                ex =>
-                {
-                    // Insert your exception code here
-                },
-                () =>
-                {
-                    // Insert your completed code here
-                });
+            //var subscriberTcpListener = observerTcpListner.Subscribe(
+            //    tcpClient =>
+            //    {
+            //        //Insert your code here
+            //    },
+            //    ex =>
+            //    {
+            //        // Insert your exception code here
+            //    },
+            //    () =>
+            //    {
+            //        // Insert your completed code here
+            //    });
 
-            var udpReceiver = new UdpSocketReceiver();
+            //var udpReceiver = new UdpSocketReceiver();
 
-            var observerUdpReceiver = await udpReceiver.CreateObservableListener(
-                port: 8000,
-                communicationInterface: networkInterface,
-                allowMultipleBindToSamePort: true);
+            //var observerUdpReceiver = await udpReceiver.CreateObservableListener(
+            //    port: 8000,
+            //    communicationInterface: networkInterface,
+            //    allowMultipleBindToSamePort: true);
 
-            var subscriberUpdReceiver = observerUdpReceiver.Subscribe(
-                udpMsg =>
-                {
-                    //Inset your code here
-                },
-                ex =>
-                {
-                    //Inset your exception code here
-                },
-                () =>
-                {
-                    //Insert your completion code here
-                });
+            //var subscriberUpdReceiver = observerUdpReceiver.Subscribe(
+            //    udpMsg =>
+            //    {
+            //        //Inset your code here
+            //    },
+            //    ex =>
+            //    {
+            //        //Inset your exception code here
+            //    },
+            //    () =>
+            //    {
+            //        //Insert your completion code here
+            //    });
 
 
             var udpMulticast = new UdpSocketMulticastClient();
@@ -82,7 +82,7 @@ namespace SocketLite.NETCore.Test
             var subscriberUdpMilticast = observerUdpMulticast.Subscribe(
                 udpMsg =>
                 {
-                    //Inset your code here
+                    System.Console.WriteLine($"Udp package received: {udpMsg.RemoteAddress}:{udpMsg.RemotePort}");
                 },
                 ex =>
                 {
