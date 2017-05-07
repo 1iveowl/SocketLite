@@ -14,6 +14,10 @@ namespace ISocketLite.PCL.Interface
         int Port { get; }
         string IpAddress { get; }
 
+        IEnumerable<string> MulticastMemberShips { get; }
+
+        bool IsMulticastInterfaceActive { get; }
+
         [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
         IObservable<IUdpMessage> ObservableMessages { get; }
 
@@ -28,6 +32,12 @@ namespace ISocketLite.PCL.Interface
             int port, ICommunicationInterface communicationInterface,
             bool allowMultipleBindToSamePort = false
         );
+
+        
+
+        void MulticastAddMembership(string ipLan, string mcastAddress);
+
+        void MulticastDropMembership(string ipLan, string mcastAddress);
 
         void Disconnect();
 

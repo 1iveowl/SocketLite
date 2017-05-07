@@ -1,16 +1,12 @@
 ﻿using System;
 using System.IO;
-using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
-using Windows.Networking;
 using Windows.Networking.Sockets;
-using Windows.UI.Xaml.Controls;
 using ISocketLite.PCL.EventArgs;
-using ISocketLite.PCL.Exceptions;
 using ISocketLite.PCL.Interface;
 using SocketLite.Model;
 

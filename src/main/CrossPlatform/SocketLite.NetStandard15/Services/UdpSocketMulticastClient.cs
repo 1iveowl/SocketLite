@@ -46,7 +46,7 @@ namespace SocketLite.Services
                 port,
                 allowMultipleBindToSamePort,
                 isUdpMultiCast: true,
-                mcastAddress: IPAddress.Parse(multicastAddress));
+                mcastAddress: multicastAddress);
 
             _cancellationTokenSource = new CancellationTokenSource();
 
@@ -55,22 +55,6 @@ namespace SocketLite.Services
 
             return CreateObservableMessageStream(_cancellationTokenSource);
         }
-
-
-        //[Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
-        //public async Task JoinMulticastGroupAsync(
-        //    string multicastAddress,
-        //    int port,
-        //    ICommunicationInterface communicationsInterface = null,
-        //    bool allowMultipleBindToSamePort = false)
-        //{
-        //    await JoinMulticastGroupAsync(
-        //        multicastAddress,
-        //        port,
-        //        communicationsInterface,
-        //        null,
-        //        allowMultipleBindToSamePort);
-        //}
 
         [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
         public async Task JoinMulticastGroupAsync(
@@ -89,7 +73,7 @@ namespace SocketLite.Services
                 port, 
                 allowMultipleBindToSamePort, 
                 isUdpMultiCast:true,
-                mcastAddress:IPAddress.Parse(multicastAddress));
+                mcastAddress:multicastAddress);
 
             _cancellationTokenSource = new CancellationTokenSource();
 
@@ -117,6 +101,7 @@ namespace SocketLite.Services
 
             _multicastAddress = null;
             _multicastPort = 0;
+            base.Cleanup();
         }
 
         public async Task SendMulticastAsync(byte[] data)

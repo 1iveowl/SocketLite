@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -18,6 +19,13 @@ namespace SocketLite.Services.Base
     {
         private CancellationTokenSource _cancellationTokenSource;
         private readonly ISubject<IUdpMessage> _messageSubject = new Subject<IUdpMessage>();
+        private bool _isMulticastInitialized = false;
+
+        private readonly IDictionary<string, bool> _multicastMemberships = new Dictionary<string, bool>();
+
+        public IEnumerable<string> MulticastMemberShips => _multicastMemberships.Where(m => m.Value.Equals(true)).Select(m => m.Key);
+
+        public bool IsMulticastInterfaceActive => _isMulticastInitialized;
 
         [Obsolete("Deprecated, please use CreateObservableListener instead")]
         public IObservable<IUdpMessage> ObservableMessages => _messageSubject.AsObservable();
@@ -65,7 +73,8 @@ namespace SocketLite.Services.Base
 
         protected virtual void Cleanup()
         {
-            
+            _multicastMemberships.Clear();
+            _isMulticastInitialized = false;
         }
 
         protected UdpSocketBase()
@@ -109,12 +118,42 @@ namespace SocketLite.Services.Base
                 : ex;
         }
 
+        private void SetMulticastInterface(IPAddress ipLan)
+        {
+            var nics = NetworkInterface.GetAllNetworkInterfaces();
+
+            var firstOrDefault = nics.FirstOrDefault(n => n.GetIPProperties().UnicastAddresses.FirstOrDefault(a => Equals(a.Address, ipLan)) != null);
+
+            if (firstOrDefault != null)
+            {
+                var nicIndex = firstOrDefault
+                    .GetIPProperties()
+                    .GetIPv4Properties()
+                    .Index;
+
+                var optionValue = IPAddress.HostToNetworkOrder(nicIndex);
+
+                try
+                {
+                    BackingUdpClient.Client.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastInterface, optionValue);
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+            else
+            {
+                throw new ArgumentException($"Unable to find network interface with the address: {ipLan}");
+            }
+        }
+
         protected IPEndPoint InitializeUdpClient(
             ICommunicationInterface communicationInterface, 
             int port, 
             bool allowMultipleBindToSamePort,
             bool isUdpMultiCast = false,
-            IPAddress mcastAddress = null)
+            string mcastAddress = null)
         {
             var ipAddress = (communicationInterface as CommunicationsInterface)?.NativeIpAddress ?? IPAddress.Any;
 
@@ -139,44 +178,11 @@ namespace SocketLite.Services.Base
 
             if (isUdpMultiCast)
             {
-                
-                var mcastOptionIpv4 = new MulticastOption(mcastAddress, ipLan);
+                _isMulticastInitialized = true;
 
-                BackingUdpClient.Client.SetSocketOption(
-                    SocketOptionLevel.IP,
-                    SocketOptionName.AddMembership,
-                    mcastOptionIpv4);
+                MulticastAddMembership(ipEndPoint.Address.ToString(), mcastAddress);
 
-                var nics = NetworkInterface.GetAllNetworkInterfaces();
-
-                var firstOrDefault = nics.FirstOrDefault(n => n.GetIPProperties().UnicastAddresses.FirstOrDefault(a => Equals(a.Address, ipLan)) != null);
-
-                if (firstOrDefault != null)
-                {
-                    var nicIndex = firstOrDefault
-                        .GetIPProperties()
-                        .GetIPv4Properties()
-                        .Index;
-
-                    var optionValue = IPAddress.HostToNetworkOrder(nicIndex);
-
-                    try
-                    {
-
-                        BackingUdpClient.Client.SetSocketOption(
-                            SocketOptionLevel.IP, SocketOptionName.MulticastInterface, optionValue);
-
-                    
-                    }
-                    catch (Exception e)
-                    {
-                        throw e;
-                    }
-                }
-                else
-                {
-                    throw new ArgumentException($"Unable to find network interface with the address: {ipLan}");
-                }
+                SetMulticastInterface(ipLan);
             }
 
             if (allowMultipleBindToSamePort)
@@ -204,7 +210,49 @@ namespace SocketLite.Services.Base
                 throw new SocketException(ex);
             }
 
+            
             return ipEndPoint;
+        }
+
+        public void MulticastAddMembership(string ipLan, string mcastAddress)
+        {
+            if (!_isMulticastInitialized) throw new ArgumentException("Multicast interface must be initialized before adding multicast memberships");
+
+            if (_multicastMemberships.ContainsKey(mcastAddress))
+            {
+                if (_multicastMemberships[mcastAddress].Equals(true))
+                {
+                    // The membership has already been added - do nothing
+                    return;
+                }
+            }
+
+            var mcastOptionIpv4 = new MulticastOption(IPAddress.Parse(mcastAddress), IPAddress.Parse(ipLan));
+
+            BackingUdpClient.Client.SetSocketOption(
+                SocketOptionLevel.IP,
+                SocketOptionName.AddMembership,
+                mcastOptionIpv4);
+
+            _multicastMemberships.Add(mcastAddress, true);
+        }
+
+        public void MulticastDropMembership(string ipLan, string mcastAddress)
+        {
+            if (!_isMulticastInitialized) throw new ArgumentException("Multicast interface must be initialized before dropping multicast memberships");
+
+            if (!_multicastMemberships.ContainsKey(mcastAddress)) return;
+
+            if (!_multicastMemberships[mcastAddress].Equals(true)) return;
+
+            var mcastOptionIpv4 = new MulticastOption(IPAddress.Parse(mcastAddress), IPAddress.Parse(ipLan));
+
+            BackingUdpClient.Client.SetSocketOption(
+                SocketOptionLevel.IP,
+                SocketOptionName.DropMembership,
+                mcastOptionIpv4);
+
+            _multicastMemberships[mcastAddress] = false;
         }
 
         public void Dispose()

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Subjects;
-using System.Text;
 using System.Threading.Tasks;
 using ISocketLite.PCL.EventArgs;
 using ISocketLite.PCL.Interface;
@@ -19,6 +16,8 @@ namespace SocketLite.Services
         public string IpAddress { get; }
 
         public IObservable<IUdpMessage> ObservableMessages { get; } = null;
+
+        public bool IsMulticastInterfaceActive => false;
 
         public IObservable<IUdpMessage> CreateObservableMultiCastListener(string multicastAddress, int port,
             ICommunicationInterface communicationInterface, bool allowMultipleBindToSamePort = false)
@@ -44,6 +43,18 @@ namespace SocketLite.Services
                 communicationInterface,
                 null,
                 allowMultipleBindToSamePort);
+        }
+
+        public IEnumerable<string> MulticastMemberShips { get; }
+
+        public void MulticastAddMembership(string ipLan, string mcastAddress)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MulticastDropMembership(string ipLan, string mcastAddress)
+        {
+            throw new NotImplementedException();
         }
 
         public Task JoinMulticastGroupAsync(
