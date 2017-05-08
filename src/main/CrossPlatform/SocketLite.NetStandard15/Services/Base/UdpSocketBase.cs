@@ -140,17 +140,20 @@ namespace SocketLite.Services.Base
 
         private IPEndPoint InitializeMulticast(IPEndPoint ipEndPoint, IPAddress ipLanIpAddress, string mcastAddress, bool allowMultipleBindToSamePort)
         {
-            BackingUdpClient = new UdpClient(ipEndPoint)
+            BackingUdpClient = new UdpClient()
+            //BackingUdpClient = new UdpClient(ipEndPoint) --> works
             {
                 EnableBroadcast = true,
                 //ExclusiveAddressUse = false,
-               };
+            };
 
-            //if (allowMultipleBindToSamePort) SetAllowMultipleBindToSamePort(ipLanIpAddress);
+            if (allowMultipleBindToSamePort) SetAllowMultipleBindToSamePort(ipLanIpAddress);
 
             _isMulticastInitialized = true;
 
             MulticastAddMembership(ipEndPoint.Address.ToString(), mcastAddress);
+
+            BackingUdpClient.Client.Connect(ipEndPoint);
 
             return ipEndPoint;
         }
@@ -210,7 +213,7 @@ namespace SocketLite.Services.Base
             }
 
              BackingUdpClient.JoinMulticastGroup(IPAddress.Parse(mcastAddress));
-
+            
             _multicastMemberships.Add(mcastAddress, true);
         }
 

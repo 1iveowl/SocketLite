@@ -49,28 +49,6 @@ namespace SocketLite.NETCore.Test
             //        // Insert your completed code here
             //    });
 
-            //var udpReceiver = new UdpSocketReceiver();
-
-            //var observerUdpReceiver = await udpReceiver.CreateObservableListener(
-            //    port: 8000,
-            //    communicationInterface: networkInterface,
-            //    allowMultipleBindToSamePort: true);
-
-            //var subscriberUpdReceiver = observerUdpReceiver.Subscribe(
-            //    udpMsg =>
-            //    {
-            //        //Inset your code here
-            //    },
-            //    ex =>
-            //    {
-            //        //Inset your exception code here
-            //    },
-            //    () =>
-            //    {
-            //        //Insert your completion code here
-            //    });
-
-
             var udpMulticast = new UdpSocketMulticastClient();
 
             var observerUdpMulticast = await udpMulticast.CreateObservableMultiCastListener(
@@ -92,6 +70,30 @@ namespace SocketLite.NETCore.Test
                 {
                     //Insert your completion code here
                 });
+
+            var udpReceiver = new UdpSocketReceiver();
+
+            var observerUdpReceiver = await udpReceiver.CreateObservableListener(
+                port: 1900,
+                communicationInterface: networkInterface,
+                allowMultipleBindToSamePort: true);
+
+            var subscriberUpdReceiver = observerUdpReceiver.Subscribe(
+                udpMsg =>
+                {
+                    //Inset your code here
+                },
+                ex =>
+                {
+                    //Inset your exception code here
+                },
+                () =>
+                {
+                    //Insert your completion code here
+                });
+
+
+
 
             //await udpMulti.JoinMulticastGroupAsync(
             //    "239.255.255.250", 
