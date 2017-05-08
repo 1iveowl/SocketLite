@@ -149,11 +149,17 @@ namespace SocketLite.Services.Base
 
             if (allowMultipleBindToSamePort) SetAllowMultipleBindToSamePort(ipLanIpAddress);
 
+            
+
             _isMulticastInitialized = true;
 
             MulticastAddMembership(ipEndPoint.Address.ToString(), mcastAddress);
 
             BackingUdpClient.Client.Connect(ipEndPoint);
+
+            //SetMulticastInterface(ipEndPoint.Address);
+
+            //BackingUdpClient.Client.Connect(ipEndPoint);
 
             return ipEndPoint;
         }
@@ -197,6 +203,36 @@ namespace SocketLite.Services.Base
                     ipLanAddress.GetAddressBytes());
             }
 
+        }
+
+        private void SetMulticastInterface(IPAddress ipLan)
+        {
+            var nics = NetworkInterface.GetAllNetworkInterfaces();
+
+            var firstOrDefault = nics.FirstOrDefault(n => n.GetIPProperties().UnicastAddresses.FirstOrDefault(a => Equals(a.Address, ipLan)) != null);
+
+            if (firstOrDefault != null)
+            {
+                var nicIndex = firstOrDefault
+                    .GetIPProperties()
+                    .GetIPv4Properties()
+                    .Index;
+
+                var optionValue = IPAddress.HostToNetworkOrder(nicIndex);
+
+                try
+                {
+                    BackingUdpClient.Client.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastInterface, optionValue);
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+            else
+            {
+                throw new ArgumentException($"Unable to find network interface with the address: {ipLan}");
+            }
         }
 
         public void MulticastAddMembership(string ipLan, string mcastAddress)
