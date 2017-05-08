@@ -102,7 +102,7 @@ namespace SocketLite.NETCore.Test
             //    allowMultipleBindToSamePort: true,
             //    mcastIpv6AddressList:ipv6MultiCastAddressList);
 
-            var udpListener = new UdpSocketReceiver();
+            //var udpListener = new UdpSocketReceiver();
 
             //await udpListener.StartListeningAsync(1900, communicationInterface: firstUsableInterface, allowMultipleBindToSamePort: true);
 
