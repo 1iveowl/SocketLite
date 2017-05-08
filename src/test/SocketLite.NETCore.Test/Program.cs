@@ -86,7 +86,7 @@ namespace SocketLite.NETCore.Test
                 },
                 ex =>
                 {
-                    //Inset your exception code here
+                    //Insert your exception code here
                 },
                 () =>
                 {
