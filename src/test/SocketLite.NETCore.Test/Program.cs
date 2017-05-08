@@ -71,26 +71,26 @@ namespace SocketLite.NETCore.Test
                     //Insert your completion code here
                 });
 
-            var udpReceiver = new UdpSocketReceiver();
+            //var udpReceiver = new UdpSocketReceiver();
 
-            var observerUdpReceiver = await udpReceiver.CreateObservableListener(
-                port: 1900,
-                communicationInterface: networkInterface,
-                allowMultipleBindToSamePort: true);
+            //var observerUdpReceiver = await udpReceiver.CreateObservableListener(
+            //    port: 1900,
+            //    communicationInterface: networkInterface,
+            //    allowMultipleBindToSamePort: true);
 
-            var subscriberUpdReceiver = observerUdpReceiver.Subscribe(
-                udpMsg =>
-                {
-                    //Inset your code here
-                },
-                ex =>
-                {
-                    //Inset your exception code here
-                },
-                () =>
-                {
-                    //Insert your completion code here
-                });
+            //var subscriberUpdReceiver = observerUdpReceiver.Subscribe(
+            //    udpMsg =>
+            //    {
+            //        //Inset your code here
+            //    },
+            //    ex =>
+            //    {
+            //        //Inset your exception code here
+            //    },
+            //    () =>
+            //    {
+            //        //Insert your completion code here
+            //    });
 
 
 
