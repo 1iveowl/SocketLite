@@ -35,7 +35,7 @@ namespace ISocketLite.PCL.Interface
 
         IEnumerable<string> MulticastMemberShips { get; }
 
-        bool IsMulticastInterfaceActive { get; }
+        bool IsMulticastActive { get; }
 
         void MulticastAddMembership(string ipLan, string mcastAddress);
 

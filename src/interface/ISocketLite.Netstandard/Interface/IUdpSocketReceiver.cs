@@ -22,12 +22,18 @@ namespace ISocketLite.PCL.Interface
 
         int Port { get; }
         
-        bool IsUnicastInterfaceActive { get; }
-        
+        bool IsUnicastActive { get; }
+
+        bool IsMulticastActive { get; }
+
         Task<IObservable<IUdpMessage>> ObservableUnicastListener(
             int port = 0,
             ICommunicationInterface communicationInterface = null,
             bool allowMultipleBindToSamePort = false);
+
+        void MulticastAddMembership(string ipLan, string mcastAddress);
+
+        void MulticastDropMembership(string ipLan, string mcastAddress);
 
         void StopListening();
 

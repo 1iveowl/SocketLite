@@ -25,7 +25,7 @@ namespace SocketLite.Services
         {
             CheckCommunicationInterface(communicationInterface);
 
-            _ipEndPoint = UnicastInitialize(communicationInterface, port, allowMultipleBindToSamePort);
+            _ipEndPoint = UdpClientInitialize(communicationInterface, port, allowMultipleBindToSamePort);
 
             _cancellationTokenSource = new CancellationTokenSource();
 
@@ -52,7 +52,7 @@ namespace SocketLite.Services
         {
             CheckCommunicationInterface(communicationInterface);
 
-            _ipEndPoint = UnicastInitialize(
+            _ipEndPoint = UdpClientInitialize(
                 communicationInterface, 
                 port, 
                 allowMultipleBindToSamePort,

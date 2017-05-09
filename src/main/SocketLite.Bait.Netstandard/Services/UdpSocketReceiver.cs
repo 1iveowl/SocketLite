@@ -14,7 +14,9 @@ namespace SocketLite.Services
     public class UdpSocketReceiver : UdpSocketBase, IUdpSocketReceiver
     {
         public int Port { get; }
-        public bool IsUnicastInterfaceActive { get; } = false;
+        public bool IsUnicastActive { get; } = false;
+
+        public bool IsMulticastActive { get; } = false;
 
         public IObservable<IUdpMessage> ObservableMessages { get; } = null;
 
@@ -32,6 +34,11 @@ namespace SocketLite.Services
             throw new NotImplementedException(BaitNoSwitch);
         }
 
+        public void MulticastDropMembership(string ipLan, string mcastAddress)
+        {
+            throw new NotImplementedException();
+        }
+
         public void StopListening()
         {
             throw new NotImplementedException(BaitNoSwitch);
@@ -43,6 +50,11 @@ namespace SocketLite.Services
         }
 
         Task<IObservable<IUdpMessage>> IUdpSocketReceiver.ObservableUnicastListener(int port, ICommunicationInterface communicationInterface, bool allowMultipleBindToSamePort)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MulticastAddMembership(string ipLan, string mcastAddress)
         {
             throw new NotImplementedException();
         }

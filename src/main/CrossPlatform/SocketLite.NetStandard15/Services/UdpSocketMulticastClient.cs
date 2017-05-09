@@ -26,12 +26,9 @@ namespace SocketLite.Services
             ICommunicationInterface communicationsInterface = null,
             bool allowMultipleBindToSamePort = false)
         {
-            Port = port;
-            IpAddress = multicastAddress;
-
             CheckCommunicationInterface(communicationsInterface);
 
-            UnicastInitialize(
+            _ipEndPoint = UdpClientInitialize(
                 communicationsInterface,
                 port,
                 allowMultipleBindToSamePort,
@@ -54,6 +51,8 @@ namespace SocketLite.Services
 
         #endregion
 
+        private IPEndPoint _ipEndPoint;
+
         public UdpSocketMulticastClient()
         {
         }
@@ -64,8 +63,8 @@ namespace SocketLite.Services
 
         public int TTL { get; set; } = 1;
 
-        public int Port { get; private set; }
-        public string IpAddress { get; private set; }
+        public int Port => _ipEndPoint.Port;
+        public string IpAddress => _ipEndPoint.Address.ToString();
 
 
         public async Task<IObservable<IUdpMessage>> ObservableMulticastListener(
@@ -74,12 +73,9 @@ namespace SocketLite.Services
             ICommunicationInterface communicationsInterface = null,
             bool allowMultipleBindToSamePort = false)
         {
-            Port = port;
-            IpAddress = multicastAddress;
-
             CheckCommunicationInterface(communicationsInterface);
 
-            UnicastInitialize(
+            _ipEndPoint = UdpClientInitialize(
                 communicationsInterface,
                 port,
                 allowMultipleBindToSamePort,

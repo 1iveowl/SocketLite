@@ -57,7 +57,7 @@ namespace SocketLite.Services
 
         public string IpAddress { get; private set; }
 
-        public bool IsMulticastInterfaceActive => _isMulticastInitialized;
+        public bool IsMulticastActive => _isMulticastInitialized;
 
         public IEnumerable<string> MulticastMemberShips => _multicastMemberships.Where(m => m.Value.Equals(true)).Select(m => m.Key);
 

@@ -70,6 +70,9 @@
     <Compile Include="..\SocketLite.NetStandard15\Extensions\NativeExceptionExtensions.cs">
       <Link>Extensions\NativeExceptionExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\SocketLite.NetStandard15\Model\UdpClientManager.cs">
+      <Link>Model\UdpClientManager.cs</Link>
+    </Compile>
     <Compile Include="..\SocketLite.NetStandard15\Model\UdpMessage.cs">
       <Link>Model\UdpMessage.cs</Link>
     </Compile>
@@ -102,7 +105,6 @@
     </Compile>
     <Compile Include="Extensions\AndroidNetworkExtensions.cs" />
     <Compile Include="Model\Partial\CommunicationInterface.Native.Partial.cs" />
-    <Compile Include="Model\State.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
