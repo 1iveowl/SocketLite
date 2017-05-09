@@ -141,7 +141,8 @@ namespace SocketLite.Services.Base
         private IPEndPoint InitializeMulticast(IPEndPoint ipEndPoint, IPAddress ipLanIpAddress, string mcastAddress, bool allowMultipleBindToSamePort)
         {
             //BackingUdpClient = new UdpClient()
-            BackingUdpClient = new UdpClient(ipEndPoint) // --> works
+            //BackingUdpClient = new UdpClient(ipEndPoint) // --> works
+            BackingUdpClient = new UdpClient(ipEndPoint)
             {
                 EnableBroadcast = true,
                 //ExclusiveAddressUse = false,
@@ -152,6 +153,8 @@ namespace SocketLite.Services.Base
             
 
             _isMulticastInitialized = true;
+
+            SetMulticastInterface(ipEndPoint.Address);
 
             MulticastAddMembership(ipEndPoint.Address.ToString(), mcastAddress);
 
@@ -227,6 +230,8 @@ namespace SocketLite.Services.Base
                 try
                 {
                     BackingUdpClient.Client.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastInterface, optionValue);
+                    BackingUdpClient.Client.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastLoopback, true);
+                    //BackingUdpClient.Client.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastTimeToLive, 400);
                 }
                 catch (Exception e)
                 {
@@ -261,7 +266,7 @@ namespace SocketLite.Services.Base
 
             //var mcastOptionIpv4 = new MulticastOption(ipAddress, SetMulticastInterface(ipAddress));
 
-            BackingUdpClient.JoinMulticastGroup(mcastAddress);
+            BackingUdpClient.JoinMulticastGroup(mcastAddress, 10);
             
             _multicastMemberships.Add(mcastAddress.ToString(), true);
         }
