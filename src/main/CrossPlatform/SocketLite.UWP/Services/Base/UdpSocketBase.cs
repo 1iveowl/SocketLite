@@ -14,22 +14,20 @@ namespace SocketLite.Services.Base
 {
     public abstract class UdpSocketBase : UdpSendBase
     {
-        protected bool _isUnicastInitialized = false;
+        #region Obsolete
 
         // Using a subject to keep ensure that a connection can be closed and reopened while keeping subscribing part intact
         private readonly ISubject<IUdpMessage> _messageSubjekt = new Subject<IUdpMessage>();
-
-        private IDisposable _messageSubscribe;
 
         [Obsolete("Deprecated, please use CreateObservableListener instead")]
         public IObservable<IUdpMessage> ObservableMessages => _messageSubjekt.AsObservable();
 
         private IObservable<IUdpMessage> ObserveMessagesFromEvents
             => Observable.FromEventPattern<
-                TypedEventHandler<DatagramSocket, DatagramSocketMessageReceivedEventArgs>,
-                DatagramSocketMessageReceivedEventArgs>(
-                ev => DatagramSocket.MessageReceived += ev,
-                ev => DatagramSocket.MessageReceived -= ev)
+                    TypedEventHandler<DatagramSocket, DatagramSocketMessageReceivedEventArgs>,
+                    DatagramSocketMessageReceivedEventArgs>(
+                    ev => DatagramSocket.MessageReceived += ev,
+                    ev => DatagramSocket.MessageReceived -= ev)
                 .Select(
                     handler =>
                     {
@@ -51,6 +49,12 @@ namespace SocketLite.Services.Base
                             RemotePort = remotePort
                         };
                     });
+
+        #endregion
+
+        protected bool _isUnicastInitialized = false;
+
+        private IDisposable _messageSubscribe;
 
         protected IObservable<IUdpMessage> CreateObservableMessageStream(CancellationTokenSource cancelToken)
         {

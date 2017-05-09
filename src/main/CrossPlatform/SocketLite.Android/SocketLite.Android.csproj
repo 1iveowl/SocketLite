@@ -102,6 +102,7 @@
     </Compile>
     <Compile Include="Extensions\AndroidNetworkExtensions.cs" />
     <Compile Include="Model\Partial\CommunicationInterface.Native.Partial.cs" />
+    <Compile Include="Model\State.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

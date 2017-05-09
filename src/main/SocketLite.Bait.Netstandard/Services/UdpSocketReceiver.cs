@@ -42,7 +42,7 @@ namespace SocketLite.Services
             throw new NotImplementedException(BaitNoSwitch);
         }
 
-        Task<IObservable<IUdpMessage>> IUdpSocketReceiver.CreateObservableListener(int port, ICommunicationInterface communicationInterface, bool allowMultipleBindToSamePort)
+        Task<IObservable<IUdpMessage>> IUdpSocketReceiver.ObservableUnicastListener(int port, ICommunicationInterface communicationInterface, bool allowMultipleBindToSamePort)
         {
             throw new NotImplementedException();
         }

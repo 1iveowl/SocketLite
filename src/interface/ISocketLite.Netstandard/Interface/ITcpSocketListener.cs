@@ -5,6 +5,8 @@ namespace ISocketLite.PCL.Interface
 {
     public interface ITcpSocketListener : IDisposable
     {
+        #region Obsolete
+
         [Obsolete("Deprecated, please use CreateObservableListener instead")]
         IObservable<ITcpSocketClient> ObservableTcpSocket { get; }
 
@@ -16,6 +18,8 @@ namespace ISocketLite.PCL.Interface
 
         [Obsolete("Deprecated, please use CreateObservableListener instead")]
         void StopListening();
+
+        #endregion
 
         Task<IObservable<ITcpSocketClient>> CreateObservableListener(
             int port,

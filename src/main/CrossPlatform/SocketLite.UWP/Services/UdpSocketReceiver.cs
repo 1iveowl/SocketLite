@@ -13,7 +13,7 @@ namespace SocketLite.Services
         public int Port { get; private set; }
         public bool IsUnicastInterfaceActive => _isUnicastInitialized;
 
-        public async Task<IObservable<IUdpMessage>> CreateObservableListener(
+        public async Task<IObservable<IUdpMessage>> ObservableUnicastListener(
             int port = 0, 
             ICommunicationInterface communicationInterface = null,
             bool allowMultipleBindToSamePort = false)

@@ -16,6 +16,44 @@ namespace SocketLite.Services
 {
     public class UdpSocketMulticastClient : UdpSocketBase, IUdpSocketMulticastClient
     {
+
+        #region Obsolete
+
+        [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
+        public async Task JoinMulticastGroupAsync(
+            string multicastAddress,
+            int port,
+            ICommunicationInterface communicationsInterface = null,
+            bool allowMultipleBindToSamePort = false)
+        {
+            Port = port;
+            IpAddress = multicastAddress;
+
+            CheckCommunicationInterface(communicationsInterface);
+
+            UnicastInitialize(
+                communicationsInterface,
+                port,
+                allowMultipleBindToSamePort,
+                isUdpMultiCast: true,
+                mcastAddress: multicastAddress);
+
+            _cancellationTokenSource = new CancellationTokenSource();
+
+            _multicastAddress = multicastAddress;
+            _multicastPort = port;
+
+            await Task.Run(() => RunMessageReceiver(_cancellationTokenSource.Token)).ConfigureAwait(false);
+        }
+
+        [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
+        public void Disconnect()
+        {
+            Cleanup();
+        }
+
+        #endregion
+
         public UdpSocketMulticastClient()
         {
         }
@@ -30,7 +68,7 @@ namespace SocketLite.Services
         public string IpAddress { get; private set; }
 
 
-        public async Task<IObservable<IUdpMessage>> CreateObservableMultiCastListener(
+        public async Task<IObservable<IUdpMessage>> ObservableMulticastListener(
             string multicastAddress,
             int port,
             ICommunicationInterface communicationsInterface = null,
@@ -41,7 +79,7 @@ namespace SocketLite.Services
 
             CheckCommunicationInterface(communicationsInterface);
 
-            InitializeUdpClient(
+            UnicastInitialize(
                 communicationsInterface,
                 port,
                 allowMultipleBindToSamePort,
@@ -54,39 +92,6 @@ namespace SocketLite.Services
             _multicastPort = port;
 
             return CreateObservableMessageStream(_cancellationTokenSource);
-        }
-
-        [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
-        public async Task JoinMulticastGroupAsync(
-            string multicastAddress, 
-            int port, 
-            ICommunicationInterface communicationsInterface = null,
-            bool allowMultipleBindToSamePort = false)
-        {
-            Port = port;
-            IpAddress = multicastAddress;
-            
-            CheckCommunicationInterface(communicationsInterface);
-
-            InitializeUdpClient(
-                communicationsInterface, 
-                port, 
-                allowMultipleBindToSamePort, 
-                isUdpMultiCast:true,
-                mcastAddress:multicastAddress);
-
-            _cancellationTokenSource = new CancellationTokenSource();
-
-            _multicastAddress = multicastAddress;
-            _multicastPort = port;
-
-            await Task.Run(() => RunMessageReceiver(_cancellationTokenSource.Token)).ConfigureAwait(false);
-        }
-
-        [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
-        public void Disconnect()
-        {
-            Cleanup();
         }
 
         protected override void Cleanup()
