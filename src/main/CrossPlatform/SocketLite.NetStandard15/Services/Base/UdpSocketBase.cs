@@ -154,7 +154,7 @@ namespace SocketLite.Services.Base
 
             _isMulticastInitialized = true;
 
-            SetMulticastInterface(ipEndPoint.Address);
+            //SetMulticastInterface(ipEndPoint.Address);
 
             MulticastAddMembership(ipEndPoint.Address.ToString(), mcastAddress);
 
@@ -248,7 +248,7 @@ namespace SocketLite.Services.Base
 
         public void MulticastAddMembership(string ipLan, string mcastAddress)
         {
-            
+            MulticastAddMembership(IPAddress.Parse(ipLan), IPAddress.Parse(mcastAddress));
         }
 
         public void MulticastAddMembership(IPAddress ipAddress, IPAddress mcastAddress)
