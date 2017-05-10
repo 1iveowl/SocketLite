@@ -202,11 +202,11 @@ namespace SocketLite.Services.Base
         {
 
             IsUnicastActive = true;
-            BackingUdpClient = new UdpClient();
+            BackingUdpClient = new UdpClient(ipEndPoint.Port, AddressFamily.InterNetwork);
 
             if (allowMultipleBindToSamePort) SetAllowMultipleBindToSamePort(ipLanIpAddress);
 
-            BackingUdpClient.Client.Bind(ipEndPoint);
+            //BackingUdpClient.Client.Bind(ipEndPoint);
 
         }
 

@@ -72,27 +72,27 @@ namespace SocketLite.NETCore.Test
 
             udpReceiver.MulticastAddMembership("192.168.0.36", "239.255.255.250");
 
-            var udpMulticast = new UdpSocketMulticastClient();
+            //var udpMulticast = new UdpSocketMulticastClient();
 
-            var observerUdpMulticast = await udpMulticast.ObservableMulticastListener(
-                "239.255.255.251",
-                1900,
-                networkInterface,
-                allowMultipleBindToSamePort: true);
+            //var observerUdpMulticast = await udpMulticast.ObservableMulticastListener(
+            //    "239.255.255.251",
+            //    1900,
+            //    networkInterface,
+            //    allowMultipleBindToSamePort: true);
 
-            var subscriberUdpMilticast = observerUdpMulticast.Subscribe(
-                udpMsg =>
-                {
-                    System.Console.WriteLine($"Udp package received: {udpMsg.RemoteAddress}:{udpMsg.RemotePort}");
-                },
-                ex =>
-                {
-                    //Insert your exception code here
-                },
-                () =>
-                {
-                    //Insert your completion code here
-                });
+            //var subscriberUdpMilticast = observerUdpMulticast.Subscribe(
+            //    udpMsg =>
+            //    {
+            //        System.Console.WriteLine($"Udp package received: {udpMsg.RemoteAddress}:{udpMsg.RemotePort}");
+            //    },
+            //    ex =>
+            //    {
+            //        //Insert your exception code here
+            //    },
+            //    () =>
+            //    {
+            //        //Insert your completion code here
+            //    });
 
             //await udpMulti.JoinMulticastGroupAsync(
             //    "239.255.255.250", 
