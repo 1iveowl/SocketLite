@@ -170,7 +170,7 @@ namespace SocketLite.Services.Base
 
                 if (allowMultipleBindToSamePort) SetAllowMultipleBindToSamePort(ipLanIpAddress);
 
-                SetMulticastInterface(ipEndPoint.Address);
+                //SetMulticastInterface(ipEndPoint.Address);
 
                 BackingUdpClient.Client.Bind(ipEndPoint);
 
