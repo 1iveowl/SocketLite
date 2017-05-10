@@ -162,12 +162,14 @@ namespace SocketLite.Services.Base
         {
             try
             {
-                BackingUdpClient = new UdpClient(ipEndPoint.Port, AddressFamily.InterNetwork)
+                BackingUdpClient = new UdpClient()
                 {
                     EnableBroadcast = true,
                 };
 
                 if (allowMultipleBindToSamePort) SetAllowMultipleBindToSamePort(ipLanIpAddress);
+
+                BackingUdpClient.Client.Bind(ipEndPoint);
 
                 IsMulticastActive = true;
 
@@ -197,9 +199,11 @@ namespace SocketLite.Services.Base
         {
 
             IsUnicastActive = true;
-            BackingUdpClient = new UdpClient(ipEndPoint.Port, AddressFamily.InterNetwork);
+            BackingUdpClient = new UdpClient();
 
             if (allowMultipleBindToSamePort) SetAllowMultipleBindToSamePort(ipLanIpAddress);
+
+            BackingUdpClient.Client.Bind(ipEndPoint);
 
         }
 
