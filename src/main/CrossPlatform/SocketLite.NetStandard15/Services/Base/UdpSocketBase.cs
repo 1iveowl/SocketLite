@@ -127,7 +127,7 @@ namespace SocketLite.Services.Base
         protected IPEndPoint UdpClientInitialize(
             ICommunicationInterface communicationInterface, 
             int port, 
-            bool allowMultipleBindToSamePort,
+            bool allowMultipleBindToSamePort = false,
             bool isUdpMultiCast = false,
             IPAddress mcastAddress = null)
         {
@@ -147,7 +147,7 @@ namespace SocketLite.Services.Base
             }
             else
             {
-                if (allowMultipleBindToSamePort) throw new ArgumentException("Allow Multiple Bind To Same Port only allowed on Windows");
+                if (allowMultipleBindToSamePort) throw new ArgumentException("The paramenter allowMultipleBindToSamePort is only available on Windows");
                 UdpLinuxOrMacClient(ipLanAddress, ipEndPoint, mcastAddress, allowMultipleBindToSamePort, isUdpMultiCast);
             }
 
@@ -211,7 +211,7 @@ namespace SocketLite.Services.Base
             IsUnicastActive = true;
             BackingUdpClient = new UdpClient(ipEndPoint.Port, AddressFamily.InterNetwork);
 
-            if (allowMultipleBindToSamePort) SetAllowMultipleBindToSamePort(ipLanIpAddress);
+            //if (allowMultipleBindToSamePort) SetAllowMultipleBindToSamePort(ipLanIpAddress);
         }
 
         private void MulticastInitializer(IPEndPoint ipEndPoint, IPAddress ipLanIpAddress, IPAddress mcastAddress)
