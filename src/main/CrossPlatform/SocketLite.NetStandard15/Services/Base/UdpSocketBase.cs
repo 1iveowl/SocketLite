@@ -233,8 +233,6 @@ namespace SocketLite.Services.Base
                 }
             }
 
-            ConvertUnicastToMulticast(ipAddress);
-
             BackingUdpClient.JoinMulticastGroup(mcastAddress, ipAddress);
             
             _multicastMemberships.Add(mcastAddress.ToString(), true);
