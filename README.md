@@ -170,25 +170,26 @@ private async Task WriteQueuedStreamAsync(ITcpSocketClient tcpSocketClient, byte
     
 ##### A UDP Receiver
 ```csharp
-var udpReceived = new UdpSocketReceiver();
-await udpReceived.StartListeningAsync(1234, allowMultipleBindToSamePort: true);
+var udpReceiver = new UdpSocketReceiver();
 
-var udpMessageSubscriber = udpReceived.ObservableMessages.Subscribe(
-    msg =>
+var observerUdpReceiver = await udpReceiver.ObservableUnicastListener(
+    port: 1900,
+    communicationInterface: networkInterface,
+    allowMultipleBindToSamePort: true);
+
+var subscriberUpdReceiver = observerUdpReceiver.Subscribe(
+    udpMsg =>
     {
-        System.Console.WriteLine($"Remote adrres: {msg.RemoteAddress}");
-        System.Console.WriteLine($"Remote port: {msg.RemotePort}");
-
-        var str = System.Text.Encoding.UTF8.GetString(msg.ByteData);
-        System.Console.WriteLine($"Messsage: {str}");
+        System.Console.WriteLine($"Udp package received: {udpMsg.RemoteAddress}:{udpMsg.RemotePort}");
     },
     ex =>
     {
-        // Exceptions received here;
+        //Inset your exception code here
+    },
+    () =>
+    {
+        //Insert your completion code here
     });
-
-// When done dispose
-//udpMessageSubscriber.Dispose();
 ```
 
 ##### A UDP Client
@@ -226,7 +227,7 @@ await udpMulticast.JoinMulticastGroupAsync("239.255.255.250", 1900, allowMultipl
 // Listen part
 var udpMulticast = new UdpSocketMulticastClient();
 
-var observerUdpMulticast = await udpMulticast.CreateObservableMultiCastListener(
+var observerUdpMulticast = await udpMulticast.ObservableMulticastListener(
     "239.255.255.250",
     1900,
     networkInterface,
@@ -235,11 +236,11 @@ var observerUdpMulticast = await udpMulticast.CreateObservableMultiCastListener(
 var subscriberUdpMilticast = observerUdpMulticast.Subscribe(
     udpMsg =>
     {
-        //Inset your code here
+        System.Console.WriteLine($"Udp package received: {udpMsg.RemoteAddress}:{udpMsg.RemotePort}");
     },
     ex =>
     {
-        //Inset your exception code here
+        //Insert your exception code here
     },
     () =>
     {
@@ -247,4 +248,6 @@ var subscriberUdpMilticast = observerUdpMulticast.Subscribe(
     });
 ```
 You can also add or drop multicast addresses on the Multicast listeren using: `MulticastAddMembership(string ipLan, string mcastAddress)` and `MulticastDropMembership(string ipLan, string mcastAddress)`
+
+Note: A UDP Multicast Client also listen to any other UDP send directly to the specified port. So if you need a UDP Client and a UDP Multicast Listener on the same port, all you need to do is to create one UDP Multicast Listener.
 
