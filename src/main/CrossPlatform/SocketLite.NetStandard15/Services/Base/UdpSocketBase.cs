@@ -147,6 +147,7 @@ namespace SocketLite.Services.Base
             }
             else
             {
+                if (allowMultipleBindToSamePort) throw new ArgumentException("Allow Multiple Bind To Same Port only allowed on Windows");
                 UdpLinuxOrMacClient(ipLanAddress, ipEndPoint, mcastAddress, allowMultipleBindToSamePort, isUdpMultiCast);
             }
 
