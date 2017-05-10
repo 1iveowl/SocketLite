@@ -163,7 +163,7 @@ namespace SocketLite.Services.Base
         {
             try
             {
-                BackingUdpClient = new UdpClient(ipEndPoint)
+                BackingUdpClient = new UdpClient(ipEndPoint.Port, AddressFamily.InterNetwork)
                 {
                     EnableBroadcast = true,
                 };
