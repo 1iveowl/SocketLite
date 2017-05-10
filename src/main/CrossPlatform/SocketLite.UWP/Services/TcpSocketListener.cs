@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Networking.Sockets;
@@ -14,14 +12,62 @@ namespace SocketLite.Services
 {
     public class TcpSocketListener : TcpSocketBase, ITcpSocketListener
     {
-        private StreamSocketListener _streamSocketListener;
-        
-        private IDisposable _subscription;
+
+        #region Obsolete
 
         private readonly ISubject<ITcpSocketClient> _subjectTcpSocket = new Subject<ITcpSocketClient>();
 
         [Obsolete("Deprecated, please use CreateObservableListener instead")]
         public IObservable<ITcpSocketClient> ObservableTcpSocket => _subjectTcpSocket.AsObservable();
+
+        [Obsolete("Deprecated, please use CreateObservableListener instead")]
+        public async Task StartListeningAsync(
+            int port,
+            ICommunicationInterface communicationInterface = null,
+            bool allowMultipleBindToSamePort = false)
+        {
+            //Throws and exception if the communication interface is not ready og valid.
+            CheckCommunicationInterface(communicationInterface);
+
+            _streamSocketListener = new StreamSocketListener();
+
+            _subscription = ObservableTcpSocketConnectionsFromEvents.Subscribe(
+                client =>
+                {
+                    _subjectTcpSocket.OnNext(client);
+                },
+                ex =>
+                {
+                    _subjectTcpSocket.OnError(ex);
+                });
+
+            var localServiceName = port == 0 ? "" : port.ToString();
+
+            var adapter = (communicationInterface as CommunicationsInterface)?.NativeNetworkAdapter;
+
+            if (adapter != null)
+            {
+                await _streamSocketListener.BindServiceNameAsync(
+                    localServiceName, SocketProtectionLevel.PlainSocket,
+                    adapter);
+            }
+            else
+            {
+                await _streamSocketListener.BindServiceNameAsync(localServiceName);
+            }
+        }
+
+        [Obsolete("Deprecated, please use CreateObservableListener instead")]
+        public void StopListening()
+        {
+            Cleanup();
+        }
+
+        #endregion
+
+        private StreamSocketListener _streamSocketListener;
+        
+        private IDisposable _subscription;
 
         private IObservable<ITcpSocketClient> ObservableTcpSocketConnectionsFromEvents =>
             Observable.FromEventPattern<
@@ -91,49 +137,6 @@ namespace SocketLite.Services
 
         public TcpSocketListener() : base(bufferSize:0)
         {
-        }
-
-        [Obsolete("Deprecated, please use CreateObservableListener instead")]
-        public async Task StartListeningAsync(
-            int port, 
-            ICommunicationInterface communicationInterface = null,
-            bool allowMultipleBindToSamePort = false)
-        {
-            //Throws and exception if the communication interface is not ready og valid.
-            CheckCommunicationInterface(communicationInterface);
-
-            _streamSocketListener = new StreamSocketListener();
-
-            _subscription = ObservableTcpSocketConnectionsFromEvents.Subscribe(
-                client =>
-                {
-                    _subjectTcpSocket.OnNext(client);
-                },
-                ex =>
-                {
-                    _subjectTcpSocket.OnError(ex);
-                });
-
-            var localServiceName = port == 0 ? "" : port.ToString();
-
-            var adapter = (communicationInterface as CommunicationsInterface)?.NativeNetworkAdapter;
-
-            if (adapter != null)
-            {
-                await _streamSocketListener.BindServiceNameAsync(
-                    localServiceName, SocketProtectionLevel.PlainSocket,
-                    adapter);
-            }
-            else
-            {
-                await _streamSocketListener.BindServiceNameAsync(localServiceName);
-            }
-        }
-
-        [Obsolete("Deprecated, please use CreateObservableListener instead")]
-        public void StopListening()
-        {
-           Cleanup();
         }
 
         public void Dispose()

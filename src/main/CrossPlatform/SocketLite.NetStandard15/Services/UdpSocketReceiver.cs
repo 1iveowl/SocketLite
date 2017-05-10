@@ -14,33 +14,18 @@ namespace SocketLite.Services
 {
     public class UdpSocketReceiver : UdpSocketBase, IUdpSocketReceiver
     {
-        private IPEndPoint _ipEndPoint;
-        private CancellationTokenSource _cancellationTokenSource;
-        public int Port => _ipEndPoint.Port;
 
-        public async Task<IObservable<IUdpMessage>> CreateObservableListener(
+        #region Obsolete
+
+        [Obsolete("Deprecated, please use CreateObservableListener instead")]
+        public async Task StartListeningAsync(
             int port = 0,
             ICommunicationInterface communicationInterface = null,
             bool allowMultipleBindToSamePort = false)
         {
             CheckCommunicationInterface(communicationInterface);
 
-            _ipEndPoint = InitializeUdpClient(communicationInterface, port, allowMultipleBindToSamePort);
-
-            _cancellationTokenSource = new CancellationTokenSource();
-
-            return CreateObservableMessageStream(_cancellationTokenSource);
-        }
-
-        [Obsolete("Deprecated, please use CreateObservableListener instead")]
-        public async Task StartListeningAsync(
-            int port = 0, 
-            ICommunicationInterface communicationInterface = null, 
-            bool allowMultipleBindToSamePort = false)
-        {
-            CheckCommunicationInterface(communicationInterface);
-
-            _ipEndPoint = InitializeUdpClient(communicationInterface, port, allowMultipleBindToSamePort);
+            _ipEndPoint = UdpClientInitialize(communicationInterface, port, allowMultipleBindToSamePort);
 
             _cancellationTokenSource = new CancellationTokenSource();
 
@@ -52,6 +37,30 @@ namespace SocketLite.Services
         public void StopListening()
         {
             Cleanup();
+        }
+
+        #endregion
+
+        private IPEndPoint _ipEndPoint;
+        private CancellationTokenSource _cancellationTokenSource;
+        public int Port => _ipEndPoint.Port;
+
+        public async Task<IObservable<IUdpMessage>> ObservableUnicastListener(
+            int port = 0,
+            ICommunicationInterface communicationInterface = null,
+            bool allowMultipleBindToSamePort = false)
+        {
+            CheckCommunicationInterface(communicationInterface);
+
+            _ipEndPoint = UdpClientInitialize(
+                communicationInterface, 
+                port, 
+                allowMultipleBindToSamePort,
+                isUdpMultiCast: false);
+
+            _cancellationTokenSource = new CancellationTokenSource();
+
+            return CreateObservableMessageStream(_cancellationTokenSource);
         }
 
         protected override void Cleanup()

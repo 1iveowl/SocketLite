@@ -11,20 +11,10 @@ namespace ISocketLite.PCL.Interface
 {
     public interface IUdpSocketMulticastClient : IDisposable
     {
-        int Port { get; }
-        string IpAddress { get; }
-
-        IEnumerable<string> MulticastMemberShips { get; }
-
-        bool IsMulticastInterfaceActive { get; }
+        #region Obsolete
 
         [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
         IObservable<IUdpMessage> ObservableMessages { get; }
-
-        Task<IObservable<IUdpMessage>> CreateObservableMultiCastListener(
-            string multicastAddress,
-            int port, ICommunicationInterface communicationInterface,
-            bool allowMultipleBindToSamePort = false);
 
         [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
         Task JoinMulticastGroupAsync(
@@ -33,7 +23,19 @@ namespace ISocketLite.PCL.Interface
             bool allowMultipleBindToSamePort = false
         );
 
-        
+        #endregion
+
+        Task<IObservable<IUdpMessage>> ObservableMulticastListener(
+            string multicastAddress,
+            int port, ICommunicationInterface communicationInterface,
+            bool allowMultipleBindToSamePort = false);
+
+        int Port { get; }
+        string IpAddress { get; }
+
+        IEnumerable<string> MulticastMemberShips { get; }
+
+        bool IsMulticastActive { get; }
 
         void MulticastAddMembership(string ipLan, string mcastAddress);
 
@@ -46,7 +48,5 @@ namespace ISocketLite.PCL.Interface
         Task SendMulticastAsync(byte[] data, int length);
 
         int TTL { get; set; }
-
-        
     }
 }
