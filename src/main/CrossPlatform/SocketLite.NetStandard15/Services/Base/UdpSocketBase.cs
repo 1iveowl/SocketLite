@@ -163,7 +163,7 @@ namespace SocketLite.Services.Base
         {
             try
             {
-                BackingUdpClient = new UdpClient(ipEndPoint.Port, AddressFamily.InterNetwork)
+                BackingUdpClient = new UdpClient()
                 {
                     EnableBroadcast = true,
                 };
@@ -172,11 +172,13 @@ namespace SocketLite.Services.Base
 
                 //SetMulticastInterface(ipEndPoint.Address);
 
-                //BackingUdpClient.Client.Bind(ipEndPoint);
+                MulticastAddMembership(ipEndPoint.Address.ToString(), mcastAddress);
+
+                BackingUdpClient.Client.Bind(ipEndPoint);
 
                 IsMulticastActive = true;
                 
-                MulticastAddMembership(ipEndPoint.Address.ToString(), mcastAddress);
+                
             }
             catch (Exception e)
             {
