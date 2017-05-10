@@ -244,11 +244,9 @@ namespace SocketLite.Services.Base
 
             if (!_multicastMemberships.ContainsKey(mcastAddress)) return;
 
-            if (!_multicastMemberships[mcastAddress].Equals(true)) return;
-
             BackingUdpClient.DropMulticastGroup(IPAddress.Parse(mcastAddress));
 
-            _multicastMemberships[mcastAddress] = false;
+            _multicastMemberships.Remove(mcastAddress);
         }
 
         private void SetAllowMultipleBindToSamePort(IPAddress ipLanAddress)
