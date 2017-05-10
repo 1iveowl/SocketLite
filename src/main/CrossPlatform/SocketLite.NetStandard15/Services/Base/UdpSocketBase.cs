@@ -163,7 +163,7 @@ namespace SocketLite.Services.Base
         {
             try
             {
-                BackingUdpClient = new UdpClient()
+                BackingUdpClient = new UdpClient(ipEndPoint.Port, AddressFamily.InterNetwork)
                 {
                     EnableBroadcast = true,
                 };
@@ -172,7 +172,7 @@ namespace SocketLite.Services.Base
 
                 //SetMulticastInterface(ipEndPoint.Address);
 
-                BackingUdpClient.Client.Bind(ipEndPoint);
+                //BackingUdpClient.Client.Bind(ipEndPoint);
 
                 IsMulticastActive = true;
                 
