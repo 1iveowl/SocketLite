@@ -6,6 +6,7 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Runtime.InteropServices;
 using System.Threading;
 using ISocketLite.PCL.EventArgs;
 using ISocketLite.PCL.Interface;
@@ -250,21 +251,16 @@ namespace SocketLite.Services.Base
 
         private void SetAllowMultipleBindToSamePort(IPAddress ipLanAddress)
         {
-            try
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 BackingUdpClient.ExclusiveAddressUse = false;
             }
-            catch (Exception)
-            {
 
-            }
-            finally
-            {
-                BackingUdpClient.Client.SetSocketOption(
-                    SocketOptionLevel.Socket,
-                    SocketOptionName.ReuseAddress,
-                    ipLanAddress.GetAddressBytes());
-            }
+            BackingUdpClient.Client.SetSocketOption(
+                SocketOptionLevel.Socket,
+                SocketOptionName.ReuseAddress,
+                ipLanAddress.GetAddressBytes());
         }
 
         private int SetMulticastInterface(IPAddress ipLan)
