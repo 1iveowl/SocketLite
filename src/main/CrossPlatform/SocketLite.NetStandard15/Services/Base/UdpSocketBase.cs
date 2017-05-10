@@ -163,7 +163,7 @@ namespace SocketLite.Services.Base
         {
             try
             {
-                BackingUdpClient = new UdpClient()
+                BackingUdpClient = new UdpClient(ipEndPoint)
                 {
                     EnableBroadcast = true,
                 };
@@ -172,9 +172,11 @@ namespace SocketLite.Services.Base
 
                 //SetMulticastInterface(ipEndPoint.Address);
 
+                //BackingUdpClient.Client.Bind(ipEndPoint);
+
                 MulticastAddMembership(ipEndPoint.Address.ToString(), mcastAddress);
 
-                BackingUdpClient.Client.Bind(ipEndPoint);
+                
 
                 IsMulticastActive = true;
                 
@@ -256,13 +258,12 @@ namespace SocketLite.Services.Base
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                BackingUdpClient.ExclusiveAddressUse = false;
+                //BackingUdpClient.ExclusiveAddressUse = false;
             }
 
             BackingUdpClient.Client.SetSocketOption(
                 SocketOptionLevel.Socket,
-                SocketOptionName.ReuseAddress,
-                ipLanAddress.GetAddressBytes());
+                SocketOptionName.ReuseAddress, true); //ipLanAddress.GetAddressBytes());
         }
 
         private int SetMulticastInterface(IPAddress ipLan)
