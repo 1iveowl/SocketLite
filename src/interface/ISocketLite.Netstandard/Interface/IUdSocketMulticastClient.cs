@@ -16,11 +16,6 @@ namespace ISocketLite.PCL.Interface
         [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
         IObservable<IUdpMessage> ObservableMessages { get; }
 
-        Task<IObservable<IUdpMessage>> ObservableMulticastListener(
-            string multicastAddress,
-            int port, ICommunicationInterface communicationInterface,
-            bool allowMultipleBindToSamePort = false);
-
         [Obsolete("Deprecated, please use CreateObservableMulticastListener instead")]
         Task JoinMulticastGroupAsync(
             string multicastAddress,
@@ -29,6 +24,11 @@ namespace ISocketLite.PCL.Interface
         );
 
         #endregion
+
+        Task<IObservable<IUdpMessage>> ObservableMulticastListener(
+            string multicastAddress,
+            int port, ICommunicationInterface communicationInterface,
+            bool allowMultipleBindToSamePort = false);
 
         int Port { get; }
         string IpAddress { get; }

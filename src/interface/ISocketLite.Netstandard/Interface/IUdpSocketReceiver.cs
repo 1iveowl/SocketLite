@@ -31,10 +31,6 @@ namespace ISocketLite.PCL.Interface
             ICommunicationInterface communicationInterface = null,
             bool allowMultipleBindToSamePort = false);
 
-        void MulticastAddMembership(string ipLan, string mcastAddress);
-
-        void MulticastDropMembership(string ipLan, string mcastAddress);
-
         void StopListening();
 
         Task SendToAsync(byte[] data, string address, int port);

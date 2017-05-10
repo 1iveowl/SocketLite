@@ -49,50 +49,48 @@ namespace SocketLite.NETCore.Test
             //        // Insert your completed code here
             //    });
 
-            var udpReceiver = new UdpSocketReceiver();
+            //var udpReceiver = new UdpSocketReceiver();
 
-            var observerUdpReceiver = await udpReceiver.ObservableUnicastListener(
-                port: 1900,
-                communicationInterface: networkInterface,
-                allowMultipleBindToSamePort: true);
-
-            var subscriberUpdReceiver = observerUdpReceiver.Subscribe(
-                udpMsg =>
-                {
-                    System.Console.WriteLine($"Udp package received: {udpMsg.RemoteAddress}:{udpMsg.RemotePort}");
-                },
-                ex =>
-                {
-                    //Inset your exception code here
-                },
-                () =>
-                {
-                    //Insert your completion code here
-                });
-
-            udpReceiver.MulticastAddMembership("192.168.0.36", "239.255.255.250");
-
-            //var udpMulticast = new UdpSocketMulticastClient();
-
-            //var observerUdpMulticast = await udpMulticast.ObservableMulticastListener(
-            //    "239.255.255.251",
-            //    1900,
-            //    networkInterface,
+            //var observerUdpReceiver = await udpReceiver.ObservableUnicastListener(
+            //    port: 1900,
+            //    communicationInterface: networkInterface,
             //    allowMultipleBindToSamePort: true);
 
-            //var subscriberUdpMilticast = observerUdpMulticast.Subscribe(
+            //var subscriberUpdReceiver = observerUdpReceiver.Subscribe(
             //    udpMsg =>
             //    {
             //        System.Console.WriteLine($"Udp package received: {udpMsg.RemoteAddress}:{udpMsg.RemotePort}");
             //    },
             //    ex =>
             //    {
-            //        //Insert your exception code here
+            //        //Inset your exception code here
             //    },
             //    () =>
             //    {
             //        //Insert your completion code here
             //    });
+
+            var udpMulticast = new UdpSocketMulticastClient();
+
+            var observerUdpMulticast = await udpMulticast.ObservableMulticastListener(
+                "239.255.255.250",
+                1900,
+                networkInterface,
+                allowMultipleBindToSamePort: true);
+
+            var subscriberUdpMilticast = observerUdpMulticast.Subscribe(
+                udpMsg =>
+                {
+                    System.Console.WriteLine($"Udp package received: {udpMsg.RemoteAddress}:{udpMsg.RemotePort}");
+                },
+                ex =>
+                {
+                    //Insert your exception code here
+                },
+                () =>
+                {
+                    //Insert your completion code here
+                });
 
             //await udpMulti.JoinMulticastGroupAsync(
             //    "239.255.255.250", 

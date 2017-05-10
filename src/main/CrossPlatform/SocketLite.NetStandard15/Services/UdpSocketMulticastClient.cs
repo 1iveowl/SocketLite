@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using ISocketLite.PCL.EventArgs;
 using ISocketLite.PCL.Interface;
 using SocketLite.Services.Base;
-//#if (NETSTANDARD1_5) //Not NetStandard
-//using CommunicationInterface = SocketLite.Model.CommunicationsInterface;
-//#endif
 using PlatformSocketException = System.Net.Sockets.SocketException;
 using PclSocketException = ISocketLite.PCL.Exceptions.SocketException;
 
@@ -33,7 +31,7 @@ namespace SocketLite.Services
                 port,
                 allowMultipleBindToSamePort,
                 isUdpMultiCast: true,
-                mcastAddress: multicastAddress);
+                mcastAddress: IPAddress.Parse(multicastAddress));
 
             _cancellationTokenSource = new CancellationTokenSource();
 
@@ -50,6 +48,8 @@ namespace SocketLite.Services
         }
 
         #endregion
+
+        public IEnumerable<string> MulticastMemberShips => MulticastMemberships.Where(m => m.Value.Equals(true)).Select(m => m.Key);
 
         private IPEndPoint _ipEndPoint;
 
@@ -80,7 +80,7 @@ namespace SocketLite.Services
                 port,
                 allowMultipleBindToSamePort,
                 isUdpMultiCast: true,
-                mcastAddress: multicastAddress);
+                mcastAddress: IPAddress.Parse(multicastAddress));
 
             _cancellationTokenSource = new CancellationTokenSource();
 
@@ -90,9 +90,31 @@ namespace SocketLite.Services
             return CreateObservableMessageStream(_cancellationTokenSource);
         }
 
+        public void MulticastAddMembership(string ipLan, string mcastAddress)
+        {
+            if (!IsMulticastActive)
+            {
+                ConvertUnicastToMulticast(IPAddress.Parse(ipLan));
+            }
+
+            MulticastAddMembership(IPAddress.Parse(ipLan), IPAddress.Parse(mcastAddress));
+        }
+
+        public void MulticastDropMembership(string ipLan, string mcastAddress)
+        {
+            if (!IsMulticastActive) throw new ArgumentException("Multicast interface must be initialized before dropping multicast memberships");
+
+            if (!MulticastMemberships.ContainsKey(mcastAddress)) return;
+
+            BackingUdpClient.DropMulticastGroup(IPAddress.Parse(mcastAddress));
+
+            MulticastMemberships.Remove(mcastAddress);
+        }
+
         protected override void Cleanup()
         {
             _cancellationTokenSource.Cancel();
+            MulticastMemberships.Clear();
 
 #if (NETSTANDARD1_5)
             BackingUdpClient?.Dispose();
@@ -117,5 +139,7 @@ namespace SocketLite.Services
 
             await base.SendToAsync(data, length, _multicastAddress, _multicastPort).ConfigureAwait(false);
         }
+
+
     }
 }

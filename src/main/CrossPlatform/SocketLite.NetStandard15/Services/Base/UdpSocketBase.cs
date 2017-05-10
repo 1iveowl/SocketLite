@@ -29,9 +29,7 @@ namespace SocketLite.Services.Base
 
         private CancellationTokenSource _cancellationTokenSource;
 
-        private readonly IDictionary<string, bool> _multicastMemberships = new Dictionary<string, bool>();
-
-        public IEnumerable<string> MulticastMemberShips => _multicastMemberships.Where(m => m.Value.Equals(true)).Select(m => m.Key);
+        protected readonly IDictionary<string, bool> MulticastMemberships = new Dictionary<string, bool>();
 
         public bool IsMulticastActive { get; private set; } = false;
 
@@ -83,7 +81,6 @@ namespace SocketLite.Services.Base
         {
             IsMulticastActive = false;
             IsUnicastActive = false;
-            _multicastMemberships.Clear();
         }
 
         protected UdpSocketBase()
@@ -132,11 +129,37 @@ namespace SocketLite.Services.Base
             int port, 
             bool allowMultipleBindToSamePort,
             bool isUdpMultiCast = false,
-            string mcastAddress = null)
+            IPAddress mcastAddress = null)
         {
             var ipLanAddress = (communicationInterface as CommunicationsInterface)?.NativeIpAddress ?? IPAddress.Any;
 
             var ipEndPoint = new IPEndPoint(ipLanAddress, port);
+
+#if (NETSTANDARD1_5)
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+#else
+            var p = Environment.OSVersion.Platform;
+
+            if (p == PlatformID.Win32NT || p == PlatformID.Win32S || p == PlatformID.Win32Windows)
+#endif
+            {
+                UdpWindowsClient(ipLanAddress, ipEndPoint, mcastAddress, allowMultipleBindToSamePort, isUdpMultiCast);
+            }
+            else
+            {
+                UdpLinuxOrMacClient(ipLanAddress, ipEndPoint, mcastAddress, allowMultipleBindToSamePort, isUdpMultiCast);
+            }
+
+            return ipEndPoint;
+        }
+
+        private void UdpWindowsClient(IPAddress ipLanAddress, IPEndPoint ipEndPoint, IPAddress mcastAddress, bool allowMultipleBindToSamePort, bool isUdpMultiCast)
+        {
+            BackingUdpClient = new UdpClient();
+
+            if (allowMultipleBindToSamePort) SetAllowMultipleBindToSamePort(ipLanAddress);
+
+            BackingUdpClient.Client.Bind(ipEndPoint);
 
             try
             {
@@ -149,35 +172,56 @@ namespace SocketLite.Services.Base
                     UnicastInitializer(ipEndPoint, ipLanAddress, allowMultipleBindToSamePort);
                 }
 
+                var t = "";
+
             }
             catch (Exception e)
             {
                 // ReSharper disable once PossibleIntendedRethrow
                 throw e;
             }
-
-            return ipEndPoint;
         }
 
-        private void MulticastInitializer(IPEndPoint ipEndPoint, IPAddress ipLanIpAddress, string mcastAddress, bool allowMultipleBindToSamePort)
+        private void UdpLinuxOrMacClient(IPAddress ipLanAddress, IPEndPoint ipEndPoint, IPAddress mcastAddress, bool allowMultipleBindToSamePort, bool isUdpMultiCast)
+
         {
+            BackingUdpClient = new UdpClient(ipEndPoint.Port, AddressFamily.InterNetwork);
+
             try
             {
-                BackingUdpClient = new UdpClient(ipEndPoint.Port, AddressFamily.InterNetwork)
+                if (isUdpMultiCast)
                 {
-                    EnableBroadcast = true,
-                };
+                    MulticastInitializer(ipEndPoint, ipLanAddress, mcastAddress, allowMultipleBindToSamePort);
+                }
+                else
+                {
+                    UnicastInitializer(ipEndPoint, ipLanAddress, allowMultipleBindToSamePort);
+                }
+            }
+            catch (Exception e)
+            {
+                // ReSharper disable once PossibleIntendedRethrow
+                throw e;
+            }
+        }
 
-                if (allowMultipleBindToSamePort) SetAllowMultipleBindToSamePort(ipLanIpAddress);
+        private void UnicastInitializer(IPEndPoint ipEndPoint, IPAddress ipLanIpAddress, bool allowMultipleBindToSamePort)
+        {
+            IsUnicastActive = true;
+            BackingUdpClient = new UdpClient(ipEndPoint.Port, AddressFamily.InterNetwork);
 
+            if (allowMultipleBindToSamePort) SetAllowMultipleBindToSamePort(ipLanIpAddress);
+        }
+
+        private void MulticastInitializer(IPEndPoint ipEndPoint, IPAddress ipLanIpAddress, IPAddress mcastAddress, bool allowMultipleBindToSamePort)
+        {
+            IsMulticastActive = true;
+
+            try
+            {
                 SetMulticastInterface(ipEndPoint.Address);
 
-                //BackingUdpClient.Client.Bind(ipEndPoint);
-
-                MulticastAddMembership(ipEndPoint.Address.ToString(), mcastAddress);
-
-                IsMulticastActive = true;
-                
+                MulticastAddMembership(ipLanIpAddress, mcastAddress);
                 
             }
             catch (Exception e)
@@ -185,11 +229,9 @@ namespace SocketLite.Services.Base
                 // ReSharper disable once PossibleIntendedRethrow
                 throw e;
             }
-            
-            UpdClientManager.MulticastPort = ipEndPoint.Port;
         }
 
-        private void ConvertUnicastToMulticast(IPAddress ipAddress)
+        protected void ConvertUnicastToMulticast(IPAddress ipAddress)
         {
             BackingUdpClient.EnableBroadcast = true;
 
@@ -198,35 +240,14 @@ namespace SocketLite.Services.Base
             IsMulticastActive = true;
         }
 
-        private void UnicastInitializer(IPEndPoint ipEndPoint, IPAddress ipLanIpAddress, bool allowMultipleBindToSamePort)
-        {
 
-            IsUnicastActive = true;
-            BackingUdpClient = new UdpClient(ipEndPoint.Port, AddressFamily.InterNetwork);
-
-            if (allowMultipleBindToSamePort) SetAllowMultipleBindToSamePort(ipLanIpAddress);
-
-            //BackingUdpClient.Client.Bind(ipEndPoint);
-
-        }
-
-        public void MulticastAddMembership(string ipLan, string mcastAddress)
-        {
-            if (!IsMulticastActive)
-            {
-                ConvertUnicastToMulticast(IPAddress.Parse(ipLan));
-            }
-
-            MulticastAddMembership(IPAddress.Parse(ipLan), IPAddress.Parse(mcastAddress));
-        }
-
-        private void MulticastAddMembership(IPAddress ipAddress, IPAddress mcastAddress)
+        protected void MulticastAddMembership(IPAddress ipAddress, IPAddress mcastAddress)
         {
             if (!IsMulticastActive) throw new ArgumentException("Multicast interface must be initialized before adding multicast memberships");
 
-            if (_multicastMemberships.ContainsKey(mcastAddress.ToString()))
+            if (MulticastMemberships.ContainsKey(mcastAddress.ToString()))
             {
-                if (_multicastMemberships[mcastAddress.ToString()].Equals(true))
+                if (MulticastMemberships[mcastAddress.ToString()].Equals(true))
                 {
                     // The membership has already been added - do nothing
                     return;
@@ -235,26 +256,21 @@ namespace SocketLite.Services.Base
 
             BackingUdpClient.JoinMulticastGroup(mcastAddress, ipAddress);
             
-            _multicastMemberships.Add(mcastAddress.ToString(), true);
-        }
-
-        public void MulticastDropMembership(string ipLan, string mcastAddress)
-        {
-            if (!IsMulticastActive) throw new ArgumentException("Multicast interface must be initialized before dropping multicast memberships");
-
-            if (!_multicastMemberships.ContainsKey(mcastAddress)) return;
-
-            BackingUdpClient.DropMulticastGroup(IPAddress.Parse(mcastAddress));
-
-            _multicastMemberships.Remove(mcastAddress);
+            MulticastMemberships.Add(mcastAddress.ToString(), true);
         }
 
         private void SetAllowMultipleBindToSamePort(IPAddress ipLanAddress)
         {
 
+#if (NETSTANDARD1_5)
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+#else
+            var p = Environment.OSVersion.Platform;
+
+            if (p == PlatformID.Win32NT || p == PlatformID.Win32S || p == PlatformID.Win32Windows)
+#endif
             {
-                //BackingUdpClient.ExclusiveAddressUse = false;
+                BackingUdpClient.ExclusiveAddressUse = false;
             }
 
             BackingUdpClient.Client.SetSocketOption(

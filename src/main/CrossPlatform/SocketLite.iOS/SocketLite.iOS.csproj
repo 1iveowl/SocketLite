@@ -67,9 +67,6 @@
     <Compile Include="..\SocketLite.NetStandard15\Extensions\NativeExceptionExtensions.cs">
       <Link>Extensions\NativeExceptionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\SocketLite.NetStandard15\Model\UdpClientManager.cs">
-      <Link>Model\UdpClientManager.cs</Link>
-    </Compile>
     <Compile Include="..\SocketLite.NetStandard15\Model\UdpMessage.cs">
       <Link>Model\UdpMessage.cs</Link>
     </Compile>
