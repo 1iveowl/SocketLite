@@ -169,12 +169,12 @@ namespace SocketLite.Services.Base
 
                 if (allowMultipleBindToSamePort) SetAllowMultipleBindToSamePort(ipLanIpAddress);
 
+                SetMulticastInterface(ipEndPoint.Address);
+
                 BackingUdpClient.Client.Bind(ipEndPoint);
 
                 IsMulticastActive = true;
-
-                SetMulticastInterface(ipEndPoint.Address);
-
+                
                 MulticastAddMembership(ipEndPoint.Address.ToString(), mcastAddress);
             }
             catch (Exception e)
