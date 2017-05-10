@@ -166,7 +166,7 @@ namespace SocketLite.Services.Base
             {
                 if (isUdpMultiCast)
                 {
-                    MulticastInitializer(ipEndPoint, ipLanAddress, mcastAddress, allowMultipleBindToSamePort);
+                    MulticastInitializer(ipEndPoint, ipLanAddress, mcastAddress);
                 }
                 else
                 {
@@ -192,7 +192,7 @@ namespace SocketLite.Services.Base
             {
                 if (isUdpMultiCast)
                 {
-                    MulticastInitializer(ipEndPoint, ipLanAddress, mcastAddress, allowMultipleBindToSamePort);
+                    MulticastInitializer(ipEndPoint, ipLanAddress, mcastAddress);
                 }
                 else
                 {
@@ -214,7 +214,7 @@ namespace SocketLite.Services.Base
             if (allowMultipleBindToSamePort) SetAllowMultipleBindToSamePort(ipLanIpAddress);
         }
 
-        private void MulticastInitializer(IPEndPoint ipEndPoint, IPAddress ipLanIpAddress, IPAddress mcastAddress, bool allowMultipleBindToSamePort)
+        private void MulticastInitializer(IPEndPoint ipEndPoint, IPAddress ipLanIpAddress, IPAddress mcastAddress)
         {
             IsMulticastActive = true;
 
