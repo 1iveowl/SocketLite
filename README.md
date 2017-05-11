@@ -42,7 +42,6 @@ Class|Description|.NET|Windows 10 / UWP
 **UdpSocketClient** | Send messages to arbitrary endpoints over UDP. | UdpClient | DatagramSocket
 **UdpSocketMulticastClient** | Send and receive UDP messages within a multicast group. | UdpClient | DatagramSocket
 
-
 ### Examples Usage
 
 #### Using
@@ -51,6 +50,8 @@ Class|Description|.NET|Windows 10 / UWP
 using SocketLite.Model;
 using SocketLite.Services;
 ```
+
+**IMPORTANT**: Please notice that the parameter `allowMultipleBindToSamePort` will only work on Windows. On other platforms it should be set to `false`.
 
 #### Specify Which Network Interface To Use
 Defining what Network Interface to use is typically the version first step. This can be done on multiple ways. Here it is done using the IP adress of the interface:
@@ -68,7 +69,7 @@ var tcpListener = new TcpSocketListener();
 var observerTcpListner = await tcpListener.CreateObservableListener(
     port:8000, 
     listenOn: networkInterface, 
-    allowMultipleBindToSamePort:true);
+    allowMultipleBindToSamePort:false);
 
 var subscriberTcpListener = observerTcpListner.Subscribe(
     tcpClient =>
@@ -175,7 +176,7 @@ var udpReceiver = new UdpSocketReceiver();
 var observerUdpReceiver = await udpReceiver.ObservableUnicastListener(
     port: 1900,
     communicationInterface: networkInterface,
-    allowMultipleBindToSamePort: true);
+    allowMultipleBindToSamePort: false);
 
 var subscriberUpdReceiver = observerUdpReceiver.Subscribe(
     udpMsg =>
@@ -199,7 +200,7 @@ var udpReceiver = new UdpSocketReceiver();
 var observerUdpReceiver = await udpReceiver.CreateObservableListener(
     port: 8000,
     communicationInterface: networkInterface,
-    allowMultipleBindToSamePort: true);
+    allowMultipleBindToSamePort: false);
 
 var subscriberUpdReceiver = observerUdpReceiver.Subscribe(
     udpMsg =>
@@ -231,7 +232,7 @@ var observerUdpMulticast = await udpMulticast.ObservableMulticastListener(
     "239.255.255.250",
     1900,
     networkInterface,
-    allowMultipleBindToSamePort: true);
+    allowMultipleBindToSamePort: false);
 
 var subscriberUdpMilticast = observerUdpMulticast.Subscribe(
     udpMsg =>
