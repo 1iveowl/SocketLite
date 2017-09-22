@@ -12,11 +12,12 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Socket PCL Xamarin Cross platform for iOS, Windows 10 (UWP) and Android </description>
     <releaseNotes>
+Added .NET Standard 2.0
 Updated to Rx 3.1.1
-Click and bait library with support for Android 6.0, iOS, .Net 4.5.1, UWP and .NET Core (.NET Standard 1.5).
+Click and bait library with support for Android 6.0, iOS, .Net 4.5.1, UWP and .NET Core (.NET Standard 1.5 and 2.0) .
 Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClient ConnectAsync</releaseNotes>
     <copyright>Copyright 2016</copyright>
-    <tags>Socket, tcp, udp, xamarin, PCL, ios, android, uwp, windows10, netstandard</tags>
+    <tags>Socket, tcp, udp, xamarin, PCL, ios, android, uwp, windows10, netstandard netstandard20</tags>
     <dependencies>
 
         <group targetFramework="MonoAndroid10">
@@ -42,10 +43,10 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
           <dependency id="System.Reactive" version="3.1.1" />
         </group>
 
-      <group targetFramework="netstandard1.0">
+      <!--<group targetFramework="netstandard1.0">
         <dependency id="System.Reactive" version="3.1.1" />
         <dependency id="NETStandard.Library" version="1.6.1" />
-      </group>
+      </group>-->
 
         <group targetFramework="netstandard1.5">
           <dependency id="System.Reactive" version="3.1.1" />
@@ -54,6 +55,12 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
           <dependency id="System.Net.Sockets" version="4.3.0" />
           <dependency id="System.Net.NetworkInformation" version="4.3.0" />
         </group>
+
+      <group targetFramework="netstandard2.0">
+        <dependency id="System.Reactive" version="3.1.1" />
+        <dependency id="NETStandard.Library" version="2.0.0" />
+      </group>
+
 
     </dependencies>
   </metadata>
@@ -81,9 +88,13 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
     <file src="..\main\CrossPlatform\SocketLite.net451\bin\Release\ISocketLite.*" target="lib\net45"/>
     
     
-    <!--.NET Standard 1.5 - .NET Core -->
+    <!--.NET Standard 1.5 -->
     <file src="..\main\CrossPlatform\SocketLite.NetStandard15\bin\Release\netstandard1.5\SocketLite.*" target="lib\netstandard1.5"/>
     <file src="..\main\CrossPlatform\SocketLite.NetStandard15\bin\Release\netstandard1.5\ISocketLite.*" target="lib\netstandard1.5"/>
+
+    <!--.NET Standard 2.0 -->
+    <file src="..\main\CrossPlatform\SocketLite.NetStandard20\bin\Release\netstandard2.0\SocketLite.*" target="lib\netstandard2.0"/>
+    <file src="..\main\CrossPlatform\SocketLite.NetStandard20\bin\Release\netstandard2.0\ISocketLite.*" target="lib\netstandard2.0"/>
 
   </files>
 </package>
