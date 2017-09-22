@@ -4,9 +4,12 @@
 
 [![NuGet](https://img.shields.io/badge/nuget-2.0.30_(Profile_111)-yellow.svg)](https://www.nuget.org/packages/SocketLite.PCL/2.0.20)
 
+[![.NET Standard](http://img.shields.io/badge/.NET_Standard-v1.5-green.svg)](https://docs.microsoft.com/da-dk/dotnet/articles/standard/library) 
+[![.NET Standard](http://img.shields.io/badge/.NET_Standard-v2.0-red.svg)](https://docs.microsoft.com/da-dk/dotnet/articles/standard/library) 
+
 *Please star this project if you find it useful. Thank you.*
 
-### Supports Xamarin Forms on Windows 10/UWP, iOS and Andriod
+### Supports Xamarin Forms on Windows 10/UWP, iOS, Andriod, .NET Standard 1.5 and 2.0.
 
 This project is a fork that build upon the fantastic work done with [Socket for PCL](https://github.com/rdavisau/sockets-for-pcl). 
 
