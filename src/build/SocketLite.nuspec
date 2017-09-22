@@ -7,7 +7,7 @@
     <authors>Jasper H. Bojsen (inspired by socket-for.pcl by Ryan Davis)</authors>
     <owners>Jasper H. Bojsen</owners>
     <licenseUrl>https://github.com/1iveowl/SocketLite.Netstandard/blob/master/LICENSE.md</licenseUrl>
-    <projectUrl>https://github.com/1iveowl/SocketLite.Netstandard</projectUrl>
+    <projectUrl>https://github.com/1iveowl/SocketLite</projectUrl>
     <iconUrl>https://nuget.org/Content/Images/packageDefaultIcon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Socket PCL Xamarin Cross platform for iOS, Windows 10 (UWP) and Android </description>
