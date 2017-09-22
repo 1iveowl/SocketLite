@@ -31,12 +31,12 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
           <dependency id="System.Reactive" version="3.1.1" />
           <dependency id="Microsoft.NETCore.Platforms" version="1.1.0" />
           <dependency id="NETStandard.Library" version="1.6.1" />
-          <dependency id="System.Net.Http" version="4.3.2" />
+          <dependency id="System.Net.Http" version="4.3.3" />
         </group>
 
         <group targetFramework="uap10.0">
           <dependency id="System.Reactive" version="3.1.1" />
-          <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.3.3" />
+          <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.4.0" />
         </group>
 
         <group targetFramework="net451">
@@ -51,7 +51,7 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
         <group targetFramework="netstandard1.5">
           <dependency id="System.Reactive" version="3.1.1" />
           <dependency id="NETStandard.Library" version="1.6.1" />
-          <dependency id="System.Net.Security" version="4.3.1" />
+          <dependency id="System.Net.Security" version="4.3.2" />
           <dependency id="System.Net.Sockets" version="4.3.0" />
           <dependency id="System.Net.NetworkInformation" version="4.3.0" />
         </group>
@@ -83,7 +83,6 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
     <file src="..\main\CrossPlatform\SocketLite.UWP\bin\Release\ISocketLite.*" target="lib\uap10.0" />
 
     <!--.NET 4.51-->
-    
     <file src="..\main\CrossPlatform\SocketLite.net451\bin\Release\SocketLite.*" target="lib\net45"/>
     <file src="..\main\CrossPlatform\SocketLite.net451\bin\Release\ISocketLite.*" target="lib\net45"/>
     
