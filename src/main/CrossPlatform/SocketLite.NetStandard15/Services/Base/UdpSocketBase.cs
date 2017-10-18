@@ -135,7 +135,7 @@ namespace SocketLite.Services.Base
 
             var ipEndPoint = new IPEndPoint(ipLanAddress, port);
 
-#if (NETSTANDARD1_5)
+#if (NETSTANDARD1_5 || NETSTANDARD1_3)
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 #else
             var p = Environment.OSVersion.Platform;
@@ -263,7 +263,7 @@ namespace SocketLite.Services.Base
         private void SetAllowMultipleBindToSamePort(IPAddress ipLanAddress)
         {
 
-#if (NETSTANDARD1_5)
+#if (NETSTANDARD1_5 || NETSTANDARD1_3)
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 #else
             var p = Environment.OSVersion.Platform;
@@ -315,7 +315,7 @@ namespace SocketLite.Services.Base
         public void Dispose()
         {
             _cancellationTokenSource?.Cancel();
-#if (NETSTANDARD1_5)
+#if (NETSTANDARD1_5 || NETSTANDARD1_3)
             BackingUdpClient?.Dispose();
 #else
             BackingUdpClient?.Close();

@@ -11,6 +11,7 @@ $msbuild = join-path -path "C:\Program Files (x86)\Microsoft Visual Studio\2017\
 &$msbuild ..\main\CrossPlatform\SocketLite.iOS\SocketLite.iOS.csproj /t:Build /p:Configuration="Release"
 &$msbuild ..\main\CrossPlatform\SocketLite.UWP\SocketLite.UWP.csproj /t:Build /p:Configuration="Release"
 &$msbuild ..\main\CrossPlatform\SocketLite.net451\SocketLite.net451.csproj /t:Build /p:Configuration="Release"
+&$msbuild ..\main\CrossPlatform\SocketLite.NetStandard13\SocketLite.NetStandard13.csproj /t:Build /p:Configuration="Release"
 &$msbuild ..\main\CrossPlatform\SocketLite.NetStandard15\SocketLite.NetStandard15.csproj /t:Build /p:Configuration="Release"
 &$msbuild ..\main\CrossPlatform\SocketLite.NetStandard20\SocketLite.NetStandard20.csproj /t:Build /p:Configuration="Release"
 
@@ -20,4 +21,4 @@ $msbuild = join-path -path "C:\Program Files (x86)\Microsoft Visual Studio\2017\
 
 Remove-Item .\NuGet -Force -Recurse
 New-Item -ItemType Directory -Force -Path .\NuGet
-c:\tools\nuget\NuGet.exe pack SocketLite.nuspec -Verbosity detailed -Symbols -OutputDir "NuGet" -Version $version
+NuGet.exe pack SocketLite.nuspec -Verbosity detailed -Symbols -OutputDir "NuGet" -Version $version

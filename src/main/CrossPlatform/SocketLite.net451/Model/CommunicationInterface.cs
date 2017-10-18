@@ -68,7 +68,7 @@ namespace SocketLite.Model
 
             var netmask = ip != null ? CommunicationsInterface.GetSubnetMask(ip) : null; // implemented natively for each .NET platform
 
-#if (NETSTANDARD1_5 || NETSTANDARD2_0)
+#if (NETSTANDARD1_5 || NETSTANDARD2_0 || NETSTANDARD1_3)
             string broadcast = null;
 #else
             var broadcast = (ip != null && netmask != null) ? ip.Address.GetBroadcastAddress(netmask).ToString() : null;
@@ -82,7 +82,7 @@ namespace SocketLite.Model
                 IpAddress = ip?.Address.ToString(),
                 GatewayAddress = gateway,
                 BroadcastAddress = broadcast,
-#if (NETSTANDARD1_5 || NETSTANDARD2_0)
+#if (NETSTANDARD1_5 || NETSTANDARD2_0 || NETSTANDARD1_3)
                 ConnectionStatus = new CommunicationConnectionStatus(),
 #else
                 ConnectionStatus = nativeInterface.OperationalStatus.ToCommsInterfaceStatus(),

@@ -144,7 +144,7 @@ namespace SocketLite.Services
         public void Dispose()
         {
             IsConnected = false;
-#if (NETSTANDARD1_5)
+#if (NETSTANDARD1_5 || NETSTANDARD1_3)
             _tcpClient?.Dispose();
 #else
             _tcpClient?.Close();
