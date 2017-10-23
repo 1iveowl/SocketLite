@@ -116,7 +116,7 @@ namespace SocketLite.Services
             _cancellationTokenSource.Cancel();
             MulticastMemberships.Clear();
 
-#if (NETSTANDARD1_5)
+#if (NETSTANDARD1_5 || NETSTANDARD1_3)
             BackingUdpClient?.Dispose();
 #else
             BackingUdpClient?.Close();

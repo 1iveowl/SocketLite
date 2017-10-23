@@ -9,4 +9,4 @@ else {
 
 .\build.ps1 $version
 
-c:\tools\nuget\Nuget.exe push .\Nuget\SocketLite.PCL.$version.nupkg -Source https://www.nuget.org
+Nuget.exe push .\Nuget\SocketLite.PCL.$version.nupkg -Source https://www.nuget.org

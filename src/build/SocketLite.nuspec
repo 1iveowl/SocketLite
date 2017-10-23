@@ -12,9 +12,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Socket PCL Xamarin Cross platform for iOS, Windows 10 (UWP) and Android </description>
     <releaseNotes>
+Moved .NET Standard 1.5 to .NET Standard 1.3.
 Added .NET Standard 2.0
 Updated to Rx 3.1.1
-Click and bait library with support for Android 6.0, iOS, .Net 4.5.1, UWP and .NET Core (.NET Standard 1.5 and 2.0) .
+Click and bait library with support for Android 6.0, iOS, .Net 4.5.1, UWP and .NET Core (.NET Standard 1.3 and 2.0) .
 Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClient ConnectAsync</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>Socket, tcp, udp, xamarin, PCL, ios, android, uwp, windows10, netstandard netstandard20</tags>
@@ -23,30 +24,34 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
         <group targetFramework="MonoAndroid10">
           <dependency id="System.Reactive" version="3.1.1" />
           <dependency id="Microsoft.NETCore.Platforms" version="1.1.0" />
-          <dependency id="NETStandard.Library" version="1.6.1" />
+          <dependency id="NETStandard.Library" version="2.0.1" />
           <dependency id="System.Net.Http" version="4.3.2" />
         </group>
 
         <group targetFramework="Xamarin.iOS10">
           <dependency id="System.Reactive" version="3.1.1" />
           <dependency id="Microsoft.NETCore.Platforms" version="1.1.0" />
-          <dependency id="NETStandard.Library" version="1.6.1" />
+          <dependency id="NETStandard.Library" version="2.0.1" />
           <dependency id="System.Net.Http" version="4.3.3" />
         </group>
 
         <group targetFramework="uap10.0">
           <dependency id="System.Reactive" version="3.1.1" />
-          <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.4.0" />
+          <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="6.0.1" />
         </group>
 
         <group targetFramework="net451">
           <dependency id="System.Reactive" version="3.1.1" />
         </group>
 
-      <!--<group targetFramework="netstandard1.0">
+      
+      <group targetFramework="netstandard1.3">
         <dependency id="System.Reactive" version="3.1.1" />
         <dependency id="NETStandard.Library" version="1.6.1" />
-      </group>-->
+        <dependency id="System.Net.Security" version="4.3.2" />
+        <dependency id="System.Net.Sockets" version="4.3.0" />
+        <dependency id="System.Net.NetworkInformation" version="4.3.0" />
+      </group>
 
         <group targetFramework="netstandard1.5">
           <dependency id="System.Reactive" version="3.1.1" />
@@ -86,6 +91,9 @@ Implemented optional parameter to choose between Tls 1.0, 1.1 and 1,2 in TcpClie
     <file src="..\main\CrossPlatform\SocketLite.net451\bin\Release\SocketLite.*" target="lib\net45"/>
     <file src="..\main\CrossPlatform\SocketLite.net451\bin\Release\ISocketLite.*" target="lib\net45"/>
     
+    <!--.NET Standard 1.3 -->
+    <file src="..\main\CrossPlatform\SocketLite.NetStandard13\bin\Release\netstandard1.3\SocketLite.*" target="lib\netstandard1.3"/>
+    <file src="..\main\CrossPlatform\SocketLite.NetStandard13\bin\Release\netstandard1.3\ISocketLite.*" target="lib\netstandard1.3"/>
     
     <!--.NET Standard 1.5 -->
     <file src="..\main\CrossPlatform\SocketLite.NetStandard15\bin\Release\netstandard1.5\SocketLite.*" target="lib\netstandard1.5"/>

@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.3</TargetFramework>
+    <AssemblyName>SocketLite</AssemblyName>
+    <RootNamespace>SocketLite</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\SocketLite.net451\Model\CommunicationInterface.cs" Link="Model\CommunicationInterface.cs" />
+    <Compile Include="..\SocketLite.net451\Model\Partial\CommunicationInterface.Native.Partial.cs" Link="Model\Partial\CommunicationInterface.Native.Partial.cs" />
+    <Compile Include="..\SocketLite.NetStandard15\Extensions\NativeExceptionExtensions.cs" Link="Extensions\NativeExceptionExtensions.cs" />
+    <Compile Include="..\SocketLite.NetStandard15\Model\UdpMessage.cs" Link="Model\UdpMessage.cs" />
+    <Compile Include="..\SocketLite.NetStandard15\Services\Base\CommonSocketBase.cs" Link="Services\Base\CommonSocketBase.cs" />
+    <Compile Include="..\SocketLite.NetStandard15\Services\Base\TcpSocketBase.cs" Link="Services\Base\TcpSocketBase.cs" />
+    <Compile Include="..\SocketLite.NetStandard15\Services\Base\UdpSendBase.cs" Link="Services\Base\UdpSendBase.cs" />
+    <Compile Include="..\SocketLite.NetStandard15\Services\Base\UdpSocketBase.cs" Link="Services\Base\UdpSocketBase.cs" />
+    <Compile Include="..\SocketLite.NetStandard15\Services\TcpSocketClient.cs" Link="Services\TcpSocketClient.cs" />
+    <Compile Include="..\SocketLite.NetStandard15\Services\TcpSocketListener.cs" Link="Services\TcpSocketListener.cs" />
+    <Compile Include="..\SocketLite.NetStandard15\Services\UdpSocketClient.cs" Link="Services\UdpSocketClient.cs" />
+    <Compile Include="..\SocketLite.NetStandard15\Services\UdpSocketMulticastClient.cs" Link="Services\UdpSocketMulticastClient.cs" />
+    <Compile Include="..\SocketLite.NetStandard15\Services\UdpSocketReceiver.cs" Link="Services\UdpSocketReceiver.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Net.NetworkInformation" Version="4.3.0" />
+    <PackageReference Include="System.Net.Security" Version="4.3.2" />
+    <PackageReference Include="System.Net.Sockets" Version="4.3.0" />
+    <PackageReference Include="System.Reactive" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+    <Folder Include="Model\Partial\" />
+    <Folder Include="Services\Base\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\interface\ISocketLite.Netstandard\ISocketLite.Netstandard.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -40,7 +40,7 @@ namespace SocketLite.Services
 
         public void Dispose()
         {
-#if (NETSTANDARD1_5)
+#if (NETSTANDARD1_5 || NETSTANDARD1_3)
             BackingUdpClient?.Dispose();
 #else
             BackingUdpClient?.Close();
