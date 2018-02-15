@@ -4,19 +4,18 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EE2135A2-6ED8-419D-BA15-8F56CD59831F}</ProjectGuid>
+    <ProjectGuid>{C1603CB3-8B99-4D95-99B2-419F02705B6F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SocketLite</RootNamespace>
-    <AssemblyName>SocketLite</AssemblyName>
+    <RootNamespace>SocketLite.UWP</RootNamespace>
+    <AssemblyName>SocketLite.UWP.16299</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -103,23 +102,17 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Extensions\NetworkExtensions.cs" />
-    <Compile Include="Helper\AdapterInfo.cs" />
-    <Compile Include="Helper\AdvancedAdapterInfo.cs" />
-    <Compile Include="Model\CommunicationInterface.cs" />
-    <Compile Include="Model\UdpMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Base\CommonSocketBase.cs" />
-    <Compile Include="Services\Base\TcpSocketBase.cs" />
-    <Compile Include="Services\Base\UdpSendBase.cs" />
-    <Compile Include="Services\Base\UdpSocketBase.cs" />
-    <Compile Include="Services\TcpSocketClient.cs" />
-    <Compile Include="Services\TcpSocketListener.cs" />
-    <Compile Include="Services\UdpSocketClient.cs" />
-    <Compile Include="Services\UdpSocketMulticastClient.cs" />
-    <Compile Include="Services\UdpSocketReceiver.cs" />
-    <EmbeddedResource Include="Properties\SocketLite.UWP.rd.xml" />
+    <EmbeddedResource Include="Properties\SocketLite.UWP._16299.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>6.0.7</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\interface\ISocketLite.Netstandard\ISocketLite.Netstandard.csproj">
@@ -127,16 +120,8 @@
       <Name>ISocketLite.Netstandard</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.0.7</Version>
-    </PackageReference>
-    <PackageReference Include="System.Reactive">
-      <Version>3.1.1</Version>
-    </PackageReference>
-  </ItemGroup>
-  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0' ">
-    <VisualStudioVersion>15.0</VisualStudioVersion>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
