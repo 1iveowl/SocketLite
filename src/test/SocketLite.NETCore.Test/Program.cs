@@ -22,7 +22,7 @@ namespace SocketLite.NETCore.Test
             var communicationInterface = new CommunicationsInterface();
             var allInterfaces = communicationInterface.GetAllInterfaces();
 
-            var networkInterface = allInterfaces.FirstOrDefault(x => x.IpAddress == "192.168.0.36");
+            var networkInterface = allInterfaces.FirstOrDefault(x => x.IpAddress == "192.168.0.59");
 
             //var tcpListener = new TcpSocketListener();
 
