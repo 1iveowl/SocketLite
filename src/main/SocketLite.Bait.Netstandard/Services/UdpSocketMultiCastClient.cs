@@ -19,14 +19,19 @@ namespace SocketLite.Services
 
         public bool IsMulticastActive => false;
 
-        public IObservable<IUdpMessage> CreateObservableMultiCastListener(string multicastAddress, int port,
-            ICommunicationInterface communicationInterface, bool allowMultipleBindToSamePort = false)
+        public IObservable<IUdpMessage> ObservableMulticastListener(
+            string multicastAddress,
+            int port,
+            ICommunicationInterface communicationInterface,
+            bool allowMultipleBindToSamePort = false)
         {
             throw new NotImplementedException();
         }
 
-        public IObservable<IUdpMessage> CreateObservableMultiCastListener(string multicastAddress, int port,
-            ICommunicationInterface communicationInterface, IEnumerable<string> mcastIpv6AddressList,
+        public Task<IObservable<IUdpMessage>> ObservableMulticastListenerAsync(
+            string multicastAddress,
+            int port,
+            ICommunicationInterface communicationInterface,
             bool allowMultipleBindToSamePort = false)
         {
             throw new NotImplementedException();
@@ -84,11 +89,6 @@ namespace SocketLite.Services
         public void Dispose()
         {
             throw new NotImplementedException(BaitNoSwitch);
-        }
-
-        Task<IObservable<IUdpMessage>> IUdpSocketMulticastClient.ObservableMulticastListener(string multicastAddress, int port, ICommunicationInterface communicationInterface, bool allowMultipleBindToSamePort)
-        {
-            throw new NotImplementedException();
         }
     }
 }

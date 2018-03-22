@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Networking;
 using ISocketLite.PCL.EventArgs;
+using ISocketLite.PCL.Exceptions;
 using ISocketLite.PCL.Interface;
 using SocketLite.Services.Base;
 
@@ -66,10 +67,19 @@ namespace SocketLite.Services
             
         }
 
+        //public IObservable<IUdpMessage> ObservableMulticastListener(
+        //    string multicastAddress,
+        //    int port,
+        //    ICommunicationInterface communicationInterface,
+        //    bool allowMultipleBindToSamePort = false)
+        //{
+        //    throw new SocketException(new NotImplementedException("For UWP please use ObservableMulticastListenerAsync"));
+        //}
+
         public async Task<IObservable<IUdpMessage>> ObservableMulticastListener(
-            string multicastAddress, 
+            string multicastAddress,
             int port,
-            ICommunicationInterface communicationInterface, 
+            ICommunicationInterface communicationInterface,
             bool allowMultipleBindToSamePort = false)
         {
             //Throws and exception if the communication interface is not ready og valid.
