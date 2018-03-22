@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <AssemblyName>SocketLite</AssemblyName>
-    <RootNamespace>SocketLite.Bait</RootNamespace>
+    <RootNamespace>SocketLite</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

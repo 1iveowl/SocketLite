@@ -5,7 +5,7 @@ if ([string]::IsNullOrEmpty($version)) {$version = "0.0.1"}
 $msbuild = join-path -path "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin" -childpath "msbuild.exe"
 
 &$msbuild ..\interface\ISocketLite.Netstandard\ISocketLite.Netstandard.csproj /t:Build /p:Configuration="Release"
-&$msbuild ..\main\SocketLite.Bait.Netstandard\SocketLite.Bait.Netstandard.csproj /t:Build /p:Configuration="Release"
+#&$msbuild ..\main\SocketLite.Bait.Netstandard\SocketLite.Bait.Netstandard.csproj /t:Build /p:Configuration="Release"
 
 &$msbuild ..\main\CrossPlatform\SocketLite.Android\SocketLite.Android.csproj /t:Build /p:Configuration="Release"
 &$msbuild ..\main\CrossPlatform\SocketLite.iOS\SocketLite.iOS.csproj /t:Build /p:Configuration="Release"

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ISocketLite.PCL.EventArgs;
 using ISocketLite.PCL.Interface;
 using SocketLite.Services.Base;
+using ISocketLite.PCL.Exceptions;
 using PlatformSocketException = System.Net.Sockets.SocketException;
 using PclSocketException = ISocketLite.PCL.Exceptions.SocketException;
 
