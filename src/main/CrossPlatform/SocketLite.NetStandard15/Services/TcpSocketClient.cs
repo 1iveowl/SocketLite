@@ -127,7 +127,6 @@ namespace SocketLite.Services
                 }
                 catch (Exception ex)
                 {
-
                     throw ex;
                 }
             }
