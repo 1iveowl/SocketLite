@@ -10,7 +10,6 @@ using ISocketLite.PCL.Model;
 using SocketLite.Extensions;
 
 
-// .NET 4.51
 namespace SocketLite.Model
 {
     public partial class CommunicationsInterface : ICommunicationInterface

@@ -2,19 +2,16 @@
 
 [![NuGet Badge](https://buildstats.info/nuget/SocketLite.PCL)](https://www.nuget.org/packages/SocketLite.PCL)
 
-[![NuGet](https://img.shields.io/badge/nuget-2.0.30_(Profile_111)-yellow.svg)](https://www.nuget.org/packages/SocketLite.PCL/2.0.20)
-
-[![.NET Standard](http://img.shields.io/badge/.NET_Standard-v1.3-blue.svg)](https://docs.microsoft.com/da-dk/dotnet/articles/standard/library) 
-[![.NET Standard](http://img.shields.io/badge/.NET_Standard-v1.5-green.svg)](https://docs.microsoft.com/da-dk/dotnet/articles/standard/library) 
 [![.NET Standard](http://img.shields.io/badge/.NET_Standard-v2.0-red.svg)](https://docs.microsoft.com/da-dk/dotnet/articles/standard/library) 
+[![.NET Standard](http://img.shields.io/badge/.NET_Standard-v2.1-green.svg)](https://docs.microsoft.com/da-dk/dotnet/articles/standard/library) 
+
+
 
 *Please star this project if you find it useful. Thank you.*
 
-### Supports Xamarin Forms on Windows 10/UWP, iOS, Andriod, and .NET Standard from 1.3
+### Supports Xamarin Forms on Windows 10/UWP (16299 and later), iOS, Andriod, and .NET Standard from 2.0
 
 This project is a fork that build upon the fantastic work done with [Socket for PCL](https://github.com/rdavisau/sockets-for-pcl). 
-
-Note: From version 3.5.0 this library support .NET Core. 
 
 ## Why this fork? 
 Two reasons:
@@ -29,6 +26,12 @@ The purpose of this PCLis to make it easy to write cross platform socket code. F
 This library is based on "Bait and Switch" pattern. It is strongly recommend to read this short and great blog post to get an good understanding of this pattern before contributing to the SocketLite PCL code-base: [The Bait and Switch PCL Trick](http://log.paulbetts.org/the-bait-and-switch-pcl-trick/)
 
 Get SocketLite.PCL in NuGet: ````Install-Package SocketLite.PCL````
+
+### Version 5.0
+Version 5.0 updated System.Reactive to version 4.0.0
+.NET is support from version 4.6 and later.
+
+.NET Standard 1.3 amd 1.5 is no longer part of the library, only .NET Standard 2.0 and later is supported.
 
 ### Version 4.0
 Version 4.0 represents a major overhaul of this library. Version 4.0 is still backwards compatible, but many of the methods have been marked as deprecated to inspire developers to use the newer versions of this library. In previous versions you had to subscribe to an observable and then start the action. In version 4.0 you just subscribe, that's it. Much more clean and better aligned with the Rx patterns.
