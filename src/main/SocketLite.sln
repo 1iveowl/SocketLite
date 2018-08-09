@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketLite.Android", "Cross
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketLite.iOS", "CrossPlatform\SocketLite.iOS\SocketLite.iOS.csproj", "{E487F13D-FCE2-4E8E-A183-A89CA61AA78F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketLite.net460", "CrossPlatform\SocketLite.net451\SocketLite.net460.csproj", "{CDE9AD85-1FDF-4213-B580-7C297EC81205}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketLite.net460", "CrossPlatform\SocketLite.net460\SocketLite.net460.csproj", "{CDE9AD85-1FDF-4213-B580-7C297EC81205}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Git", "Git", "{A7431F7E-1AB8-4627-ACEB-DAB38C588847}"
 	ProjectSection(SolutionItems) = preProject
@@ -37,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ISocketLite.Netstandard", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocketLite.Bait.Netstandard", "SocketLite.Bait.Netstandard\SocketLite.Bait.Netstandard.csproj", "{6E8EFA83-8443-43C3-9161-A04AD249222C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net460.Console.Test", "..\test\Net451.Console.Test\Net460.Console.Test.csproj", "{98F41AC2-9454-416B-A0D0-16F1C8D74105}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net460.Console.Test", "..\test\Net460.Console.Test\Net460.Console.Test.csproj", "{98F41AC2-9454-416B-A0D0-16F1C8D74105}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocketLite.Netstandard20", "CrossPlatform\SocketLite.Netstandard20\SocketLite.Netstandard20.csproj", "{B837ABB7-A5F6-43CC-804F-1427124E90E6}"
 EndProject

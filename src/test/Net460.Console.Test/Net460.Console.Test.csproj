@@ -78,7 +78,7 @@
       <Project>{2eb1c36a-fa63-4eab-accb-7e13bf65c378}</Project>
       <Name>ISocketLite.Netstandard</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\main\CrossPlatform\SocketLite.net451\SocketLite.net460.csproj">
+    <ProjectReference Include="..\..\main\CrossPlatform\SocketLite.net460\SocketLite.net460.csproj">
       <Project>{cde9ad85-1fdf-4213-b580-7c297ec81205}</Project>
       <Name>SocketLite.net460</Name>
     </ProjectReference>
