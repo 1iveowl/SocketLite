@@ -57,10 +57,10 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SocketLite.net451\Extensions\NetworkExtensions.cs">
+    <Compile Include="..\SocketLite.net460\Extensions\NetworkExtensions.cs">
       <Link>Extensions\NetworkExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\SocketLite.net451\Model\CommunicationInterface.cs">
+    <Compile Include="..\SocketLite.net460\Model\CommunicationInterface.cs">
       <Link>Model\CommunicationInterface.cs</Link>
     </Compile>
     <Compile Include="..\SocketLite.NetStandard15\Extensions\NativeExceptionExtensions.cs">

@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\SocketLite.net451\Model\CommunicationInterface.cs" Link="Model\Partial\CommunicationInterface.cs" />
-    <Compile Include="..\SocketLite.net451\Model\Partial\CommunicationInterface.Native.Partial.cs" Link="Model\Partial\CommunicationInterface.Native.Partial.cs" />
+    <Compile Include="..\SocketLite.net460\Model\CommunicationInterface.cs" Link="Model\Partial\CommunicationInterface.cs" />
+    <Compile Include="..\SocketLite.net460\Model\Partial\CommunicationInterface.Native.Partial.cs" Link="Model\Partial\CommunicationInterface.Native.Partial.cs" />
     <Compile Include="..\SocketLite.NetStandard15\Extensions\NativeExceptionExtensions.cs" Link="Extensions\NativeExceptionExtensions.cs" />
     <Compile Include="..\SocketLite.NetStandard15\Model\UdpMessage.cs" Link="Model\UdpMessage.cs" />
     <Compile Include="..\SocketLite.NetStandard15\Services\Base\CommonSocketBase.cs" Link="Services\Base\CommonSocketBase.cs" />
