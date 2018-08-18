@@ -209,7 +209,6 @@ namespace SocketLite.Services.Base
         private void UnicastInitializer(IPEndPoint ipEndPoint, IPAddress ipLanIpAddress, bool allowMultipleBindToSamePort)
         {
             IsUnicastActive = true;
-            BackingUdpClient = new UdpClient(ipEndPoint.Port, AddressFamily.InterNetwork);
 
             //if (allowMultipleBindToSamePort) SetAllowMultipleBindToSamePort(ipLanIpAddress);
         }
