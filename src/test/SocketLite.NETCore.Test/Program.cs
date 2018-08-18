@@ -72,8 +72,8 @@ namespace SocketLite.NETCore.Test
                 "239.255.255.250",
                 1900,
                 networkInterface,
-                allowMultipleBindToSamePort: false);
-
+                allowMultipleBindToSamePort: true);
+            
             var subscriberUdpMilticast = observerUdpMulticast.Subscribe(
                 udpMsg =>
                 {
