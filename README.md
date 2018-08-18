@@ -1,4 +1,4 @@
-# SocketLite.PCL
+# SocketLite - .NET Standard
 
 [![NuGet Badge](https://buildstats.info/nuget/SocketLite.PCL)](https://www.nuget.org/packages/SocketLite.PCL)
 
