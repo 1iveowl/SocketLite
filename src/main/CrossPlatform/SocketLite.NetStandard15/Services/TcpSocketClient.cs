@@ -69,7 +69,7 @@ namespace SocketLite.Services
             var connectTask = _tcpClient.ConnectAsync(address, port);
 
             var ret = new TaskCompletionSource<bool>();
-            var canceller = cancellationToken.Register(() => ret.SetCanceled());
+            var canceler = cancellationToken.Register(() => ret.SetCanceled());
 
             var okOrCancelled = await Task.WhenAny(connectTask, ret.Task);
 
@@ -94,7 +94,7 @@ namespace SocketLite.Services
                 return;
             }
 
-            canceller.Dispose();
+            canceler.Dispose();
 
             if (secure)
             {
