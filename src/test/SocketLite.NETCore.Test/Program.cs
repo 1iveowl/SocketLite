@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using SocketLite.Model;
 using SocketLite.Services;
 
@@ -7,16 +8,31 @@ namespace SocketLite.NETCore.Test
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Start();
+            await TestTcpSocket();
+
+            await Start();
 
             Console.WriteLine("Press any key to exit.");
             Console.ReadLine();
 
         }
 
-        static async void Start()
+        static async Task TestTcpSocket()
+        {
+            //var uri = new Uri("...");
+
+            //var socketClient = new TcpSocketClient();
+
+            //await socketClient.ConnectAsync(uri.Host, uri.Port.ToString(),true, ignoreServerCertificateErrors:true);
+
+            //var t = "";
+
+
+        }
+
+        static async Task Start()
         {
 
             var communicationInterface = new CommunicationsInterface();

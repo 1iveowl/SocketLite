@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Security;
 using System.Net.Sockets;
+using System.Reactive.Linq;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
@@ -58,13 +60,44 @@ namespace SocketLite.Services
             string address, 
             string service, 
             bool secure = false,
-            CancellationToken cancellationToken = new CancellationToken(), 
+            CancellationToken cancellationToken = default, 
             bool ignoreServerCertificateErrors = false,
             TlsProtocolVersion tlsProtocolVersion = TlsProtocolVersion.Tls12)
         {
+
+            if (cancellationToken == default)
+            {
+                cancellationToken = new CancellationTokenSource().Token;
+            }
+
             _ignoreCertificateErrors = ignoreServerCertificateErrors;
 
             var port = ServiceNames.PortForTcpServiceName(service);
+
+            //var observableTcpStream = Observable.Create(obs =>
+            //{
+
+            //});
+
+            //var connectObservable = Observable.FromAsync(async ct =>
+            //{
+            //    await _tcpClient.ConnectAsync(address, port);
+            //});
+
+            //connectObservable.Subscribe(c =>
+            //    {
+
+            //    },
+            //    ex =>
+            //    {
+
+            //    },
+            //    () =>
+            //    {
+
+            //    }, 
+            //    cancellationToken);
+
 
             var connectTask = _tcpClient.ConnectAsync(address, port);
 
@@ -95,6 +128,16 @@ namespace SocketLite.Services
             }
 
             canceler.Dispose();
+
+            if (_tcpClient.Connected)
+            {
+                Debug.WriteLine("Connected");
+            }
+            else
+            {
+                throw new SocketException(null);
+                Debug.WriteLine("Unable to connect");
+            }
 
             if (secure)
             {
