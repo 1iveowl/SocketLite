@@ -7,6 +7,9 @@
 
 *Please star this project if you find it useful. Thank you.*
 
+# No longer supported
+With the level of maturity .NET Standard have reached, I don't see the real need for this library anymore.
+
 ### Supports Xamarin Forms on Windows 10/UWP (16299 and later), iOS, Android, and .NET Standard from 2.0
 
 This project is a fork that build upon the fantastic work done with [Socket for PCL](https://github.com/rdavisau/sockets-for-pcl). 
