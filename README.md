@@ -8,7 +8,11 @@
 *Please star this project if you find it useful. Thank you.*
 
 ### No longer updated or supported
-With the level of maturity .NET Standard have reached, I don't see the real need for this library anymore. If you think you need this library please consider if maybe there's a smarter way to accomplish what you need to accomplish.
+With the level of maturity .NET Standard have reached, I don't see the real need for this library anymore. Also, the library have turned into a bit of a mess. 
+
+If you think you need this library please consider if maybe there's a smarter way to accomplish what you need to accomplish.
+
+
 
 ### Supports Xamarin Forms on Windows 10/UWP (16299 and later), iOS, Android, and .NET Standard from 2.0
 
