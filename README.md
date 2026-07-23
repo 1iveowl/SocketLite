@@ -1,50 +1,47 @@
-# SocketLite - .NET Standard
+# SocketLite
 
-[![NuGet Badge](https://buildstats.info/nuget/SocketLite.PCL)](https://www.nuget.org/packages/SocketLite.PCL)
+[![NuGet](https://img.shields.io/nuget/v/SocketLite.PCL?logo=nuget&label=SocketLite.PCL)](https://www.nuget.org/packages/SocketLite.PCL)
+[![Downloads](https://img.shields.io/nuget/dt/SocketLite.PCL?logo=nuget&color=blue)](https://www.nuget.org/packages/SocketLite.PCL)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.md)
 
-[![.NET Standard](http://img.shields.io/badge/.NET_Standard-v2.0-red.svg)](https://docs.microsoft.com/da-dk/dotnet/articles/standard/library) 
+[![.NET Standard](https://img.shields.io/badge/.NET%20Standard-2.0-5C2D91?logo=dotnet&logoColor=white)](https://learn.microsoft.com/dotnet/standard/net-standard)
 
+> **Warning**
+> This library is no longer maintained. There are no plans to migrate it to newer platforms or extend it with new features. Consider whether the built-in .NET networking APIs meet your needs before adopting it.
+
+A legacy cross-platform socket abstraction for Xamarin.Forms, UWP, iOS, Android, .NET Framework, and .NET Standard applications.
 
 *Please star this project if you find it useful. Thank you.*
 
-### No longer updated or supported
-With the level of maturity .NET Standard have reached, I don't see the real need for this library anymore. Also, the library have turned into a bit of a mess. 
+## Overview
 
-If you think you need this library please consider if maybe there's a smarter way to accomplish what you need to accomplish.
+SocketLite is a fork of [Sockets for PCL](https://github.com/rdavisau/sockets-for-pcl). It provides Rx-based socket abstractions for TCP, UDP, and multicast communication.
 
+The library was created to simplify cross-platform socket code. For example, [Simple Http Listener](https://github.com/1iveowl/Simple-Http-Listener-PCL) uses SocketLite.PCL.
 
+SocketLite uses the "Bait and Switch" PCL pattern. Before contributing to this legacy codebase, read [The Bait and Switch PCL Trick](http://log.paulbetts.org/the-bait-and-switch-pcl-trick/).
 
-### Supports Xamarin Forms on Windows 10/UWP (16299 and later), iOS, Android, and .NET Standard from 2.0
+Install the package from NuGet:
 
-This project is a fork that build upon the fantastic work done with [Socket for PCL](https://github.com/rdavisau/sockets-for-pcl). 
+```powershell
+Install-Package SocketLite.PCL
+```
 
-## Why this fork? 
-Two reasons:
-
- 1. The original Socket for PCL delivers great broad cross-platform
-    support. SocketLite PCL only covers .NET 4.5+, UWP, iOS and Android.
-    
- 2. SocketLite has been refactored to use Reactive Extensions (Rx).
-
-The purpose of this PCLis to make it easy to write cross platform socket code. For example [Simple Http Listener](https://github.com/1iveowl/Simple-Http-Listener-PCL) is written using SocketLite.PCL
-
-This library is based on "Bait and Switch" pattern. It is strongly recommend to read this short and great blog post to get an good understanding of this pattern before contributing to the SocketLite PCL code-base: [The Bait and Switch PCL Trick](http://log.paulbetts.org/the-bait-and-switch-pcl-trick/)
-
-Get SocketLite.PCL in NuGet: ````Install-Package SocketLite.PCL````
+## Release notes
 
 ### Version 5.0
-Version 5.0 updated System.Reactive to version 4.0.0
-.NET is support from version 4.6 and later.
 
-.NET Standard 1.3 amd 1.5 is no longer part of the library, only .NET Standard 2.0 and later is supported.
+- Updated System.Reactive to version 4.0.0.
+- Supports .NET Framework 4.6 and later.
+- Supports .NET Standard 2.0; .NET Standard 1.3 and 1.5 are no longer included.
 
 ### Version 4.0
-Version 4.0 represents a major overhaul of this library. Version 4.0 is still backwards compatible, but many of the methods have been marked as deprecated to inspire developers to use the newer versions of this library. In previous versions you had to subscribe to an observable and then start the action. In version 4.0 you just subscribe, that's it. Much more clean and better aligned with the Rx patterns.
 
-There is still UWP support in version 4.0, but the emphasis has been on .NET Core and it will be going forward.
+Version 4.0 was a major but backwards-compatible overhaul. It simplified the Rx usage pattern: subscribing starts the action, rather than requiring a separate start call. UWP support remained, while the focus shifted to .NET Core and .NET Standard.
 
-### Classes
-The plugin currently provides the following socket abstractions:
+## Socket abstractions
+
+The package provides the following socket abstractions:
 
 Class|Description|.NET|Windows 10 / UWP
 -----|-----------|:--------------:|:---------------:
@@ -54,19 +51,21 @@ Class|Description|.NET|Windows 10 / UWP
 **UdpSocketClient** | Send messages to arbitrary endpoints over UDP. | UdpClient | DatagramSocket
 **UdpSocketMulticastClient** | Send and receive UDP messages within a multicast group. | UdpClient | DatagramSocket
 
-### Examples Usage
+## Examples
 
-#### Using
+### Namespaces
 
 ```csharp
 using SocketLite.Model;
 using SocketLite.Services;
 ```
 
-**IMPORTANT**: Please notice that the parameter `allowMultipleBindToSamePort` will only work on Windows. On other platforms it should be set to `false`.
+> **Important**
+> `allowMultipleBindToSamePort` works only on Windows. Set it to `false` on other platforms.
 
-#### Specify Which Network Interface To Use
-Defining what Network Interface to use is typically the version first step. This can be done on multiple ways. Here it is done using the IP adress of the interface:
+### Select a network interface
+
+Selecting a network interface is typically the first step. This example finds an interface by its IP address:
 
 ```csharp
 var communicationInterface = new CommunicationsInterface();
@@ -74,7 +73,7 @@ var allInterfaces = communicationInterface.GetAllInterfaces();
 var networkInterface = allInterfaces.FirstOrDefault(x => x.IpAddress == "192.168.0.2");
 ```
 
-##### A TCP Listener
+### TCP listener
 ```csharp
 var tcpListener = new TcpSocketListener();
 
@@ -86,20 +85,20 @@ var observerTcpListner = await tcpListener.CreateObservableListener(
 var subscriberTcpListener = observerTcpListner.Subscribe(
     tcpClient =>
     {
-        //Insert your code here
+        // Handle the connected client.
     },
     ex =>
     {
-        // Insert your exception code here
+        // Handle the exception.
     },
     () =>
     {
-        // Insert your completed code here
+        // Handle completion.
     });
 ```
 
 
-##### A TCP Client
+### TCP client
 ```csharp
 var tcpClient = new TcpSocketClient();
 await tcpClient.ConnectAsync("192.168.1.100", "1234");
@@ -110,10 +109,11 @@ var bytes = Encoding.UTF8.GetBytes(helloWorld);
 await tcpClient.WriteStream.WriteAsync(bytes, 0, bytes.Length);
 tcpClient.Disconnect();
 ```
-###### Tip: What About Multi Threading?
-The TcpSocketClient WriteStream property is of type ```System.IO.Stream```, which does not automatically manage multi-treading. 
+#### Tip: concurrent writes
 
-To work around this limitation you can do something like the following example, which have been inspired by this Stack Overflow post: [SslStream.WriteAsync “The BeginWrite method cannot be called when another write operation is pending”](http://stackoverflow.com/a/12649107/4140832)
+`TcpSocketClient.WriteStream` is a `System.IO.Stream`, which does not coordinate concurrent writes.
+
+Use a queue or another synchronization mechanism, such as the approach inspired by this Stack Overflow post: [SslStream.WriteAsync “The BeginWrite method cannot be called when another write operation is pending”](http://stackoverflow.com/a/12649107/4140832).
 
 ```csharp
 
@@ -181,7 +181,7 @@ private async Task WriteQueuedStreamAsync(ITcpSocketClient tcpSocketClient, byte
 }
 ```
     
-##### A UDP Receiver
+### UDP receiver
 ```csharp
 var udpReceiver = new UdpSocketReceiver();
 
@@ -197,15 +197,15 @@ var subscriberUpdReceiver = observerUdpReceiver.Subscribe(
     },
     ex =>
     {
-        //Inset your exception code here
+        // Handle the exception.
     },
     () =>
     {
-        //Insert your completion code here
+        // Handle completion.
     });
 ```
 
-##### A UDP Client
+### UDP client
 ```csharp
 var udpReceiver = new UdpSocketReceiver();
 
@@ -217,27 +217,27 @@ var observerUdpReceiver = await udpReceiver.CreateObservableListener(
 var subscriberUpdReceiver = observerUdpReceiver.Subscribe(
     udpMsg =>
     {
-        //Inset your code here
+        // Handle the message.
     },
     ex =>
     {
-        //Inset your exception code here
+        // Handle the exception.
     },
     () =>
     {
-        //Insert your completion code here
+        // Handle completion.
     });
 
-// Fire datagram into the great void
+// Send a datagram.
 await udpClient.SendToAsync(bytes, bytes.Length, address:"192.168.1.5", port:1234);
 ```
 
-##### A Multicast UDP Client
+### Multicast UDP client
 ```csharp
 var udpMulticast = new SocketLite.Services.UdpSocketMulticastClient();
-await udpMulticast.JoinMulticastGroupAsync("239.255.255.250", 1900, allowMultipleBindToSamePort:true); //Listen for UPnP activity on local network.
+await udpMulticast.JoinMulticastGroupAsync("239.255.255.250", 1900, allowMultipleBindToSamePort:true); // Listen for local UPnP activity.
 
-// Listen part
+// Listen.
 var udpMulticast = new UdpSocketMulticastClient();
 
 var observerUdpMulticast = await udpMulticast.ObservableMulticastListener(
@@ -253,14 +253,14 @@ var subscriberUdpMilticast = observerUdpMulticast.Subscribe(
     },
     ex =>
     {
-        //Insert your exception code here
+        // Handle the exception.
     },
     () =>
     {
-        //Insert your completion code here
+        // Handle completion.
     });
 ```
-You can also add or drop multicast addresses on the Multicast listeren using: `MulticastAddMembership(string ipLan, string mcastAddress)` and `MulticastDropMembership(string ipLan, string mcastAddress)`
+You can add or remove multicast addresses with `MulticastAddMembership(string ipLan, string mcastAddress)` and `MulticastDropMembership(string ipLan, string mcastAddress)`.
 
-Note: A UDP Multicast Client also listen to any other UDP send directly to the specified port. So if you need a UDP Client and a UDP Multicast Listener on the same port, all you need to do is to create one UDP Multicast Listener.
-
+> **Note**
+> A UDP multicast client also receives UDP messages sent directly to its configured port. If you need both a UDP client and a multicast listener on the same port, create one multicast listener.
